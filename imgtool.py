@@ -25,7 +25,7 @@ from __future__ import annotations
 from typing import Optional, Tuple
 import argparse
 import datetime
-import hashlib
+
 import json
 import re
 import subprocess
@@ -33,85 +33,8 @@ from pathlib import Path
 from typing import List, Dict, Any
 import libs.toolhelp as th
 import libs.shring as shr
-
-# ============================================================
-# Low-level helpers
-# ============================================================
-
-def check_output(cmd: List[str]) -> bytes:
-    """Vrátí stdout daného příkazu (bytes) nebo vyhodí výjimku."""
-    print(f"[CMD] {' '.join(cmd)}")
-    return subprocess.check_output(cmd)
-
-
-def sha256_file(path: Path) -> str:
-    """Vypočítá SHA256 pro daný soubor."""
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for block in iter(lambda: f.read(1024 * 1024), b""):
-            if not block:
-                break
-            h.update(block)
-    return h.hexdigest()
-
-
-def write_sha256_sidecar(path: Path) -> None:
-    """Vytvoří <soubor>.sha256 s hash + názvem souboru."""
-    digest = sha256_file(path)
-    sidecar = path.with_suffix(path.suffix + ".sha256")
-    sidecar.write_text(f"{digest}  {path.name}\n", encoding="utf-8")
-    print(f"[SHA256] {sidecar} ({digest})")
-
-
-def verify_sha256_sidecar(path: Path) -> bool:
-    """
-    Zkontroluje, zda soubor odpovídá uloženému SHA256.
-    Očekává <soubor>.sha256.
-    """
-    sidecar = path.with_suffix(path.suffix + ".sha256")
-    if not sidecar.exists():
-        print(f"[SHA256] Sidecar {sidecar} neexistuje – přeskočeno.")
-        return False
-
-    content = sidecar.read_text(encoding="utf-8").strip()
-    if not content:
-        print(f"[SHA256] Prázdný sidecar {sidecar}.")
-        return False
-
-    expected = content.split()[0]
-    actual = sha256_file(path)
-    if actual == expected:
-        print(f"[SHA256] OK: {path.name}")
-        return True
-
-    print(f"[SHA256] MISMATCH: {path.name}")
-    print(f"   expected: {expected}")
-    print(f"   actual  : {actual}")
-    return False
-
-
-def human_size(num_bytes: int) -> str:
-    """Převod velikosti v bajtech na čitelný string (MiB/GiB)."""
-    step = 1024.0
-    units = ["B", "KiB", "MiB", "GiB", "TiB"]
-    size = float(num_bytes)
-    idx = 0
-    while size >= step and idx < len(units) - 1:
-        size /= step
-        idx += 1
-    return f"{size:.1f} {units[idx]}"
-
-
-
-def confirm(msg: str) -> bool:
-    """Vrátí True pokud uživatel odpověděl 'y' nebo 'Y'."""
-    return input(msg + " [y/N]: ").lower() == "y"
-
-
-def is_gzip(path: Path) -> bool:
-    """Detekce gzip podle přípony."""
-    return path.suffix == ".gz" or path.name.endswith(".img.gz")
-
+import libs.glb as glb
+import os
 
 # ============================================================
 # Simple backup / restore / extract (dd)
@@ -146,7 +69,7 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
     if fast:
         out = Path(base_name + ".img.gz")
         print(f"Záloha disku {dev} → {out} (gzip -1)")
-        if not confirm("Spustit backup s rychlou kompresí?"):
+        if not th.confirm("Spustit backup s rychlou kompresí?"):
             print("Zrušeno.")
             return
         dd = ["dd", f"if={dev}", "bs=4M", "status=progress"]
@@ -159,7 +82,7 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
     elif maxC:
         out = Path(base_name + ".img.gz")
         print(f"Záloha disku {dev} → {out} (gzip -9)")
-        if not confirm("Spustit backup s maximální kompresí?"):
+        if not th.confirm("Spustit backup s maximální kompresí?"):
             print("Zrušeno.")
             return
         dd = ["dd", f"if={dev}", "bs=4M", "status=progress"]
@@ -172,12 +95,12 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
     else:
         out = Path(base_name + ".img")
         print(f"Záloha disku {dev} → {out} (RAW, bez gzip)")
-        if not confirm("Spustit backup bez komprese?"):
+        if not th.confirm("Spustit backup bez komprese?"):
             print("Zrušeno.")
             return
         th.run(["dd", f"if={dev}", f"of={str(out)}", "bs=4M", "status=progress"])
 
-    write_sha256_sidecar(out)
+    th.write_sha256_sidecar(out)
     print(f"Hotovo: {out}")
 
 
@@ -192,17 +115,17 @@ def restore_disk_raw(filename: Path, disk: str, no_sha: bool) -> None:
 
     print(f"\nObnova {filename} → {dev}")
     if not no_sha:
-        ok = verify_sha256_sidecar(filename)
+        ok = th.verify_sha256_sidecar(filename)
         if not ok:
-            if not confirm("Hash nesedí nebo sidecar chybí. Pokračovat i tak?"):
+            if not th.confirm("Hash nesedí nebo sidecar chybí. Pokračovat i tak?"):
                 print("Zrušeno.")
                 return
 
-    if not confirm("!!! Tohle přepíše celý disk. Pokračovat?"):
+    if not th.confirm("!!! Tohle přepíše celý disk. Pokračovat?"):
         print("Zrušeno.")
         return
 
-    if is_gzip(filename):
+    if th.is_gzip(filename):
         cmd = ["bash", "-c", f"gunzip -c '{filename}' | dd of={dev} bs=4M status=progress"]
         th.run(cmd)
     else:
@@ -218,7 +141,7 @@ def extract_gz_to_img(filename: Path) -> None:
     """
     if not filename.exists():
         raise FileNotFoundError(filename)
-    if not is_gzip(filename):
+    if not th.is_gzip(filename):
         print("Soubor není .gz – není co extrahovat.")
         return
 
@@ -226,7 +149,7 @@ def extract_gz_to_img(filename: Path) -> None:
     th.run(["gunzip", str(filename)])
     out = Path(str(filename).removesuffix(".gz"))
     if out.exists():
-        write_sha256_sidecar(out)
+        th.write_sha256_sidecar(out)
         print(f"Extract hotov: {out}")
     else:
         print("Extract se nepovedl – výstupní soubor neexistuje.")
@@ -239,7 +162,7 @@ def extract_gz_to_img(filename: Path) -> None:
 def detect_fs(devPath: str) -> str | None:
     """Zjistí typ FS buď z blkid, nebo vrátí None."""
     try:
-        fs = check_output(["blkid", "-o", "value", "-s", "TYPE", devPath]).decode().strip()
+        fs = th.check_output(["blkid", "-o", "value", "-s", "TYPE", devPath]).decode().strip()
         return fs if fs else None
     except subprocess.CalledProcessError:
         return None
@@ -270,7 +193,7 @@ def backup_layout(disk: str, folder: Path) -> Path:
         return gpt_file
     except subprocess.CalledProcessError:
         sfd_file = folder / "layout.sfdisk"
-        data = check_output(["sfdisk", "-d", dev])
+        data = th.check_output(["sfdisk", "-d", dev])
         sfd_file.write_bytes(data)
         return sfd_file
 
@@ -309,8 +232,8 @@ def backup_partition_image(
     """
     devPath = f"/dev/{devName}"
     fs = detect_fs(devPath)
-    size_bytes = int(check_output(["blockdev", "--getsize64", devPath]).decode().strip())
-    human = human_size(size_bytes)
+    size_bytes = int(th.check_output(["blockdev", "--getsize64", devPath]).decode().strip())
+    human = th.human_size(size_bytes)
 
     base = f"{devName}.img"
     if prefix:
@@ -344,7 +267,7 @@ def backup_partition_image(
         out.unlink()  # původní .img smažeme, zůstane .img.gz
         out = gz
 
-    write_sha256_sidecar(out)
+    th.write_sha256_sidecar(out)
 
     return {
         "name": devName,
@@ -379,7 +302,7 @@ def smart_backup(
     layout_path = backup_layout(disk, outdir)
 
     # lsblk JSON s velikostmi
-    info = json.loads(check_output(["lsblk", "-b", "-J", f"/dev/{disk}"]))
+    info = json.loads(th.check_output(["lsblk", "-b", "-J", f"/dev/{disk}"]))
     devInfo = info["blockdevices"][0]
     parts = devInfo.get("children", [])
 
@@ -387,7 +310,7 @@ def smart_backup(
         "disk": disk,
         "created": ts,
         "size_bytes": int(devInfo.get("size", 0)),
-        "size_human": human_size(int(devInfo.get("size", 0))),
+        "size_human": th.human_size(int(devInfo.get("size", 0))),
         "layout_file": layout_path.name,
         "partitions": [],
     }
@@ -418,12 +341,12 @@ def restore_partition_image(
         raise FileNotFoundError(image_path)
 
     if not no_sha:
-        ok = verify_sha256_sidecar(image_path)
-        if not ok and not confirm("Hash nesedí nebo chybí – pokračovat i tak?"):
+        ok = th.verify_sha256_sidecar(image_path)
+        if not ok and not th.confirm("Hash nesedí nebo chybí – pokračovat i tak?"):
             print("Zrušeno.")
             return
 
-    if is_gzip(image_path):
+    if th.is_gzip(image_path):
         # gunzip -c image | partclone.restore --restore_raw -C -s - -o dev
         p1 = subprocess.Popen(["gunzip", "-c", str(image_path)], stdout=subprocess.PIPE)
         p2 = subprocess.Popen(
@@ -503,7 +426,7 @@ def compress_image(path: Path, fast: bool, maxC: bool) -> None:
     """
     if not path.exists():
         raise FileNotFoundError(path)
-    if is_gzip(path):
+    if th.is_gzip(path):
         print("Soubor už je gzip – není co komprimovat.")
         return
 
@@ -524,7 +447,7 @@ def compress_image(path: Path, fast: bool, maxC: bool) -> None:
         p1.stdout.close()
         p2.communicate()
 
-    write_sha256_sidecar(out)
+    th.write_sha256_sidecar(out)
     print("Komprese hotová.")
 
 
@@ -535,7 +458,7 @@ def decompress_image(path: Path) -> None:
     """
     if not path.exists():
         raise FileNotFoundError(path)
-    if not is_gzip(path):
+    if not th.is_gzip(path):
         print("Soubor není .gz – není co dekomprimovat.")
         return
 
@@ -543,7 +466,7 @@ def decompress_image(path: Path) -> None:
     th.run(["gunzip", str(path)])
     out = Path(str(path).removesuffix(".gz"))
     if out.exists():
-        write_sha256_sidecar(out)
+        th.write_sha256_sidecar(out)
         print(f"Dekomprese hotová: {out}")
     else:
         print("Výstupní soubor po gunzip neexistuje.")
@@ -555,16 +478,22 @@ def decompress_image(path: Path) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Disk backup/restore utility (raw + smart)")
-    p.add_argument("mode", choices=[
-        "backup", "restore", "extract",
-        "smart-backup", "smart-restore",
-        "compress", "decompress",
-        "shrinkImage", "shrinkDisk"
-    ])
+    p.add_argument(
+        "mode",
+        nargs="?",
+        choices=[
+            "backup", "restore", "extract",
+            "smart-backup", "smart-restore",
+            "compress", "decompress",
+            "shrinkImage", "shrinkDisk"
+        ],
+        default=None,
+        help="Režim práce s disky/obrazy"
+    )
 
     p.add_argument("--disk", help="název disku (bez /dev, např. sdb)")
     p.add_argument("--file", help="soubor (.img / .img.gz) nebo základ jména")
-    p.add_argument("--dir", help="adresář pro smart-backup/smart-restore")
+    p.add_argument("--dir", help="adresář pro smart-backup/smart-restore",default=None)
 
     p.add_argument("--fast", action="store_true", help="rychlý gzip (-1)")
     p.add_argument("--max", action="store_true", help="maximální gzip (-9)")
@@ -586,10 +515,42 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
-
     autoprefix = not args.noautoprefix
+    
+    mode=args.mode
+    
+    if not mode:
+        header=[
+            "*** Disk Image Tool ***\n0c",
+            "=== Hlavní menu ===\n0c",
+            f"Verze: {glb.VERSION}\n0c",
+            "Aktuální cesta pro disky/obrazy",
+            f"{args.dir}\n0c"
+        ]
+        
+        sel_opts={
+            "b" : ["Backup disk (raw dd)", "backup"],
+            "r" : ["Restore disk (raw dd)", "restore"],
+            "e" : ["Extract .img.gz → .img", "extract"],
+            "s" : ["Smart Backup (layout + partitions)", "smart-backup"],
+            "t" : ["Smart Restore (layout + partitions)", "smart-restore"],
+            "c" : ["Compress .img → .img.gz", "compress"],
+            "d" : ["Decompress .img.gz → .img", "decompress"],
+            "i" : ["Shrink Image (.img)", "shrinkImage"],
+            "k" : ["Shrink Disk (/dev/sdX)", "shrinkDisk"],
+            "q" : ["Konec", None]
+        }
+        
+        menuList=[]
+        for key in sel_opts:
+            menuList.append([sel_opts[key][0],key])
+            
+        idx=th.menu(header,menuList,'Vyber režim práce s disky/obrazy:')
+        mode=sel_opts[idx][1]
+        if not mode:
+            return
 
-    if args.mode == "backup":
+    if mode == "backup":
         disk = args.disk or th.choose_disk()
         backup_disk_raw(
             disk=disk,
@@ -599,29 +560,46 @@ def main() -> None:
             autoprefix=autoprefix,
         )
 
-    elif args.mode == "restore":
+    elif mode == "restore":
         if not args.file:
             raise ValueError("restore vyžaduje --file")
         disk = args.disk or th.choose_disk()
         restore_disk_raw(Path(args.file), disk, no_sha=args.no_sha)
 
-    elif args.mode == "extract":
+    elif mode == "extract":
         if not args.file:
             raise ValueError("extract vyžaduje --file (.img.gz)")
         extract_gz_to_img(Path(args.file))
 
-    elif args.mode == "smart-backup":
-        if not args.dir:
+    elif mode == "smart-backup":
+        dir=args.dir
+        if dir==None:
+            dir=os.getcwd()
+            
+        if not os.path.isdir(dir):
+            raise ValueError("smart-backup vyžaduje exitující cestu nebo zadaný parametr --dir")
+        
+        dir=th.getNewDir(dir,"smart-backup")
+        
+        if not os.path.isdir(dir):
             raise ValueError("smart-backup vyžaduje --dir (adresář pro zálohu)")
+        
+        # opravu zálohovat do zadaného adresáře
+        th.cls()
+        print(f"Smart backup bude uložen do adresáře: {dir}")
+        if not th.confirm(f"Zálohovat do adresáře: {dir}?"):
+            print("Zrušeno.")
+            return
+        
         smart_backup(
             disk=args.disk or th.choose_disk(),
-            outdir=Path(args.dir),
+            outdir=Path(dir),
             fast=args.fast,
             maxC=args.max,
             autoprefix=autoprefix,
         )
 
-    elif args.mode == "smart-restore":
+    elif mode == "smart-restore":
         if not args.dir:
             raise ValueError("smart-restore vyžaduje --dir (adresář se zálohou)")
         smart_restore(
@@ -631,19 +609,19 @@ def main() -> None:
             no_sha=args.no_sha,
         )
 
-    elif args.mode == "compress":
+    elif mode == "compress":
         file = args.file or th.scan_current_dir_for_imgs(".img")
         if not file:
             raise ValueError("compress vyžaduje --file (.img)")
         compress_image(Path(file), fast=args.fast, maxC=args.max)
 
-    elif args.mode == "decompress":
+    elif mode == "decompress":
         file = args.file or th.scan_current_dir_for_imgs(".img.gz")
         if not file:
             raise ValueError("decompress vyžaduje --file (.img.gz)")
         decompress_image(Path(file))
         
-    elif args.mode == "shrinkImage":
+    elif mode == "shrinkImage":
         file = args.file or th.scan_current_dir_for_imgs(".img")        
         if not file:
             raise ValueError("shrink vyžaduje --file (.img)")
@@ -652,7 +630,7 @@ def main() -> None:
             file,
             spaceSize=args.shrink_size
         )
-    elif args.mode == "shrinkDisk":
+    elif mode == "shrinkDisk":
         disk = args.disk
         if not disk:
             disk = th.choose_disk()

@@ -7,11 +7,15 @@ import json
 # očekávám, že máš modul th s:
 # th.run(cmd: str) -> None   (vyhodí exception při chybě)
 # th.runRet(cmd: str) -> str
-# class th.ShrinkError(Exception): pass
+# class ShrinkError(Exception): pass
 
 SECTOR_SIZE = 512
 TMP_MOUNT = Path("/mnt/__jb_imgtool_shrink__")
 
+
+class ShrinkError(Exception):
+    """Custom exception for shrink operations."""
+    pass
 
 def _ensure_not_mounted(token: str) -> None:
     """
@@ -20,7 +24,7 @@ def _ensure_not_mounted(token: str) -> None:
     """
     mounts = th.runRet("mount")
     if token in mounts:
-        raise th.ShrinkError(f"{token} je aktuálně připojený – nejdřív odpoj.")
+        raise ShrinkError(f"{token} je aktuálně připojený – nejdřív odpoj.")
 
 
 def _parse_sfdisk_dump(dump: str, disk: str, part: int) -> Tuple[str, int, int, int]:
@@ -86,7 +90,7 @@ def _parse_sfdisk_dump(dump: str, disk: str, part: int) -> Tuple[str, int, int, 
                     max_end = end
 
     if start_sector is None or size_sectors is None:
-        raise th.ShrinkError(
+        raise ShrinkError(
             f"Nenašla jsem partition {disk}p{part} v sfdisk dumpu."
         )
 
@@ -116,14 +120,14 @@ def _apply_new_size_to_sfdisk_dump(raw_dump: str, disk: str, part_index: int, ne
                 return f"{m.group(1)}{new_sectors}"
             new_line, count = size_re.subn(repl, line)
             if count == 0:
-                raise th.ShrinkError(f"Partition řádek nalezen, ale size= nebyl nalezen: {line}")
+                raise ShrinkError(f"Partition řádek nalezen, ale size= nebyl nalezen: {line}")
             line = new_line
             changed = True
 
         out.append(line)
 
     if not changed:
-        raise th.ShrinkError("Nepodařilo se upravit size= v řádku partition.")
+        raise ShrinkError("Nepodařilo se upravit size= v řádku partition.")
 
     return "\n".join(out) + "\n"
 
@@ -207,7 +211,7 @@ def _shrink_partition_common(
         target_gib = _auto_target_gib_from_used(used_bytes)
 
     if target_gib < 1:
-        raise th.ShrinkError("Cílová velikost musí být alespoň 1 GiB.")
+        raise ShrinkError("Cílová velikost musí být alespoň 1 GiB.")
 
     target_bytes = target_gib * (1024 ** 3)
 
@@ -234,7 +238,7 @@ def _shrink_partition_common(
     )
 
     if new_sectors > old_size:
-        raise th.ShrinkError(
+        raise ShrinkError(
             f"Nová velikost partition ({new_sectors} sektorů) je větší než původní ({old_size})."
         )
 
@@ -254,7 +258,7 @@ def _shrink_partition_common(
     new_img_size = None
     if is_loop_backed:
         if img_file is None:
-            raise th.ShrinkError("img_file musí být zadán, pokud je is_loop_backed=True.")
+            raise ShrinkError("img_file musí být zadán, pokud je is_loop_backed=True.")
 
         # přepočítáme max_end z nového layoutu
         new_dump2 = th.runRet(f"sudo sfdisk -d {disk}")
@@ -286,7 +290,7 @@ def detect_partitions(device: str):
     js = json.loads(out)
 
     if "blockdevices" not in js or len(js["blockdevices"]) == 0:
-        raise th.ShrinkError(f"Zařízení {device} není platné nebo lsblk nenašlo žádná data")
+        raise ShrinkError(f"Zařízení {device} není platné nebo lsblk nenašlo žádná data")
 
     entry = js["blockdevices"][0]
 
@@ -334,7 +338,7 @@ def shrink_image(file: str, spaceSize: Optional[int] = None, part_index: int = 2
     """
     img = Path(file).resolve()
     if not img.exists():
-        raise th.ShrinkError(f"IMG soubor neexistuje: {img}")
+        raise ShrinkError(f"IMG soubor neexistuje: {img}")
 
     _ensure_not_mounted(img.as_posix())
 
@@ -362,7 +366,7 @@ def shrink_image(file: str, spaceSize: Optional[int] = None, part_index: int = 2
             pass
 
     if new_img_size is None:
-        raise th.ShrinkError("Interní chyba: new_img_size je None u loop-backed image.")
+        raise ShrinkError("Interní chyba: new_img_size je None u loop-backed image.")
 
     # 2) truncate IMG na novou velikost
     th.run(f"truncate -s {new_img_size} {img}")
@@ -408,7 +412,7 @@ def shrink_disk(device: str, spaceSize: Optional[int] = None, part_index: Option
             parts = detect_partitions(disk)
             ext = next((p for p in parts if p["fstype"] == "ext4"), None)
             if not ext:
-                raise th.ShrinkError(f"Na disku {disk} není ext4 partition.")
+                raise ShrinkError(f"Na disku {disk} není ext4 partition.")
             part_index = ext["index"]
 
     # 2) Zkontrolovat mount — použít helper
