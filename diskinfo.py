@@ -2,7 +2,18 @@
 import subprocess
 import json
 import re
-import shutil
+
+"""Nástroj pro zobrazení informací o discích dostupných v systému ale bez nutnosti jejich připojení
+Tzn zamýšleno pro diky kterou jou vidět ale nejsou mountnuté.
+
+Args:
+    None
+Returns:
+    None
+
+Author: Jan Zednik
+Licence: MIT
+"""
 
 def run(cmd):
     """Run external command and return stdout (decoded)."""

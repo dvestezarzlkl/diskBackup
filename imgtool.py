@@ -22,26 +22,21 @@ Vlastnosti:
 
 from __future__ import annotations
 
+from typing import Optional, Tuple
 import argparse
 import datetime
 import hashlib
 import json
-import os
 import re
 import subprocess
 from pathlib import Path
 from typing import List, Dict, Any
-
+import libs.toolhelp as th
+import libs.shring as shr
 
 # ============================================================
 # Low-level helpers
 # ============================================================
-
-def run(cmd: List[str], *, input_bytes: bytes | None = None) -> None:
-    """Spustí příkaz, logne ho a při chybě vyhodí výjimku."""
-    print(f"[RUN] {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, input=input_bytes)
-
 
 def check_output(cmd: List[str]) -> bytes:
     """Vrátí stdout daného příkazu (bytes) nebo vyhodí výjimku."""
@@ -107,14 +102,6 @@ def human_size(num_bytes: int) -> str:
     return f"{size:.1f} {units[idx]}"
 
 
-def choose_disk() -> str:
-    """Interaktivní výběr disku přes lsblk."""
-    print("\n=== Dostupné disky ===")
-    out = check_output(["lsblk", "-dnpo", "NAME,SIZE,TYPE"])
-    print(out.decode(errors="ignore"))
-    disk = input("Zadej název disku (např. sdb): ").strip()
-    return disk  # bez /dev, konzistence v kódu
-
 
 def confirm(msg: str) -> bool:
     """Vrátí True pokud uživatel odpověděl 'y' nebo 'Y'."""
@@ -145,7 +132,7 @@ def generate_base_name(disk: str, base: str | None, autoprefix: bool) -> str:
     return base
 
 
-def backup_disk_raw(disk: str, base: str | None, fast: bool, maxc: bool,
+def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
                     autoprefix: bool) -> None:
     """
     Záloha celého /dev/<disk> přes dd.
@@ -169,7 +156,7 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxc: bool,
             p2 = subprocess.Popen(gz, stdin=p1.stdout, stdout=f)
             p1.stdout.close()
             p2.communicate()
-    elif maxc:
+    elif maxC:
         out = Path(base_name + ".img.gz")
         print(f"Záloha disku {dev} → {out} (gzip -9)")
         if not confirm("Spustit backup s maximální kompresí?"):
@@ -188,7 +175,7 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxc: bool,
         if not confirm("Spustit backup bez komprese?"):
             print("Zrušeno.")
             return
-        run(["dd", f"if={dev}", f"of={str(out)}", "bs=4M", "status=progress"])
+        th.run(["dd", f"if={dev}", f"of={str(out)}", "bs=4M", "status=progress"])
 
     write_sha256_sidecar(out)
     print(f"Hotovo: {out}")
@@ -217,9 +204,9 @@ def restore_disk_raw(filename: Path, disk: str, no_sha: bool) -> None:
 
     if is_gzip(filename):
         cmd = ["bash", "-c", f"gunzip -c '{filename}' | dd of={dev} bs=4M status=progress"]
-        run(cmd)
+        th.run(cmd)
     else:
-        run(["dd", f"if={str(filename)}", f"of={dev}", "bs=4M", "status=progress"])
+        th.run(["dd", f"if={str(filename)}", f"of={dev}", "bs=4M", "status=progress"])
 
     print("Obnova dokončena.")
 
@@ -232,11 +219,11 @@ def extract_gz_to_img(filename: Path) -> None:
     if not filename.exists():
         raise FileNotFoundError(filename)
     if not is_gzip(filename):
-        print("Soubor není .gz – není co extractovat.")
+        print("Soubor není .gz – není co extrahovat.")
         return
 
     print(f"Extract {filename} → gunzip")
-    run(["gunzip", str(filename)])
+    th.run(["gunzip", str(filename)])
     out = Path(str(filename).removesuffix(".gz"))
     if out.exists():
         write_sha256_sidecar(out)
@@ -249,10 +236,10 @@ def extract_gz_to_img(filename: Path) -> None:
 # Smart backup / restore (layout + partitions)
 # ============================================================
 
-def detect_fs(devpath: str) -> str | None:
+def detect_fs(devPath: str) -> str | None:
     """Zjistí typ FS buď z blkid, nebo vrátí None."""
     try:
-        fs = check_output(["blkid", "-o", "value", "-s", "TYPE", devpath]).decode().strip()
+        fs = check_output(["blkid", "-o", "value", "-s", "TYPE", devPath]).decode().strip()
         return fs if fs else None
     except subprocess.CalledProcessError:
         return None
@@ -279,7 +266,7 @@ def backup_layout(disk: str, folder: Path) -> Path:
     dev = f"/dev/{disk}"
     gpt_file = folder / "layout.gpt"
     try:
-        run(["sgdisk", f"--backup={gpt_file}", dev])
+        th.run(["sgdisk", f"--backup={gpt_file}", dev])
         return gpt_file
     except subprocess.CalledProcessError:
         sfd_file = folder / "layout.sfdisk"
@@ -298,52 +285,52 @@ def restore_layout(disk: str, folder: Path, layout_name: str) -> None:
         raise FileNotFoundError(path)
 
     if layout_name.endswith(".gpt"):
-        run(["sgdisk", f"--load-backup={path}", dev])
+        th.run(["sgdisk", f"--load-backup={path}", dev])
     elif layout_name.endswith(".sfdisk"):
         data = path.read_bytes()
-        run(["sfdisk", dev], input_bytes=data)
+        th.run(["sfdisk", dev], input_bytes=data)
     else:
         raise ValueError(f"Neznámý typ layout souboru: {layout_name}")
 
-    # Necháme kernel přenačíst partition tabulku
-    run(["partprobe", dev])
+    # Necháme kernel znovu načíst partition tabulku
+    th.run(["partprobe", dev])
 
 
 def backup_partition_image(
-    devname: str,
+    devName: str,
     folder: Path,
     prefix: str | None,
     fast: bool,
-    maxc: bool
+    maxC: bool
 ) -> Dict[str, Any]:
     """
     Záloha jedné partition pomocí partclone.* (pokud je podporovaný FS) nebo dd fallback.
-    Vrací metainformace pro manifest.
+    Vrací meta informace pro manifest.
     """
-    devpath = f"/dev/{devname}"
-    fs = detect_fs(devpath)
-    size_bytes = int(check_output(["blockdev", "--getsize64", devpath]).decode().strip())
+    devPath = f"/dev/{devName}"
+    fs = detect_fs(devPath)
+    size_bytes = int(check_output(["blockdev", "--getsize64", devPath]).decode().strip())
     human = human_size(size_bytes)
 
-    base = f"{devname}.img"
+    base = f"{devName}.img"
     if prefix:
         base = f"{prefix}_{base}"
     out = folder / base
 
-    print(f"\n[SMART] Backup partition {devpath} ({fs}, {human})")
+    print(f"\n[SMART] Backup partition {devPath} ({fs}, {human})")
 
     pc_prog = partclone_program_for_fs(fs) if fs else None
 
     # Rozhodnutí – partclone nebo dd
     if pc_prog:
         print(f"Používám {pc_prog} (partclone).")
-        run([pc_prog, "-c", "-s", devpath, "-o", str(out)])
+        th.run([pc_prog, "-c", "-s", devPath, "-o", str(out)])
     else:
         print("FS není podporován partclone – používám dd fallback.")
-        run(["dd", f"if={devpath}", f"of={str(out)}", "bs=4M", "status=progress"])
+        th.run(["dd", f"if={devPath}", f"of={str(out)}", "bs=4M", "status=progress"])
 
     # Komprese (jen pokud fast/max)
-    if fast or maxc:
+    if fast or maxC:
         level = "-1" if fast else "-9"
         gz = Path(str(out) + ".gz")
         print(f"Komprese {out} → {gz} (gzip {level})")
@@ -360,8 +347,8 @@ def backup_partition_image(
     write_sha256_sidecar(out)
 
     return {
-        "name": devname,
-        "devpath": devpath,
+        "name": devName,
+        "devpath": devPath,
         "fstype": fs,
         "size_bytes": size_bytes,
         "size_human": human,
@@ -374,7 +361,7 @@ def smart_backup(
     disk: str,
     outdir: Path,
     fast: bool,
-    maxc: bool,
+    maxC: bool,
     autoprefix: bool
 ) -> None:
     """
@@ -393,14 +380,14 @@ def smart_backup(
 
     # lsblk JSON s velikostmi
     info = json.loads(check_output(["lsblk", "-b", "-J", f"/dev/{disk}"]))
-    devinfo = info["blockdevices"][0]
-    parts = devinfo.get("children", [])
+    devInfo = info["blockdevices"][0]
+    parts = devInfo.get("children", [])
 
     manifest: Dict[str, Any] = {
         "disk": disk,
         "created": ts,
-        "size_bytes": int(devinfo.get("size", 0)),
-        "size_human": human_size(int(devinfo.get("size", 0))),
+        "size_bytes": int(devInfo.get("size", 0)),
+        "size_human": human_size(int(devInfo.get("size", 0))),
         "layout_file": layout_path.name,
         "partitions": [],
     }
@@ -408,8 +395,8 @@ def smart_backup(
     for p in parts:
         if p.get("type") != "part":
             continue
-        devname = p["name"]
-        entry = backup_partition_image(devname, outdir, prefix, fast, maxc)
+        devName = p["name"]
+        entry = backup_partition_image(devName, outdir, prefix, fast, maxC)
         manifest["partitions"].append(entry)
 
     (outdir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -446,12 +433,12 @@ def restore_partition_image(
         p1.stdout.close()
         p2.communicate()
     else:
-        run(["partclone.restore", "--overwrite", "--restore_raw", "-C", "-s", str(image_path), "-o", devpath])
+        th.run(["partclone.restore", "--overwrite", "--restore_raw", "-C", "-s", str(image_path), "-o", devpath])
 
 
 def smart_restore(
     disk: str,
-    indir: Path,
+    inDir: Path,
     resize: bool,
     no_sha: bool
 ) -> None:
@@ -462,41 +449,41 @@ def smart_restore(
       - obnoví každou partition
       - volitelně roztáhne poslední ext4 partition na celý disk (--resize)
     """
-    if not indir.is_dir():
-        raise NotADirectoryError(indir)
+    if not inDir.is_dir():
+        raise NotADirectoryError(inDir)
 
-    manifest_path = indir / "manifest.json"
+    manifest_path = inDir / "manifest.json"
     if not manifest_path.exists():
         raise FileNotFoundError(manifest_path)
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     layout_file = manifest["layout_file"]
 
-    print(f"=== SMART RESTORE → /dev/{disk} z {indir} ===")
+    print(f"=== SMART RESTORE → /dev/{disk} z {inDir} ===")
 
-    restore_layout(disk, indir, layout_file)
+    restore_layout(disk, inDir, layout_file)
 
     for part_info in manifest["partitions"]:
-        devpath = part_info["devpath"]
-        image = indir / part_info["image"]
-        restore_partition_image(image, devpath, no_sha=no_sha)
+        devPath = part_info["devpath"]
+        image = inDir / part_info["image"]
+        restore_partition_image(image, devPath, no_sha=no_sha)
 
     # Volitelné zvětšení poslední ext4 partition
     if resize and manifest["partitions"]:
         last = manifest["partitions"][-1]
         fs = (last.get("fstype") or "").lower()
-        devname = last["name"]
+        devName = last["name"]
         if fs == "ext4":
-            print(f"[RESIZE] Pokus o zvětšení poslední partition {devname} (ext4).")
+            print(f"[RESIZE] Pokus o zvětšení poslední partition {devName} (ext4).")
             # vyparsujeme číslo partition z názvu (sdf2, nvme0n1p3 → 2, 3)
-            m = re.search(r"(\d+)$", devname)
+            m = re.search(r"(\d+)$", devName)
             if not m:
                 print("[RESIZE] Nepodařilo se zjistit číslo partition, resize přeskočen.")
             else:
                 partnum = m.group(1)
                 devdisk = f"/dev/{disk}"
-                run(["growpart", devdisk, partnum])
-                run(["resize2fs", f"/dev/{devname}"])
+                th.run(["growpart", devdisk, partnum])
+                th.run(["resize2fs", f"/dev/{devName}"])
                 print("[RESIZE] Hotovo.")
         else:
             print("[RESIZE] Poslední partition není ext4, resize přeskočen.")
@@ -508,7 +495,7 @@ def smart_restore(
 # Compress / Decompress
 # ============================================================
 
-def compress_image(path: Path, fast: bool, maxc: bool) -> None:
+def compress_image(path: Path, fast: bool, maxC: bool) -> None:
     """
     gzip komprese existujícího .img (nebo libovolného souboru).
     Default level = -6 pokud nezadáš ani fast, ani max.
@@ -523,7 +510,7 @@ def compress_image(path: Path, fast: bool, maxc: bool) -> None:
     level = "-6"
     if fast:
         level = "-1"
-    elif maxc:
+    elif maxC:
         level = "-9"
 
     out = Path(str(path) + ".gz")
@@ -553,7 +540,7 @@ def decompress_image(path: Path) -> None:
         return
 
     print(f"Dekomprese {path} → gunzip")
-    run(["gunzip", str(path)])
+    th.run(["gunzip", str(path)])
     out = Path(str(path).removesuffix(".gz"))
     if out.exists():
         write_sha256_sidecar(out)
@@ -571,7 +558,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("mode", choices=[
         "backup", "restore", "extract",
         "smart-backup", "smart-restore",
-        "compress", "decompress"
+        "compress", "decompress",
+        "shrinkImage", "shrinkDisk"
     ])
 
     p.add_argument("--disk", help="název disku (bez /dev, např. sdb)")
@@ -590,6 +578,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-sha", action="store_true",
                    help="při restore nesrovnávat SHA256 (nedoporučeno)")
 
+    p.add_argument("--shrink-size", type=int, default=None,
+                   help="shrink: cílová velikost v GiB (min 1 GiB), pokud není zadáno, auto výpočet")
+
     return p
 
 
@@ -599,19 +590,19 @@ def main() -> None:
     autoprefix = not args.noautoprefix
 
     if args.mode == "backup":
-        disk = args.disk or choose_disk()
+        disk = args.disk or th.choose_disk()
         backup_disk_raw(
             disk=disk,
             base=args.file,
             fast=args.fast,
-            maxc=args.max,
+            maxC=args.max,
             autoprefix=autoprefix,
         )
 
     elif args.mode == "restore":
         if not args.file:
             raise ValueError("restore vyžaduje --file")
-        disk = args.disk or choose_disk()
+        disk = args.disk or th.choose_disk()
         restore_disk_raw(Path(args.file), disk, no_sha=args.no_sha)
 
     elif args.mode == "extract":
@@ -620,39 +611,76 @@ def main() -> None:
         extract_gz_to_img(Path(args.file))
 
     elif args.mode == "smart-backup":
-        if not args.disk:
-            raise ValueError("smart-backup vyžaduje --disk")
         if not args.dir:
             raise ValueError("smart-backup vyžaduje --dir (adresář pro zálohu)")
         smart_backup(
-            disk=args.disk,
+            disk=args.disk or th.choose_disk(),
             outdir=Path(args.dir),
             fast=args.fast,
-            maxc=args.max,
+            maxC=args.max,
             autoprefix=autoprefix,
         )
 
     elif args.mode == "smart-restore":
-        if not args.disk:
-            raise ValueError("smart-restore vyžaduje --disk")
         if not args.dir:
             raise ValueError("smart-restore vyžaduje --dir (adresář se zálohou)")
         smart_restore(
-            disk=args.disk,
-            indir=Path(args.dir),
+            disk=args.disk or th.choose_disk(),
+            inDir=Path(args.dir),
             resize=args.resize,
             no_sha=args.no_sha,
         )
 
     elif args.mode == "compress":
-        if not args.file:
+        file = args.file or th.scan_current_dir_for_imgs(".img")
+        if not file:
             raise ValueError("compress vyžaduje --file (.img)")
-        compress_image(Path(args.file), fast=args.fast, maxc=args.max)
+        compress_image(Path(file), fast=args.fast, maxC=args.max)
 
     elif args.mode == "decompress":
-        if not args.file:
+        file = args.file or th.scan_current_dir_for_imgs(".img.gz")
+        if not file:
             raise ValueError("decompress vyžaduje --file (.img.gz)")
-        decompress_image(Path(args.file))
+        decompress_image(Path(file))
+        
+    elif args.mode == "shrinkImage":
+        file = args.file or th.scan_current_dir_for_imgs(".img")        
+        if not file:
+            raise ValueError("shrink vyžaduje --file (.img)")
+        from libs.shring import shrink_image
+        shrink_image(
+            file,
+            spaceSize=args.shrink_size
+        )
+    elif args.mode == "shrinkDisk":
+        disk = args.disk
+        if not disk:
+            disk = th.choose_disk()
+            disk = f"/dev/{disk}"
+            partitions = shr.detect_partitions(disk)
+            if partitions:
+                # dej výběr přes menu
+                header=[
+                    "Následující partition byly detekovány na disku:",
+                    "Vyber partition pro shrink (mountované partition budou odpojeny):"
+                ]
+                menuList=[]
+                items=[]
+                for p in partitions:
+                    items.append(p["name"])
+                    menuList.append(f"{p['name']} | {p['size']} | {p['fstype']}")
+        
+                # select index
+                idx=th.menu(header,menuList,'Vyber partition pro shrink (mountované partition budou odpojeny):')
+                disk=items[idx]
+                
+        print(f"Vybraný disk pro shrink: {disk}")
+        
+        from libs.shring import shrink_disk
+        shrink_disk(
+            disk,
+            spaceSize=args.shrink_size
+        )
 
     else:
         raise ValueError(f"Neznámý režim: {args.mode}")
