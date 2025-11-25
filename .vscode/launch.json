@@ -26,6 +26,18 @@
                 "/var/images/tvinfo"
             ],
             "console": "integratedTerminal"
+        },
+        {
+            "name": "SFTP",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sftp.py",
+            "args": [
+                "install",
+                "--file",
+                "${workspaceFolder}/res/testuser.sftp"
+            ],
+            "console": "integratedTerminal"
         }
     ]
 }
