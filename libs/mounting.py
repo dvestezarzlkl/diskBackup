@@ -154,8 +154,8 @@ def mount_mode(img)-> None:
     Returns:
         None
     """   
-    loops = _isAttachedImg(img)
-    if not loops:
+    loop = _isAttachedImg(img)
+    if not loop:
         try:
             th.run(f"sudo losetup --find --show --partscan {img}")
             loop = _isAttachedImg(img)
@@ -305,18 +305,86 @@ def umount_mode()-> None:
             return
     
         
-def print_partitions()-> None:
-    """Vrátí seznam všech možných partition - bezpečných propřipojení a odpojení
+def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
+    """Vytiskne seznam všech partitions.
+    Args:
+        filter (str, optional): Filtr pro disk nebo zařízení, může být zadáno loop0, pak se zobrazí všechny partitions pro toto zařízení.  
+            nebo /dev/loop0p1 nebo loop0p1 pro konkrétní partition. Defaults to None.
+        retStrOnly (bool, optional): Pokud je False tak jen vrací string, jinak i tiskne.
+    Returns:
+        str: Výstupní řetězec - vždy
     """
-    print("Seznam partition a jejich mountpointů:")
-    print("-------------------------------------")
-    lst= th.lsblk_list_disks(mounted=None)
+    
+    lst = th.lsblk_list_disks(mounted=None)
+
+    data_rows = []
     for disk in lst.values():
         for part in disk.children:
-            mnts = ', '.join(part.mountpoints) if part.mountpoints else 'nepřipojeno'
-            sz=th.human_size(part.size)
-            print(f"/dev/{part.name} - {sz} - {part.fstype} - {mnts}")
-    print("-------------------------------------")
+            if filter:
+                if not (filter in disk.name or filter in part.name):
+                    continue
+            dev = f"/dev/{part.name}"
+            size = th.human_size(part.size)
+            fstype = part.fstype or "-"
+            mnts = ", ".join(part.mountpoints) if part.mountpoints else "nepřipojeno"
+            data_rows.append([dev, size, fstype, mnts])
+
+    if not data_rows:
+        print("Žádné partition.")
+        return
+
+    header = ["Zařízení", "Velikost", "Typ", "Mountpoint"]
+    all_rows = [header] + data_rows
+
+    col_widths = [
+        max(len(str(row[i])) for row in all_rows)
+        for i in range(len(header))
+    ]
+
+    def format_row(row):
+        return (
+            row[0].ljust(col_widths[0]) + "  " +
+            row[1].rjust(col_widths[1]) + "  " +
+            row[2].ljust(col_widths[2]) + "  " +
+            row[3].ljust(col_widths[3])
+        )
+
+    total_width = sum(col_widths) + 2 * (len(col_widths) - 1)
+
+    output_lines = []
+
+    # Title
+    ln = "*" * total_width
+    title = "Seznam partitions:"
+    
+    title = f" {title} "
+    pad_total = total_width - len(title)
+    left_pad = pad_total // 2
+    right_pad = pad_total - left_pad
+    title_line = "*" * left_pad + title + "*" * right_pad
+
+    output_lines += [
+        ln,
+        title_line,
+        ln,
+        ""
+    ]
+
+    output_lines.append(format_row(header))
+    output_lines.append("-" * total_width)
+
+    for row in data_rows:
+        output_lines.append(format_row(row))
+
+    output_lines += [
+        ln,
+        ""
+    ]
+
+    x="\n".join(output_lines)
+    if not retStrOnly:
+        print(x)
+    return x
         
 def select_mountpoint()-> str:
     """Umožní uživateli vybrat mount point ze seznamu prázdných mountpointů nebo vytvořit nový.

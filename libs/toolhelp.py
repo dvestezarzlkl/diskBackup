@@ -50,8 +50,61 @@ class lsblkDiskInfo:
         childsLst=[child.name for child in self.children]
         return f"lsblkDiskInfo(tp:{self.type}, nm={self.name}, sz={sz}, fstp={self.fstype}, uuid={self.uuid}, partuuid={self.partuuid}, mountpoints={mountPoints}, children={childs} {childsLst})"
 
+class partitionInfo():
+    """Popis partition."""
+    def __init__(
+        self,
+        partition:str,
+    ):
+        if not isinstance(partition, str):
+            raise ValueError("partition musí být string")
+        partition=partition.strip()
+        if not partition or len(partition)<2:
+            raise ValueError("partition nesmí být prázdný string a musí mít alespoň 2 znaky")
+        
+        self.partitionName:str = normalizeDiskPath(partition, True)
+        """Název partition neobsahuje prefix /dev/"""
+        
+        self.partitionPath:str = normalizeDiskPath(partition)
+        """Plná cesta k partition (např. /dev/sda1)"""
+        
+        self.diskInfo:lsblkDiskInfo|None = getDiskByPartition(self.partitionPath)
+        """Info o disku, na kterém je partition."""
+        
+        self.diskName:str|None = normalizeDiskPath(self.diskInfo.name,True)
+        """Název disku (např. sda)"""
+        
+        self.diskPath:str|None = normalizeDiskPath(self.diskInfo.name)
+        """Plná cesta k disku (např. /dev/sda)"""
+        
+        self.partitionInfo:lsblkDiskInfo|None = None
+        """Info o partition."""
+        
+        self.partitionIndex:int|None = None
+        """Index partition na disku (1,2,3...)"""
+        
+        self.isLastPartition:bool = False
+        """Je to poslední partition na disku?"""
+        
+        self.isPartitionExt4:bool = False
+        """Je to ext4 partition?"""
+        
+        if self.diskInfo and self.diskInfo.children:
+            for idx, part in enumerate(self.diskInfo.children):
+                if part.name == self.partitionName or th.normalizeDiskPath(part.name, False) == self.partitionName:
+                    self.partitionInfo = part
+                    self.partitionIndex = idx + 1
+                    self.isLastPartition = (idx == len(self.diskInfo.children) - 1)
+                    self.isPartitionExt4 = (part.fstype == 'ext4')
+                    break
+
 def human_size(num_bytes: int) -> str:
-    """Převod velikosti v bajtech na čitelný string (MiB/GiB)."""
+    """Převod velikosti v bajtech na čitelný string (MiB/GiB).
+    Args:
+        num_bytes (int): Velikost v bajtech.
+    Returns:
+        str: Čitelný formát velikosti.
+    """
     step = 1024.0
     units = ["B", "KiB", "MiB", "GiB", "TiB"]
     size = float(num_bytes)
@@ -419,6 +472,21 @@ def lsblk_list_disks(
     disk_dict = {disk.name: disk for disk in disks if disk.fstype != 'swap'}
     return disk_dict
 
+def getDiskByPartition(partition:str) -> Optional[lsblkDiskInfo]:
+    """Vrátí disk, na kterém se nachází daná partition.
+    Args:
+        partition (str): Partition (např. /dev/sda1) nebo název (sda1).
+    Returns:
+        Optional[lsblkDiskInfo]: Disk info nebo None pokud nenalezen.
+    """
+    partition = th.normalizeDiskPath(partition, False)
+    ls_parts = lsblk_list_disks(ignoreSysDisks=False)
+    for disk in ls_parts.values():
+        if disk.children:
+            for child in disk.children:
+                if child.name == partition or th.normalizeDiskPath(child.name, False) == partition:
+                    return disk
+    return None
 
 def choose_disk(forMount:bool=True) -> str|None:
     """Bezpečný interaktivní výběr disku — nezobrazí disky s root/boot."""
@@ -616,7 +684,15 @@ def is_gzip(path: Path) -> bool:
     return path.suffix == ".gz" or path.name.endswith(".img.gz")
 
 def normalizeDiskPath(disk: str, noDevPath:bool=False) -> str:
-    """Normalizuje diskovou cestu na /dev/sdX formát."""
+    """Normalizuje diskovou cestu na /dev/sdX formát.
+    Args:
+        disk (str): Cesta k disku (např. sda, /dev/sda).
+        noDevPath (bool): Pokud:
+            - True, vrátí cestu 'sda' bez /dev/ prefixu.
+            - False, vrátí cestu '/dev/sda' s /dev/ prefixem.
+    Returns:
+        str: Normalizovaná cesta k disku.        
+    """
     if not disk.startswith("/dev/"):
         disk = "/dev/" + disk
         
@@ -648,3 +724,24 @@ def getNewDir(baseDir:str, prefix:str)-> str:
                 raise OSError(f"Nelze vytvořit adresář {fullPath}: {e}")
             return fullPath
         idx += 1
+        
+def checkExt4(partition:str) -> None:
+    """Zkontroluje ext4 partition.
+    Akceptuje název partition bez /dev/ (sdb2, mmcblk0p1, atd.).
+    Args:
+        partition (str): název partition s nebo bez /dev/
+    Raises:
+        ValueError: pokud partition neexistuje nebo není ext4 nebo dojde k chybě při kontrole.
+    """
+    
+    part = partitionInfo(partition)
+    if part is None or part.partitionInfo is None:
+        raise ValueError(f"Nepodařilo se zjistit informace o partition: {partition}")
+    
+    if not part.isPartitionExt4:
+        raise ValueError(f"Partition {partition} není ext4.")
+    
+    try:
+        run(["sudo", "e2fsck", "-f", part.partitionPath])
+    except Exception as e:
+        raise ValueError(f"Chyba při kontrole ext4 partition {partition}: {e}")

@@ -32,9 +32,9 @@ import subprocess
 from pathlib import Path
 from typing import List, Dict, Any
 import libs.toolhelp as th
-import libs.shring as shr
 import libs.glb as glb
 import os
+import libs.toolhelp as th
 
 # ============================================================
 # Simple backup / restore / extract (dd)
@@ -62,8 +62,46 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
     Bez komprese, pokud není --fast / --max.
     Vždy se vytvoří SHA256 sidecar.
     """
+    th.cls()
+    
     dev = f"/dev/{disk}"
     base_name = generate_base_name(disk, base, autoprefix)
+   
+    header = [
+        "*** Disk Backup Tool (RAW dd) ***\n0c",
+        f"Aktuální adresář: {os.getcwd()}\n0c",
+        f"Záloha disku {dev} → {base_name}.img\n0c",
+    ]
+    
+    if not fast and not maxC:
+        opts=[
+            ["Pokračovat bez komprese (RAW .img)","y"],
+            ["Pokračovat s rychlou kompresí (gzip -1)","f"],
+            ["Pokračovat s maximální kompresí (gzip -9)","m"],
+            ["Zrušit","q"]
+        ]
+        volba=th.menu(header,opts,"Vyber možnost:")
+        if volba=="q":
+            print("Zrušeno.")
+            return
+        elif volba=="f":
+            fast=True
+        elif volba=="m":
+            maxC=True
+    else:
+        if fast:
+            header.append("Rychlá komprese: gzip -1\n0c")
+        if maxC:
+            header.append("Maximální komprese: gzip -9\n0c")
+        
+        opts=[
+            ["Pokračovat","y"],
+            ["Zrušit","q"]
+        ]
+        volba=th.menu(header,opts,"Potvrď zálohu disku:")
+        if volba=="q":
+            print("Zrušeno.")
+            return
 
     # rozhodnutí o kompresi
     if fast:
@@ -94,10 +132,10 @@ def backup_disk_raw(disk: str, base: str | None, fast: bool, maxC: bool,
             p2.communicate()
     else:
         out = Path(base_name + ".img")
-        print(f"Záloha disku {dev} → {out} (RAW, bez gzip)")
-        if not th.confirm("Spustit backup bez komprese?"):
-            print("Zrušeno.")
-            return
+        # print(f"Záloha disku {dev} → {out} (RAW, bez gzip)")
+        # if not th.confirm("Spustit backup bez komprese?"):
+            # print("Zrušeno.")
+            # return
         th.run(["dd", f"if={dev}", f"of={str(out)}", "bs=4M", "status=progress"])
 
     th.write_sha256_sidecar(out)
@@ -485,7 +523,6 @@ def build_parser() -> argparse.ArgumentParser:
             "backup", "restore", "extract",
             "smart-backup", "smart-restore",
             "compress", "decompress",
-            "shrinkImage", "shrinkDisk"
         ],
         default=None,
         help="Režim práce s disky/obrazy"
@@ -529,21 +566,24 @@ def main() -> None:
         ]
         
         sel_opts={
-            "b" : ["Backup disk (raw dd)", "backup"],
-            "r" : ["Restore disk (raw dd)", "restore"],
-            "e" : ["Extract .img.gz → .img", "extract"],
-            "s" : ["Smart Backup (layout + partitions)", "smart-backup"],
-            "t" : ["Smart Restore (layout + partitions)", "smart-restore"],
-            "c" : ["Compress .img → .img.gz", "compress"],
-            "d" : ["Decompress .img.gz → .img", "decompress"],
-            "i" : ["Shrink Image (.img)", "shrinkImage"],
-            "k" : ["Shrink Disk (/dev/sdX)", "shrinkDisk"],
+            "db" : ["Backup disk (raw dd)", "backup"],
+            "dr" : ["Restore disk (raw dd)", "restore"],
+            "sb" : ["Smart Backup (layout + partitions)", "smart-backup"],
+            "sr" : ["Smart Restore (layout + partitions)", "smart-restore"],
+            "ie" : ["Extract .img.gz → .img", "extract"],
+            "ic" : ["Compress .img → .img.gz", "compress"],
+            "id" : ["Decompress .img.gz → .img", "decompress"],
+            "!1" : ["-\n0", None],
+            "t" : ["Disk tool", "t"],
             "q" : ["Konec", None]
         }
         
         menuList=[]
         for key in sel_opts:
-            menuList.append([sel_opts[key][0],key])
+            if key.startswith("!"):
+                menuList.append([sel_opts[key][0],None])
+            else:
+                menuList.append([sel_opts[key][0],key])
             
         idx=th.menu(header,menuList,'Vyber režim práce s disky/obrazy:')
         mode=sel_opts[idx][1]
@@ -621,48 +661,21 @@ def main() -> None:
             raise ValueError("decompress vyžaduje --file (.img.gz)")
         decompress_image(Path(file))
         
-    elif mode == "shrinkImage":
-        file = args.file or th.scan_current_dir_for_imgs(".img")        
-        if not file:
-            raise ValueError("shrink vyžaduje --file (.img)")
-        from libs.shring import shrink_image
-        shrink_image(
-            file,
-            spaceSize=args.shrink_size
-        )
-    elif mode == "shrinkDisk":
-        disk = args.disk
-        if not disk:
-            disk = th.choose_disk()
-            disk = f"/dev/{disk}"
-            partitions = shr.detect_partitions(disk)
-            if partitions:
-                # dej výběr přes menu
-                header=[
-                    "Následující partition byly detekovány na disku:",
-                    "Vyber partition pro shrink (mountované partition budou odpojeny):"
-                ]
-                menuList=[]
-                items=[]
-                for p in partitions:
-                    items.append(p["name"])
-                    menuList.append(f"{p['name']} | {p['size']} | {p['fstype']}")
-        
-                # select index
-                idx=th.menu(header,menuList,'Vyber partition pro shrink (mountované partition budou odpojeny):')
-                disk=items[idx]
-                
-        print(f"Vybraný disk pro shrink: {disk}")
-        
-        from libs.shring import shrink_disk
-        shrink_disk(
-            disk,
-            spaceSize=args.shrink_size
-        )
+    elif mode== "t":
+        app="jbtool"
+        myPath=os.path.abspath(__file__)
+        if os.path.isfile(myPath):
+            myPath=os.path.dirname(myPath)            
+        if os.path.exists(os.path.join(myPath,app)):
+            imgtoolPath=os.path.join(myPath,app)
+        elif os.path.exists(os.path.join(myPath,app+".py")):
+            imgtoolPath=os.path.join(myPath,app+".py")
+        else:
+            imgtoolPath=app
+        os.execv(imgtoolPath, [imgtoolPath] + os.sys.argv[1:])
 
     else:
         raise ValueError(f"Neznámý režim: {args.mode}")
-
 
 if __name__ == "__main__":
     main()

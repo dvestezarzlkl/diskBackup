@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "name": "img tool",
+            "name": "image tool - disk backup",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/imgtool.py",
@@ -17,10 +17,10 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "img mount",
+            "name": "JB tool",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/imgmount.py",
+            "program": "${workspaceFolder}/jbtool.py",
             "args": [
                 "--dir",
                 "/var/images/tvinfo"
