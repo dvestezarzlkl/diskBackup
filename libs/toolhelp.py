@@ -745,3 +745,16 @@ def checkExt4(partition:str) -> None:
         run(["sudo", "e2fsck", "-f", part.partitionPath])
     except Exception as e:
         raise ValueError(f"Chyba při kontrole ext4 partition {partition}: {e}")
+    
+def list_loop_partitions(loop,mounted:bool=None)-> dict[str, lsblkDiskInfo]:
+    """Vrátí seznam partitions pro dané loop zařízení.
+    Args:
+        loop (str): Loop zařízení (např. /dev/loop0).
+        mounted (bool, optional): Filtr připojení partitions. Defaults to None.
+            - None = všechny partitions
+            - True = pouze připojené partitions
+            - False = pouze nepřipojené partitions
+    Returns:
+        dict[str, th.lsblkDiskInfo]: Seznam disků kde '.children' jsou partitions.
+    """
+    return lsblk_list_disks(None,mounted,filterDev="^"+str(loop)+"$")

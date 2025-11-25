@@ -20,7 +20,7 @@ def remount_partition(loop: str) -> None:
     Returns:
         None
     """
-    parts = list_loop_partitions(loop)
+    parts = th.list_loop_partitions(loop)
 
     # zjistit připojené partitions
     out = th.run("mount")
@@ -107,20 +107,6 @@ def list_loops()-> dict:
             loops[m.group(1)] = m.group(2)
     return loops
 
-
-def list_loop_partitions(loop,mounted:bool=None)-> dict[str, th.lsblkDiskInfo]:
-    """Vrátí seznam partitions pro dané loop zařízení.
-    Args:
-        loop (str): Loop zařízení (např. /dev/loop0).
-        mounted (bool, optional): Filtr připojení partitions. Defaults to None.
-            - None = všechny partitions
-            - True = pouze připojené partitions
-            - False = pouze nepřipojené partitions
-    Returns:
-        dict[str, th.lsblkDiskInfo]: Seznam disků kde '.children' jsou partitions.
-    """
-    return th.lsblk_list_disks(None,mounted,filterDev="^"+str(loop)+"$")
-
 def list_empty_mountpoints()-> list:
     """Vrátí seznam prázdných mountpointů v MNT_DIR.
     Returns:
@@ -174,7 +160,7 @@ def mount_partition_mode(loop:str)-> None:
         None
     """
     loop = th.normalizeDiskPath(loop,True)
-    devs = list_loop_partitions(loop,False)
+    devs = th.list_loop_partitions(loop,False)
     if not devs:
         raise Exception("Nenalezeno zařízení loop")
     
@@ -240,7 +226,7 @@ def umount_mode()-> None:
     while True: # operace na vybrané loop zařízení
         
         # najdeme mounty partitions
-        devs = list_loop_partitions(loop,True)
+        devs = th.list_loop_partitions(loop,True)
         
         dev=devs.get(loop,None)
 
