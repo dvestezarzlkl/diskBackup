@@ -1,0 +1,3 @@
+[submodule "libs/JBLibs"]
+	path = libs/JBLibs
+	url = https://github.com/dvestezarzlkl/JBLibs-python
