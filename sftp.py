@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import logging
-from libs.sftp import parser, user, jail, mounts, sshd, metadata
+from libs.JBLibs.sftp import parser, user, jail, mounts, sshd, metadata
 
 log = logging.getLogger("sftpctl")
 
@@ -40,10 +40,15 @@ def install(cfgfile: str):
         mounts.ensure_user_in_group(username, group)
 
         dst = f"{mounts_root}/{name}"
-        mounts.prepare_mount_dir(username, group, dst)
-        mounts.bind_mount(src, dst)
+        try:
+            mounts.prepare_mount_dir(username, group, dst)
+            mounts.bind_mount(src, dst)
+        except Exception as e:
+            log.error("Failed to prepare/bind mount %s -> %s: %s", src, dst, e)
 
         mp_info[name] = {"src": src, "dst": dst, "group": group}
+
+    # jail.validate_jail(jail_root, username, mp_info)
 
     # 5) fstab (interní per-user soubor)
     mounts.write_fstab(username, mp_info)
@@ -70,27 +75,63 @@ def uninstall(username: str, remove_user: bool = False):
         return
 
     # 1) umount všech mountů
-    mounts.unmount_all(meta["mounts"])
+    if not mounts.unmount_all(meta["mounts"]):
+        log.error("Failed to unmount all mounts for user %s, aborting uninstall.", username)        
+        return
 
     # 2) smazat per-user fstab
-    mounts.remove_fstab(username)
+    try:
+        mounts.remove_fstab(username)
+    except Exception as e:
+        log.exception(e)
+        log.error("Failed to remove fstab for user %s: %s", username, e)
+        return
 
     # 3) smazat jail (__sftp__)
-    jail.remove_jail(meta["jail"])
+    try:
+        jail.remove_jail(meta["jail"])
+    except Exception as e:
+        log.exception(e)
+        log.error("Failed to remove jail for user %s: %s", username, e)
+        return
 
     # 4) smazat sshd config
-    sshd.remove_sshd_config(username)
+    try:
+        sshd.remove_sshd_config(username)
+    except Exception as e:
+        log.exception(e)
+        log.error("Failed to remove sshd config for user %s: %s", username, e)
+        return
 
-    # 5) metadata
-    metadata.delete_metadata(username)
+    try:
+        sshd.restart_sshd()
+    except Exception as e:
+        log.exception(e)
+        log.error("Failed to restart sshd after uninstalling user %s: %s", username, e)
+        return
 
-    # 6) volitelně user
+    # volitelně user
     if remove_user:
-        user.delete_user(username, remove_home=True)
-        log.info("User %s removed.", username)
+        try:
+            user.delete_user(username, remove_home=True)
+            log.info("User %s removed.", username)
+        except Exception as e:
+            log.exception(e)
+            log.error("Failed to remove user %s: %s", username, e)
+            return
+
+    # 5) smazat metadata
+    try:
+        metadata.delete_metadata(username)
+    except Exception as e:
+        log.exception(e)
+        log.error("Failed to remove metadata for user %s: %s", username, e)
+        return
 
     log.info("Uninstall of %s completed.", username)
 
+
+from libs.JBLibs.sftp.user import sftpUserMng
 
 def main():
     ap = argparse.ArgumentParser(description="SFTP jail manager")
@@ -109,10 +150,20 @@ def main():
     setup_logging(args.verbose)
 
     if args.cmd == "install":
-        install(args.file)
+        sftpUserMng.createUserFromJson(args.file)
     elif args.cmd == "uninstall":
-        uninstall(args.user, remove_user=args.remove_user)
-
+        for u in sftpUserMng.listActiveUsers():
+            log.debug(f"Checking user {u.username} for uninstall")
+            try:
+                u.delete_user()
+            except Exception as e:
+                log.error(f"Failed to uninstall user {u.username}: {e}")
+                log.exception(e)
+    try:
+        sshd.restart_sshd()
+    except Exception as e:
+        log.exception(e)
+        log.error(f"Failed to restart sshd after operations: {e}")
 
 if __name__ == "__main__":
     main()

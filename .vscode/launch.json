@@ -28,7 +28,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "SFTP",
+            "name": "SFTP install",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/sftp.py",
@@ -36,6 +36,19 @@
                 "install",
                 "--file",
                 "${workspaceFolder}/res/testuser.sftp"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "SFTP UN install",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sftp.py",
+            "args": [
+                "uninstall",
+                "--remove-user",
+                "--user",
+                "someuser"
             ],
             "console": "integratedTerminal"
         }
