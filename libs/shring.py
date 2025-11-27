@@ -184,6 +184,7 @@ def _shrink_partition_common(
     print(f"[INFO] Target size (GiB): {target_gib if target_gib is not None else 'auto'}")    
     
     # vytvoříme mountpoint
+    tmp_mount = Path(TMP_MOUNT)
     tmp_mount.mkdir(exist_ok=True, mode=0o755)
 
     # 1) mount pro zjištění used space
@@ -240,19 +241,13 @@ def _shrink_partition_common(
     # někomu se hodí:
     print(f"[INFO] Partition {disk}p{part_index}: start={start_sector}, old_size={old_size}, new_size={new_sectors}")
 
-    # 7) výpočet nové velikosti image, pokud je to loop a partition je poslední
-    new_img_size = None
-    if is_loop_backed:
-        if img_file is None:
-            raise ShrinkError("img_file musí být zadán, pokud je is_loop_backed=True.")
+    # přepočítáme max_end z nového layoutu
+    new_dump2 = th.runRet(f"sudo sfdisk -d {disk}")
+    _, _, _, new_max_end = _parse_sfdisk_dump(new_dump2, disk, part_index)
 
-        # přepočítáme max_end z nového layoutu
-        new_dump2 = th.runRet(f"sudo sfdisk -d {disk}")
-        _, _, _, new_max_end = _parse_sfdisk_dump(new_dump2, disk, part_index)
-
-        # chceme truncate na poslední používaný sektor (poslední partition)
-        new_img_size = new_max_end * SECTOR_SIZE
-        print(f"[INFO] New image size (from GPT last partition end): {new_img_size/1e9:.2f} GB")
+    # chceme truncate na poslední používaný sektor (poslední partition)
+    new_img_size = new_max_end * SECTOR_SIZE
+    print(f"[INFO] New image size (from GPT last partition end): {new_img_size/1e9:.2f} GB")
 
     # úklid mountpointu (pokud je prázdný)
     try:

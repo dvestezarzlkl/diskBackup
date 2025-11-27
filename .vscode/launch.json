@@ -35,7 +35,7 @@
             "args": [
                 "install",
                 "--file",
-                "${workspaceFolder}/res/testuser.sftp"
+                "${workspaceFolder}/res/testuser.json"
             ],
             "console": "integratedTerminal"
         },
