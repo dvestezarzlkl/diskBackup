@@ -1,2 +1,4 @@
 res/
 __pycache__/
+.venv/
+log/app.log
