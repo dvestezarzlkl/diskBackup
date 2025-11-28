@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import libs.JBLibs.helper as hlp
-hlp.initLogging(toConsole=True)
+hlp.initLogging(toConsole=True,log_level=hlp.logging.INFO)
 log = hlp.getLogger("sftpManager")
 
 import argparse
@@ -19,8 +19,8 @@ def main():
     ap_inst.add_argument("--file", required=True)
 
     ap_un = sub.add_parser("uninstall", help="Uninstall SFTP user")
-    ap_un.add_argument("--user", required=True)
-    ap_un.add_argument("--remove-user", action="store_true")
+    ap_un.add_argument("--user", required=False, help="Username to uninstall (if not provided, uninstalls all users)")
+    ap_un.add_argument("--all", action="store_true", help="Uninstall all SFTP users")
 
     args = ap.parse_args()
 
@@ -28,10 +28,24 @@ def main():
         log.info(f"Installing SFTP users from file: {args.file}")
         parser.createUserFromJson(args.file)
     elif args.cmd == "uninstall":
-        log.info(f"Uninstalling SFTP user: {args.user}")
-        for u in parser.listActiveUsers():
-            log.debug(f"Checking user {u.username} for uninstall")
+        if not args.all and not args.user:
+            log.error("Either --all or --user must be specified for uninstall.")
+            return
+        if args.all:
+            log.info("Uninstalling all SFTP users.")        
+            for u in parser.listActiveUsers():
+                log.debug(f"Checking user {u.username} for uninstall")
+                try:
+                    u.delete_user()
+                except Exception as e:
+                    log.error(f"Failed to uninstall user {u.username}: {e}")
+                    log.exception(e)
+        else:
+            log.info(f"Uninstalling SFTP user: {args.user}")
+            u = parser.sftpUserMng(args.user)
             try:
+                if not u.ok:
+                    raise RuntimeError(f"User {args.user} is not a valid SFTP user.")
                 u.delete_user()
             except Exception as e:
                 log.error(f"Failed to uninstall user {u.username}: {e}")

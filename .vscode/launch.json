@@ -31,11 +31,11 @@
             "name": "SFTP install",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/sftp.py",
+            "program": "${workspaceFolder}/sftpmng.py",
             "args": [
                 "install",
                 "--file",
-                "${workspaceFolder}/res/testuser.json"
+                "${workspaceFolder}/res/testuser.jsonc"
             ],
             "console": "integratedTerminal"
         },
@@ -43,12 +43,10 @@
             "name": "SFTP UN install",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/sftp.py",
+            "program": "${workspaceFolder}/sftpmng.py",
             "args": [
                 "uninstall",
-                "--remove-user",
-                "--user",
-                "someuser"
+                "--all"
             ],
             "console": "integratedTerminal"
         }
