@@ -21,16 +21,21 @@ def main():
     ap_un = sub.add_parser("uninstall", help="Uninstall SFTP user")
     ap_un.add_argument("--user", required=False, help="Username to uninstall (if not provided, uninstalls all users)")
     ap_un.add_argument("--all", action="store_true", help="Uninstall all SFTP users")
+    
+    ap_lst= sub.add_parser("list", help="List all SFTP users")
 
     args = ap.parse_args()
 
+    rst=False
     if args.cmd == "install":
         log.info(f"Installing SFTP users from file: {args.file}")
         parser.createUserFromJson(args.file)
+        rst=True
     elif args.cmd == "uninstall":
         if not args.all and not args.user:
             log.error("Either --all or --user must be specified for uninstall.")
             return
+        rst=True
         if args.all:
             log.info("Uninstalling all SFTP users.")        
             for u in parser.listActiveUsers():
@@ -50,8 +55,19 @@ def main():
             except Exception as e:
                 log.error(f"Failed to uninstall user {u.username}: {e}")
                 log.exception(e)
+    elif args.cmd == "list":
+        log.info("Listing all SFTP users:")
+        users = parser.listActiveUsers()
+        if not users:
+            print("\nNo SFTP users found.\n")
+        else:
+            print("\nSFTP Users:")
+            for u in users:
+                print(f"- {u.username} (Home: {u.homeDir}, Jail: {u.jailDir})")
+            print("")
     try:
-        ssh.restart_sshd()
+        if rst:
+            ssh.restart_sshd()
     except Exception as e:
         log.exception(e)
         log.error(f"Failed to restart sshd after operations: {e}")

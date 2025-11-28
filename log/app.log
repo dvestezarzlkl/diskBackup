@@ -2100,3 +2100,30 @@ RuntimeError: Failed to delete user someuser: User deletion for someuser was can
 ******************** SFTP Jail Manager Started ********************
 2025-11-28 09:52:55,206 - INFO - sftpmng.py:11 - 
 ******************** SFTP Jail Manager Started ********************
+2025-11-28 09:57:52,428 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 09:57:57,844 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 09:57:57,845 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 09:57:57,873 - INFO - sftpmng.py:62 - No SFTP users found.
+2025-11-28 09:57:57,874 - INFO - sftpmng.py:72 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 09:58:26,958 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 09:58:26,959 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 09:58:26,971 - INFO - sftpmng.py:72 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 09:59:44,917 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 09:59:44,919 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 09:59:44,927 - INFO - sftpmng.py:74 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 10:00:09,584 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:00:09,585 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 10:00:09,596 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
