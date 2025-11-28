@@ -22,7 +22,7 @@ def main():
     ap_un.add_argument("--user", required=False, help="Username to uninstall (if not provided, uninstalls all users)")
     ap_un.add_argument("--all", action="store_true", help="Uninstall all SFTP users")
     
-    ap_lst= sub.add_parser("list", help="List all SFTP users")
+    _ = sub.add_parser("list", help="List all SFTP users")
 
     args = ap.parse_args()
 
@@ -37,24 +37,11 @@ def main():
             return
         rst=True
         if args.all:
-            log.info("Uninstalling all SFTP users.")        
-            for u in parser.listActiveUsers():
-                log.debug(f"Checking user {u.username} for uninstall")
-                try:
-                    u.delete_user()
-                except Exception as e:
-                    log.error(f"Failed to uninstall user {u.username}: {e}")
-                    log.exception(e)
+            log.info("Uninstalling all SFTP users.")
+            parser.uninstallAllUsers()
         else:
             log.info(f"Uninstalling SFTP user: {args.user}")
-            u = parser.sftpUserMng(args.user)
-            try:
-                if not u.ok:
-                    raise RuntimeError(f"User {args.user} is not a valid SFTP user.")
-                u.delete_user()
-            except Exception as e:
-                log.error(f"Failed to uninstall user {u.username}: {e}")
-                log.exception(e)
+            parser.uninstallUser(args.user)
     elif args.cmd == "list":
         log.info("Listing all SFTP users:")
         users = parser.listActiveUsers()
@@ -63,7 +50,7 @@ def main():
         else:
             print("\nSFTP Users:")
             for u in users:
-                print(f"- {u.username} (Home: {u.homeDir}, Jail: {u.jailDir})")
+                print(f"- {u.username} (Home: {u.homeDir}")
             print("")
     try:
         if rst:

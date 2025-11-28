@@ -49,6 +49,13 @@
                 "--all"
             ],
             "console": "integratedTerminal"
+        },
+        {
+            "name": "TEST py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.py",
+            "console": "integratedTerminal"
         }
     ]
 }

@@ -2127,3 +2127,1788 @@ RuntimeError: Failed to delete user someuser: User deletion for someuser was can
 2025-11-28 10:00:09,596 - INFO - sftpmng.py:75 - 
 ******************** SFTP Jail Manager Finished ********************
 
+2025-11-28 10:00:36,000 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:00:36,005 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 10:00:36,006 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:00:36,006 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:00:36,072 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:00:36,072 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:00:36,073 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:00:36,073 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 10:00:36,189 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:00:36,190 - INFO - ssh.py:245 -  - Jail directory /home_sftp_users/someuser/__sftp__ does not exist for user someuser. Creating it.
+2025-11-28 10:00:36,190 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:00:36,191 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:00:36,192 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:00:36,192 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:00:36,192 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:00:36,193 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:00:36,194 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:00:36,194 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:00:36,194 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:00:36,195 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:00:36,195 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:00:36,195 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:00:36,195 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:00:36,195 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:00:36,196 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:00:36,196 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:00:36,197 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 10:00:36,197 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 10:00:36,197 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 10:00:36,198 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 10:00:36,199 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 10:00:36,199 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:00:36,199 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:00:36,200 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:00:36,200 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:00:36,200 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:00:36,200 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:00:36,201 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:00:36,202 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:00:36,202 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:01:21,356 - ERROR - sambaPoint.py:603 - Failed to ensure Samba SFTP mount point: Mount point paths are not OK.
+2025-11-28 10:01:21,854 - ERROR - sambaPoint.py:604 - Mount point paths are not OK.
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 554, in ensureMountpoint
+    raise RuntimeError("Mount point paths are not OK.")
+RuntimeError: Mount point paths are not OK.
+2025-11-28 10:01:22,344 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to create Samba mountpoint img for user someuser: cannot access local variable 'base_share_name' where it is not associated with a value
+2025-11-28 10:01:22,344 - ERROR - parser.py:183 - Failed to create Samba mountpoint img for user someuser: cannot access local variable 'base_share_name' where it is not associated with a value
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 554, in ensureMountpoint
+    raise RuntimeError("Mount point paths are not OK.")
+RuntimeError: Mount point paths are not OK.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 191, in __ensure_x_mountpoint
+    smb.ensureMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 605, in ensureMountpoint
+    log.info(f" - Cleaning up Samba SFTP mount point for share {base_share_name} due to error.")
+                                                                ^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'base_share_name' where it is not associated with a value
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 193, in __ensure_x_mountpoint
+    raise RuntimeError(f"Failed to create Samba mountpoint {mount_name} for user {self.username}: {e}")
+RuntimeError: Failed to create Samba mountpoint img for user someuser: cannot access local variable 'base_share_name' where it is not associated with a value
+2025-11-28 10:01:22,346 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 10:01:22,347 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 10:01:22,347 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 10:01:22,561 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 10:01:22,679 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 10:02:34,942 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:02:34,943 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 10:02:34,945 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:02:34,945 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:02:34,946 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:02:34,946 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:02:34,946 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:02:34,946 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:02:34,947 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:02:34,947 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:02:34,947 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:03:20,560 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:03:20,561 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 10:03:20,563 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:03:20,563 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:03:20,563 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:03:20,564 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:03:20,564 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:03:20,564 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:03:20,565 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:03:20,565 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:03:20,565 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:03:37,815 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:03:37,816 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 10:03:37,819 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:03:37,819 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:03:37,819 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:03:37,820 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:03:37,820 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:03:37,820 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:03:37,820 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:03:37,821 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:03:37,821 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:03:37,822 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 10:03:50,710 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:03:50,712 - ERROR - sftpmng.py:36 - Either --all or --user must be specified for uninstall.
+2025-11-28 10:03:54,887 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:03:54,888 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 10:03:54,890 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:03:54,890 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:03:54,890 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:03:54,891 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:03:54,891 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:03:54,891 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:03:54,891 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:03:54,892 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:03:54,893 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:03:54,893 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 10:03:56,968 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 10:03:56,968 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 10:03:56,969 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:03:56,969 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:03:56,969 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:03:56,970 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:03:56,970 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:03:56,970 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:03:56,971 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:03:56,971 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:03:56,971 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:03:56,972 - INFO - user.py:253 - Deleting all certificates for user someuser.
+2025-11-28 10:03:56,972 - INFO - user.py:260 - Removing sshd configuration for user someuser.
+2025-11-28 10:03:56,972 - INFO - ssh.py:116 - Removing sshd config for user someuser
+2025-11-28 10:03:56,972 - INFO - ssh.py:119 -  - Found sshd config for user someuser at /etc/ssh/sshd_config.d/sftp-someuser.conf. Deleting it.
+2025-11-28 10:03:56,973 - INFO - ssh.py:122 -  < Successfully removed sshd config for user someuser and restarted sshd.
+2025-11-28 10:03:56,973 - INFO - user.py:264 - Removing user someuser from all SFTP groups.
+2025-11-28 10:03:56,976 - INFO - user.py:268 - Deleting user someuser from system.
+2025-11-28 10:03:56,977 - INFO - user.py:271 - Setting ownership and permissions for home directory /home_sftp_users/someuser of user someuser before deletion.
+2025-11-28 10:03:56,977 - INFO - user.py:282 - Deleting user someuser and its home directory /home_sftp_users/someuser.
+2025-11-28 10:03:57,053 - INFO - user.py:293 - Ensuring home directory /home_sftp_users/someuser of user someuser is removed.
+2025-11-28 10:03:57,054 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 10:03:57,078 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 10:03:57,145 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 10:04:00,047 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:04:00,048 - INFO - sftpmng.py:59 - Listing all SFTP users:
+2025-11-28 10:04:00,050 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 10:07:27,091 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 10:07:27,095 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 10:07:27,095 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:07:27,096 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:07:27,165 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:07:27,166 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:07:27,166 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 10:07:27,167 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 10:07:27,243 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:07:27,243 - INFO - ssh.py:245 -  - Jail directory /home_sftp_users/someuser/__sftp__ does not exist for user someuser. Creating it.
+2025-11-28 10:07:27,244 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:07:27,244 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:07:27,244 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:07:27,245 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:07:27,245 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:07:27,245 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:07:27,246 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:07:27,246 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:07:27,246 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:07:27,247 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:07:27,247 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:07:27,247 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:07:27,247 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:07:27,248 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:07:27,248 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:07:27,249 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:07:27,249 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 10:07:27,249 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 10:07:27,250 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 10:07:27,252 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 10:07:27,253 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 10:07:27,254 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 10:07:27,254 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 10:07:27,254 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 10:07:27,254 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 10:07:27,255 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 10:07:27,255 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 10:07:27,255 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 10:07:27,256 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 10:07:27,256 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 10:07:31,835 - INFO - sambaPoint.py:568 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 10:07:33,195 - INFO - sambaPoint.py:150 - Samba SFTP user sftp_samba_user does not exist. Creating it.
+2025-11-28 10:07:33,261 - INFO - sambaPoint.py:128 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 10:07:33,455 - INFO - sambaPoint.py:163 - Samba SFTP user sftp_samba_user created successfully.
+2025-11-28 10:07:33,456 - INFO - sambaPoint.py:68 - Creating Samba config directory /etc/samba/smb_sftp_conf.d.
+2025-11-28 10:07:33,457 - INFO - sambaPoint.py:96 - Adding Samba config loader include line to /etc/samba/smb.conf.
+2025-11-28 10:07:33,458 - INFO - sambaPoint.py:111 - Writing Samba config loader include line at end of /etc/samba/smb.conf.
+2025-11-28 10:08:02,829 - INFO - sambaPoint.py:577 - Creating mount point directory: /home_sftp_users/someuser/__sftp__/img
+2025-11-28 10:08:32,424 - INFO - sambaPoint.py:591 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 10:09:17,376 - INFO - sambaPoint.py:206 - Adding Samba mount point config /etc/samba/smb_sftp_conf.d/sftp_mount_root_img.conf.
+2025-11-28 10:09:18,660 - INFO - sambaPoint.py:207 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 10:09:19,535 - INFO - sambaPoint.py:208 -  - dest: sftp_mount_root_img
+2025-11-28 10:09:20,064 - INFO - sambaPoint.py:209 -  - force user: root
+2025-11-28 10:09:20,614 - INFO - sambaPoint.py:210 -  - force group: vboxsf
+2025-11-28 10:10:26,798 - INFO - sambaPoint.py:440 - Restarting Samba service
+2025-11-28 10:10:26,834 - INFO - sambaPoint.py:447 -  - Stopping Samba - smbd service before restart.
+2025-11-28 10:10:27,027 - INFO - sambaPoint.py:460 - < Samba service restarted successfully.
+2025-11-28 10:10:34,458 - INFO - sambaPoint.py:599 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 10:11:21,102 - INFO - sambaPoint.py:262 - Ensuring CIFS mount line in /etc/fstab.d/sftp_mount_root_img.fstab.
+2025-11-28 10:12:06,599 - INFO - sambaPoint.py:606 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 10:12:17,055 - INFO - sambaPoint.py:614 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_root_img.
+2025-11-28 11:21:04,331 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:21:04,339 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:21:04,340 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:21:04,340 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:21:04,407 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:21:04,407 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:21:04,407 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:21:04,407 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:21:04,408 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:21:04,409 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:21:04,409 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:21:04,410 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:21:04,410 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:21:04,411 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:21:04,411 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:21:04,411 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:21:04,412 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:21:04,412 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:21:04,412 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:21:04,412 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:21:04,412 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:21:04,414 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:21:04,415 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:21:04,415 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:21:04,415 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:21:04,416 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:21:04,416 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:21:04,416 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:21:04,417 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:21:04,417 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:21:04,417 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:21:04,418 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:21:24,811 - INFO - sambaPoint.py:539 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:21:25,796 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:21:25,796 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:22:09,671 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:22:09,677 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:22:09,678 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:22:09,678 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:22:09,746 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:22:09,746 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:22:09,746 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:22:09,747 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:22:09,748 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:22:09,748 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:22:09,748 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:22:09,749 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:22:09,749 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:22:09,750 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:22:09,750 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:22:09,750 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:22:09,750 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:22:09,751 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:22:09,751 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:22:09,751 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:22:09,752 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:22:09,753 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:22:09,753 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:22:09,753 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:22:09,754 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:22:09,754 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:22:09,754 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:22:09,754 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:22:09,755 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:22:09,755 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:22:09,755 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:22:09,755 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:22:37,333 - INFO - sambaPoint.py:539 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:22:47,450 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:22:52,681 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:23:45,100 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:23:45,106 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:23:45,106 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:23:45,107 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:23:45,174 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:23:45,175 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:23:45,175 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:23:45,175 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:23:45,176 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:23:45,176 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:23:45,177 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:23:45,177 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:23:45,177 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:23:45,178 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:23:45,178 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:23:45,179 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:23:45,180 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:23:45,180 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:23:45,180 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:23:45,180 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:23:45,180 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:23:45,182 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:23:45,183 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:23:45,183 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:23:45,183 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:23:45,184 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:23:45,184 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:23:45,184 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:23:45,185 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:23:45,185 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:23:45,186 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:23:45,187 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:23:48,905 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:23:49,326 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:23:49,327 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:24:01,284 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:24:52,548 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:24:52,914 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:24:53,286 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:24:53,666 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:26:52,064 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:26:52,069 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:26:52,070 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:26:52,070 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:26:52,139 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:26:52,140 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:26:52,140 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:26:52,140 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:26:52,141 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:26:52,141 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:26:52,142 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:26:52,142 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:26:52,142 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:26:52,143 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:26:52,143 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:26:52,143 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:26:52,144 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:26:52,144 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:26:52,145 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:26:52,146 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:26:52,146 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:26:52,147 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:26:52,148 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:26:52,148 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:26:52,148 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:26:52,149 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:26:52,149 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:26:52,149 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:26:52,149 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:26:52,150 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:26:52,150 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:26:52,150 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:26:56,821 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:26:57,306 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:26:57,306 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:27:04,794 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:27:14,715 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:27:15,083 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:27:16,736 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:27:17,955 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:28:12,149 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:28:12,154 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:28:12,154 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:12,154 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:12,222 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:12,222 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:12,222 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:12,223 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:28:12,223 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:28:12,224 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:28:12,224 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:28:12,224 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:28:12,225 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:28:12,225 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:28:12,226 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:28:12,226 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:28:12,226 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:28:12,226 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:28:12,227 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:28:12,227 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:28:12,227 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:28:12,228 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:28:12,229 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:28:12,229 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:28:12,230 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:28:12,230 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:28:12,230 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:28:12,231 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:28:12,231 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:28:12,231 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:28:12,231 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:28:12,232 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:28:12,233 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:28:12,234 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:28:12,234 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:28:12,273 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:28:12,274 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:28:12,274 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:28:12,275 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:28:12,275 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:28:59,546 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:28:59,552 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:28:59,552 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:59,552 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:59,615 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:59,615 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:59,615 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:28:59,616 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:28:59,616 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:28:59,617 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:28:59,617 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:28:59,617 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:28:59,618 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:28:59,618 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:28:59,618 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:28:59,619 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:28:59,619 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:28:59,619 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:28:59,620 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:28:59,620 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:28:59,620 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:28:59,621 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:28:59,622 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:28:59,622 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:28:59,622 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:28:59,623 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:28:59,623 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:28:59,623 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:28:59,624 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:28:59,624 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:28:59,624 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:28:59,625 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:28:59,625 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:28:59,626 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:28:59,626 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:28:59,660 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:28:59,661 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:28:59,661 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:28:59,661 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:28:59,661 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:29:21,466 - INFO - sambaPoint.py:427 - Restarting Samba service
+2025-11-28 11:29:21,499 - INFO - sambaPoint.py:434 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:29:21,617 - INFO - sambaPoint.py:447 - < Samba service restarted successfully.
+2025-11-28 11:29:22,389 - INFO - sambaPoint.py:569 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:29:22,828 - INFO - sambaPoint.py:250 - Ensuring CIFS mount line in /etc/fstab.d/sftp_mount_root_img.fstab.
+2025-11-28 11:31:02,240 - INFO - sambaPoint.py:576 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 11:31:11,043 - INFO - sambaPoint.py:584 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_root_img.
+2025-11-28 11:31:29,383 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:31:29,392 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:31:29,393 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:29,393 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:29,468 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:29,468 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:29,468 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:29,469 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:31:29,470 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:31:29,470 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:31:29,471 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:31:29,472 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:31:29,472 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:31:29,473 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:31:29,473 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:31:29,474 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:31:29,474 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:31:29,475 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:31:29,476 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:31:29,476 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:31:29,477 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:31:29,480 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:31:29,480 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:31:29,481 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:31:29,481 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:31:29,481 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:31:29,482 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:31:29,482 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:31:29,482 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:31:29,482 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:31:29,484 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:31:29,484 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:31:29,486 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:31:29,488 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:31:29,489 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:31:29,531 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:31:29,532 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:31:29,532 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:31:29,532 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:31:29,533 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:31:29,534 - INFO - sambaPoint.py:427 - Restarting Samba service
+2025-11-28 11:31:29,559 - INFO - sambaPoint.py:434 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:31:29,672 - INFO - sambaPoint.py:447 - < Samba service restarted successfully.
+2025-11-28 11:31:42,471 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:31:42,476 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:31:42,476 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:42,477 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:42,544 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:42,545 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:42,545 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:31:42,545 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:31:42,546 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:31:42,546 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:31:42,546 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:31:42,547 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:31:42,548 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:31:42,548 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:31:42,549 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:31:42,549 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:31:42,550 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:31:42,550 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:31:42,551 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:31:42,551 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:31:42,552 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:31:42,553 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:31:42,553 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:31:42,554 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:31:42,554 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:31:42,554 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:31:42,555 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:31:42,555 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:31:42,555 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:31:42,555 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:31:42,556 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:31:42,556 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:31:42,557 - INFO - sambaPoint.py:538 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:31:42,557 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:31:42,558 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:31:42,594 - INFO - sambaPoint.py:561 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:31:42,595 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:31:42,595 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:31:42,596 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:31:42,596 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:31:42,597 - INFO - sambaPoint.py:427 - Restarting Samba service
+2025-11-28 11:31:42,621 - INFO - sambaPoint.py:434 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:31:42,725 - INFO - sambaPoint.py:447 - < Samba service restarted successfully.
+2025-11-28 11:31:50,224 - INFO - sambaPoint.py:569 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:31:57,801 - INFO - sambaPoint.py:250 - Ensuring CIFS mount line in /etc/fstab.d/sftp_mount_root_img.fstab.
+2025-11-28 11:48:36,210 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:48:36,219 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:48:36,219 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:48:36,220 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:48:36,288 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:48:36,288 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:48:36,289 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:48:36,289 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:48:36,290 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:48:36,290 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:48:36,291 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:48:36,292 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:48:36,293 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:48:36,293 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:48:36,294 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:48:36,295 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:48:36,296 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:48:36,297 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:48:36,297 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:48:36,298 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:48:36,298 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:48:36,299 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:48:36,299 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:48:36,300 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:48:36,300 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:48:36,300 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:48:36,300 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:48:36,300 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:48:36,301 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:48:36,301 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:48:36,302 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:48:36,302 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:48:36,304 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:48:36,304 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:48:36,304 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:48:36,450 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:48:36,451 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:48:36,451 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:48:36,452 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:48:36,452 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:48:36,453 - INFO - sambaPoint.py:482 - Restarting Samba service
+2025-11-28 11:48:36,511 - INFO - sambaPoint.py:489 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:48:36,738 - INFO - sambaPoint.py:502 - < Samba service restarted successfully.
+2025-11-28 11:50:34,939 - INFO - sambaPoint.py:624 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:50:39,224 - INFO - sambaPoint.py:270 - Added CIFS mount line to /etc/fstab for share 'img' (user=root).
+2025-11-28 11:52:50,421 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:52:50,428 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:52:50,429 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:52:50,429 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:52:50,506 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:52:50,507 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:52:50,507 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:52:50,507 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:52:50,508 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:52:50,509 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:52:50,509 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:52:50,509 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:52:50,510 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:52:50,510 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:52:50,511 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:52:50,511 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:52:50,511 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:52:50,512 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:52:50,512 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:52:50,513 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:52:50,513 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:52:50,515 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:52:50,515 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:52:50,515 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:52:50,515 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:52:50,516 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:52:50,516 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:52:50,517 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:52:50,517 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:52:50,517 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:52:50,518 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:52:50,518 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:52:50,519 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:52:50,519 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:52:50,520 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:52:50,556 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:52:50,556 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:52:50,557 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:52:50,557 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:52:50,557 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:52:50,558 - INFO - sambaPoint.py:482 - Restarting Samba service
+2025-11-28 11:52:50,583 - INFO - sambaPoint.py:489 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:52:50,690 - INFO - sambaPoint.py:502 - < Samba service restarted successfully.
+2025-11-28 11:52:57,862 - INFO - sambaPoint.py:624 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:52:59,314 - INFO - sambaPoint.py:308 - Removing CIFS fstab entry for img (root).
+2025-11-28 11:52:59,316 - INFO - sambaPoint.py:270 - Added CIFS mount line to /etc/fstab for share 'img' (user=root).
+2025-11-28 11:53:33,877 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:53:33,882 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:53:33,883 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:53:33,883 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:53:33,958 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:53:33,959 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:53:33,959 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:53:33,959 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:53:33,960 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:53:33,960 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:53:33,961 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:53:33,961 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:53:33,962 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:53:33,963 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:53:33,963 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:53:33,964 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:53:33,964 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:53:33,964 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:53:33,965 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:53:33,965 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:53:33,965 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:53:33,966 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:53:33,967 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:53:33,968 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:53:33,968 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:53:33,968 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:53:33,969 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:53:33,969 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:53:33,969 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:53:33,970 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:53:33,970 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:53:33,970 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:53:33,971 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:53:33,972 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:53:33,972 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:53:34,006 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:53:34,007 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:53:34,007 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:53:34,007 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:53:34,008 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:53:34,008 - INFO - sambaPoint.py:482 - Restarting Samba service
+2025-11-28 11:53:34,033 - INFO - sambaPoint.py:489 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:53:34,138 - INFO - sambaPoint.py:502 - < Samba service restarted successfully.
+2025-11-28 11:53:36,719 - INFO - sambaPoint.py:624 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:53:38,883 - INFO - sambaPoint.py:308 - Removing CIFS fstab entry for img (root).
+2025-11-28 11:53:38,884 - INFO - sambaPoint.py:270 - Added CIFS mount line to /etc/fstab for share 'img' (user=root).
+2025-11-28 11:54:09,314 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:54:09,319 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:54:09,319 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:54:09,320 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:54:09,379 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:54:09,380 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:54:09,381 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:54:09,381 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:54:09,382 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:54:09,383 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:54:09,383 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:54:09,384 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:54:09,384 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:54:09,384 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:54:09,385 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:54:09,385 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:54:09,385 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:54:09,386 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:54:09,386 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:54:09,387 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:54:09,387 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:54:09,388 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:54:09,388 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:54:09,388 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:54:09,389 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:54:09,389 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:54:09,389 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:54:09,390 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:54:09,390 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:54:09,390 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:54:09,391 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:54:09,391 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:54:09,392 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 11:54:09,392 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 11:54:09,393 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 11:54:09,426 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 11:54:09,426 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_root_img]:
+2025-11-28 11:54:09,426 - INFO - sambaPoint.py:191 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 11:54:09,427 - INFO - sambaPoint.py:192 -  - force user: root
+2025-11-28 11:54:09,427 - INFO - sambaPoint.py:193 -  - force group: vboxsf
+2025-11-28 11:54:09,428 - INFO - sambaPoint.py:482 - Restarting Samba service
+2025-11-28 11:54:09,450 - INFO - sambaPoint.py:489 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:54:09,568 - INFO - sambaPoint.py:502 - < Samba service restarted successfully.
+2025-11-28 11:54:11,550 - INFO - sambaPoint.py:624 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 11:54:12,143 - INFO - sambaPoint.py:308 - Removing CIFS fstab entry for img (root).
+2025-11-28 11:54:12,146 - INFO - sambaPoint.py:270 - Added CIFS mount line to /etc/fstab for share 'img' (user=root).
+2025-11-28 11:54:30,358 - INFO - sambaPoint.py:227 - Restarting systemd daemon.
+2025-11-28 11:54:30,724 - INFO - sambaPoint.py:235 - Systemd daemon restarted successfully.
+2025-11-28 11:54:35,418 - INFO - sambaPoint.py:632 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 11:54:40,957 - INFO - sambaPoint.py:640 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_root_img.
+2025-11-28 11:55:11,062 - INFO - sambaPoint.py:664 - < Samba SFTP mount point //127.0.0.1/sftp_mount_root_img mounted successfully.
+2025-11-28 11:55:26,533 - INFO - parser.py:112 -    - Processing mountpoint 'opis': '/home/dvestezar/pro_opis'
+2025-11-28 11:55:29,211 - INFO - parser.py:123 -    - Ensuring mountpoint 'opis' for user someuser.
+2025-11-28 11:55:30,478 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:55:31,789 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:55:31,790 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:55:31,791 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:55:31,791 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:55:31,791 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:55:31,792 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:55:31,793 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:55:31,793 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:55:31,794 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:55:31,795 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share opis.
+2025-11-28 11:55:31,795 - INFO - sambaPoint.py:602 - Creating mount point directory: /home_sftp_users/someuser/__sftp__/opis
+2025-11-28 11:55:31,796 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share opis at target /home/dvestezar/pro_opis.
+2025-11-28 11:55:31,797 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_someuser_opis]:
+2025-11-28 11:55:31,797 - INFO - sambaPoint.py:191 -  - target: /home/dvestezar/pro_opis
+2025-11-28 11:55:31,798 - INFO - sambaPoint.py:192 -  - force user: someuser
+2025-11-28 11:55:31,798 - INFO - sambaPoint.py:193 -  - force group: dvestezar
+2025-11-28 11:55:31,799 - INFO - sambaPoint.py:482 - Restarting Samba service
+2025-11-28 11:55:31,824 - INFO - sambaPoint.py:489 -  - Stopping Samba - smbd service before restart.
+2025-11-28 11:55:31,950 - INFO - sambaPoint.py:502 - < Samba service restarted successfully.
+2025-11-28 11:57:46,868 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:57:46,873 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:57:46,873 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:57:46,874 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:57:46,942 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:57:46,943 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:57:46,943 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:57:46,943 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:57:46,943 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:57:46,944 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:57:46,944 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:57:46,945 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:57:46,945 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:57:46,945 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:57:46,945 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:57:46,946 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:57:46,946 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:57:46,946 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:57:46,948 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:57:46,948 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:57:46,948 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:57:46,948 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:57:46,949 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:57:46,951 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 11:57:46,952 - ERROR - parser.py:183 - Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 94, in deleteOneMountpoint
+    os.rmdir(mp_to_delete.mountPath)
+OSError: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 182, in __ensure_x_mountpoint
+    self.deleteOneMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 99, in deleteOneMountpoint
+    raise RuntimeError(f"Failed to delete mountpoint {mount_point.mountName} for user {self.username}: {e}")
+RuntimeError: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 11:57:46,956 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 11:57:46,956 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 11:57:46,957 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 11:57:46,994 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 11:57:47,111 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 11:58:01,010 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 11:58:01,016 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 11:58:01,017 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:58:01,017 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:58:01,076 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:58:01,077 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:58:01,077 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 11:58:01,077 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 11:58:01,078 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 11:58:01,078 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 11:58:01,079 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 11:58:01,079 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 11:58:01,080 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 11:58:01,080 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 11:58:01,081 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 11:58:01,083 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 11:58:01,084 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 11:58:01,085 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 11:58:01,087 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 11:58:01,087 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 11:58:01,087 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 11:58:01,087 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 11:58:01,088 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 11:58:01,089 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 11:58:01,090 - ERROR - parser.py:183 - Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 94, in deleteOneMountpoint
+    os.rmdir(mp_to_delete.mountPath)
+OSError: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 182, in __ensure_x_mountpoint
+    self.deleteOneMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 99, in deleteOneMountpoint
+    raise RuntimeError(f"Failed to delete mountpoint {mount_point.mountName} for user {self.username}: {e}")
+RuntimeError: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 11:58:01,092 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 11:58:01,092 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 11:58:01,093 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 11:58:01,122 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 11:58:01,194 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 12:01:27,088 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:01:27,093 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:01:27,094 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:01:27,094 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:01:27,163 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:01:27,163 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:01:27,164 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:01:27,164 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:01:27,164 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:01:27,165 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:01:27,165 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:01:27,166 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:01:27,166 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:01:27,166 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:01:27,166 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:01:27,167 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:01:27,168 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:01:27,168 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:01:27,170 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:01:27,170 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:01:27,170 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:01:27,171 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:01:27,171 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:01:27,172 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:01:27,173 - ERROR - parser.py:183 - Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 94, in deleteOneMountpoint
+    os.rmdir(mp_to_delete.mountPath)
+OSError: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 182, in __ensure_x_mountpoint
+    self.deleteOneMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 99, in deleteOneMountpoint
+    raise RuntimeError(f"Failed to delete mountpoint {mount_point.mountName} for user {self.username}: {e}")
+RuntimeError: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:01:27,175 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 12:01:27,175 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 12:01:27,176 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 12:01:27,204 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 12:01:27,260 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 12:04:02,195 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:04:02,200 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:04:02,200 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:02,200 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:02,273 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:02,273 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:02,274 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:02,274 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:04:02,275 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:04:02,276 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:04:02,276 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:04:02,276 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:04:02,277 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:04:02,278 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:04:02,278 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:04:02,278 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:04:02,279 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:04:02,279 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:04:02,281 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:04:02,281 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:04:02,281 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:04:02,282 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:04:02,282 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:04:54,686 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:04:54,691 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:04:54,691 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:54,692 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:54,756 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:54,756 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:54,757 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:04:54,759 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:04:54,759 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:04:54,760 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:04:54,760 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:04:54,761 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:04:54,762 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:04:54,762 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:04:54,762 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:04:54,762 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:04:54,763 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:04:54,763 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:04:54,765 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:04:54,765 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:04:54,766 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:04:54,766 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:04:54,766 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:04:57,468 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:04:57,469 - ERROR - parser.py:183 - Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 94, in deleteOneMountpoint
+    os.rmdir(mp_to_delete.mountPath)
+OSError: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 182, in __ensure_x_mountpoint
+    self.deleteOneMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 99, in deleteOneMountpoint
+    raise RuntimeError(f"Failed to delete mountpoint {mount_point.mountName} for user {self.username}: {e}")
+RuntimeError: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:04:57,472 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 12:04:57,472 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 12:04:57,473 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 12:04:57,503 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 12:04:57,564 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 12:05:03,798 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:05:03,804 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:05:03,805 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:05:03,805 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:05:03,870 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:05:03,870 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:05:03,870 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:05:03,870 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:05:03,871 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:05:03,872 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:05:03,873 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:05:03,873 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:05:03,873 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:05:03,874 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:05:03,874 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:05:03,874 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:05:03,875 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:05:03,875 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:05:03,877 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:05:03,877 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:05:03,877 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:05:03,877 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:05:03,878 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:06:04,057 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:06:04,062 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:06:04,063 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:06:04,063 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:06:04,127 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:06:04,127 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:06:04,127 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:06:04,127 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:06:04,128 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:06:04,128 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:06:04,129 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:06:04,129 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:06:04,129 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:06:04,130 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:06:04,130 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:06:04,130 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:06:04,131 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:06:04,131 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:06:04,132 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:06:04,133 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:06:04,133 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:06:04,133 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:06:04,134 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:07:24,098 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:07:24,103 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:07:24,104 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:24,104 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:24,167 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:24,168 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:24,168 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:24,168 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:07:24,169 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:07:24,170 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:07:24,170 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:07:24,170 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:07:24,171 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:07:24,171 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:07:24,171 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:07:24,172 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:07:24,173 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:07:24,173 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:07:24,175 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:07:24,175 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:07:24,175 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:07:24,176 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:07:24,176 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:07:26,796 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:07:26,796 - ERROR - parser.py:183 - Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 94, in deleteOneMountpoint
+    os.rmdir(mp_to_delete.mountPath)
+OSError: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, samabVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 182, in __ensure_x_mountpoint
+    self.deleteOneMountpoint(mp)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 99, in deleteOneMountpoint
+    raise RuntimeError(f"Failed to delete mountpoint {mount_point.mountName} for user {self.username}: {e}")
+RuntimeError: Failed to delete mountpoint img for user someuser: [Errno 16] Device or resource busy: '/home_sftp_users/someuser/__sftp__/img'
+2025-11-28 12:07:26,798 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 12:07:26,799 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 12:07:26,799 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 12:07:26,829 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 12:07:26,890 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 12:07:48,169 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:07:48,174 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:07:48,174 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:48,175 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:48,246 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:48,246 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:48,246 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:07:48,246 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:07:48,247 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:07:48,248 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:07:48,248 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:07:48,248 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:07:48,248 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:07:48,249 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:07:48,249 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:07:48,249 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:07:48,250 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:07:48,250 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:07:48,252 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:07:48,252 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:07:48,252 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:07:48,253 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:07:48,253 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:09:28,442 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:09:28,448 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:09:28,449 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:28,449 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:28,514 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:28,514 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:28,515 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:28,515 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:09:28,515 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:09:28,516 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:09:28,516 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:09:28,517 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:09:28,518 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:09:28,518 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:09:28,518 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:09:28,519 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:09:28,519 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:09:28,520 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:09:28,521 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:09:28,522 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:09:28,522 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:09:28,522 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:09:28,522 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:09:43,084 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:09:43,089 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:09:43,090 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:43,090 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:43,146 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:43,146 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:43,147 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:09:43,147 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:09:43,148 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:09:43,149 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:09:43,149 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:09:43,150 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:09:43,150 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:09:43,151 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:09:43,151 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:09:43,151 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:09:43,152 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:09:43,152 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:09:43,157 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:09:43,157 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:09:43,157 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:09:43,157 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:09:43,158 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:10:25,014 - INFO - parser.py:112 -    - Processing mountpoint 'opis': '/home/dvestezar/pro_opis'
+2025-11-28 12:10:27,892 - INFO - parser.py:123 -    - Ensuring mountpoint 'opis' for user someuser.
+2025-11-28 12:10:30,709 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:10:35,014 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:10:35,015 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:10:35,016 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:10:35,016 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:10:35,017 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:10:35,017 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:10:35,017 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:10:35,018 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:10:35,018 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:10:35,019 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share opis.
+2025-11-28 12:10:38,725 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:10:38,726 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:10:50,002 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share opis at target /home/dvestezar/pro_opis.
+2025-11-28 12:10:50,709 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_dvestezar_opis]:
+2025-11-28 12:10:50,709 - INFO - sambaPoint.py:191 -  - target: /home/dvestezar/pro_opis
+2025-11-28 12:10:50,710 - INFO - sambaPoint.py:192 -  - force user: dvestezar
+2025-11-28 12:10:50,710 - INFO - sambaPoint.py:193 -  - force group: dvestezar
+2025-11-28 12:11:16,569 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:11:16,574 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:11:16,575 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:11:16,575 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:11:16,641 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:11:16,642 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:11:16,642 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:11:16,642 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:11:16,642 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:11:16,643 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:11:16,643 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:11:16,644 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:11:16,644 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:11:16,645 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:11:16,645 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:11:16,645 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:11:16,646 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:11:16,646 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:11:16,647 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:11:16,648 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:11:16,648 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:11:16,648 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:11:16,648 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:11:16,649 - INFO - parser.py:112 -    - Processing mountpoint 'opis': '/home/dvestezar/pro_opis'
+2025-11-28 12:11:16,649 - INFO - parser.py:123 -    - Ensuring mountpoint 'opis' for user someuser.
+2025-11-28 12:11:16,649 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:11:16,649 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:11:16,650 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:11:16,650 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:11:16,650 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:11:16,651 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:11:16,651 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:11:16,651 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:11:16,652 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:11:16,652 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:11:16,652 - INFO - sambaPoint.py:593 - Ensuring Samba SFTP mount point configuration for share opis.
+2025-11-28 12:11:16,653 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:11:16,653 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:11:16,688 - INFO - sambaPoint.py:616 -  - Ensuring Samba SFTP mount point for share opis at target /home/dvestezar/pro_opis.
+2025-11-28 12:11:35,692 - INFO - sambaPoint.py:190 - Adding Samba mount point config to section [sftp_mount_dvestezar_opis]:
+2025-11-28 12:11:36,021 - INFO - sambaPoint.py:191 -  - target: /home/dvestezar/pro_opis
+2025-11-28 12:11:36,426 - INFO - sambaPoint.py:192 -  - force user: dvestezar
+2025-11-28 12:11:36,866 - INFO - sambaPoint.py:193 -  - force group: dvestezar
+2025-11-28 12:20:40,972 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:20:40,978 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:20:40,979 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:20:40,980 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:20:41,060 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:20:41,060 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:20:41,060 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:20:41,061 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:20:41,061 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:20:41,062 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:20:41,063 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:20:41,064 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:20:41,064 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:20:41,065 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:20:41,065 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:20:41,065 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:20:41,066 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:20:41,067 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:20:41,069 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:20:41,070 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:20:41,070 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:20:41,070 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:20:41,070 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:20:41,075 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:20:41,075 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:20:41,076 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:20:41,076 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:20:41,076 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:20:41,076 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:20:41,076 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:20:41,077 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:20:41,077 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:20:41,077 - ERROR - parser.py:182 - Failed to create user from JSON data: Failed to create Samba mountpoint img for user someuser: ensureMountpoint() missing 1 required positional argument: 'mp'
+2025-11-28 12:20:41,078 - ERROR - parser.py:183 - Failed to create Samba mountpoint img for user someuser: ensureMountpoint() missing 1 required positional argument: 'mp'
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 191, in __ensure_x_mountpoint
+    smb.ensureMountpoint(mp)
+TypeError: ensureMountpoint() missing 1 required positional argument: 'mp'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/parser.py", line 126, in createUserFromJson
+    u.mountpointManager.ensure_samba_mountpoint(mount_name, real_path)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 144, in ensure_samba_mountpoint
+    self.__ensure_x_mountpoint(mount_name, real_path, sambaVault=True)
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/mounts.py", line 193, in __ensure_x_mountpoint
+    raise RuntimeError(f"Failed to create Samba mountpoint {mount_name} for user {self.username}: {e}")
+RuntimeError: Failed to create Samba mountpoint img for user someuser: ensureMountpoint() missing 1 required positional argument: 'mp'
+2025-11-28 12:20:41,080 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 0 users.
+2025-11-28 12:20:41,080 - ERROR - parser.py:188 - No users were created or updated from JSON data.
+2025-11-28 12:20:41,081 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 12:20:41,146 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 12:20:41,231 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 12:21:14,240 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:21:14,246 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:21:14,246 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:21:14,247 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:21:14,310 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:21:14,310 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:21:14,310 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:21:14,311 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:21:14,311 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:21:14,312 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:21:14,312 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:21:14,312 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:21:14,313 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:21:14,313 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:21:14,313 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:21:14,314 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:21:14,315 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:21:14,315 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:21:14,315 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:21:14,315 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:21:14,316 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:21:14,317 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:21:14,318 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:21:14,318 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:21:14,319 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:21:14,319 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:21:14,319 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:21:14,320 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:21:14,320 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:21:14,320 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:21:14,321 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:21:14,321 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:21:14,322 - INFO - sambaPoint.py:596 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 12:21:14,323 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:21:14,323 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:21:14,429 - INFO - sambaPoint.py:605 - Creating mount point directory: /home_sftp_users/someuser/__sftp__/img
+2025-11-28 12:21:14,430 - INFO - sambaPoint.py:619 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 12:21:20,108 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_img]:
+2025-11-28 12:21:20,108 - INFO - sambaPoint.py:193 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 12:21:20,109 - INFO - sambaPoint.py:194 -  - force user: root
+2025-11-28 12:21:20,109 - INFO - sambaPoint.py:195 -  - force group: vboxsf
+2025-11-28 12:22:19,996 - INFO - sambaPoint.py:484 - Restarting Samba service
+2025-11-28 12:22:20,031 - INFO - sambaPoint.py:491 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:22:20,344 - INFO - sambaPoint.py:504 - < Samba service restarted successfully.
+2025-11-28 12:22:22,039 - INFO - sambaPoint.py:627 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 12:26:30,773 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:26:30,778 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:26:30,778 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:26:30,778 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:26:30,844 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:26:30,845 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:26:30,845 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:26:30,846 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:26:30,847 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:26:30,849 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:26:30,849 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:26:30,849 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:26:30,850 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:26:30,850 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:26:30,850 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:26:30,850 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:26:30,851 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:26:30,852 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:26:30,852 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:26:30,852 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:26:30,852 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:26:30,853 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:26:30,853 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:26:30,854 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:26:30,855 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:26:30,855 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:26:30,856 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:26:30,858 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:26:30,858 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:26:30,860 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:26:30,860 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:26:30,861 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:26:30,862 - INFO - sambaPoint.py:597 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 12:26:30,863 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:26:30,863 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:26:30,916 - INFO - sambaPoint.py:620 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 12:26:43,659 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_img]:
+2025-11-28 12:26:43,660 - INFO - sambaPoint.py:193 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 12:26:43,660 - INFO - sambaPoint.py:194 -  - force user: root
+2025-11-28 12:26:43,661 - INFO - sambaPoint.py:195 -  - force group: vboxsf
+2025-11-28 12:26:50,803 - INFO - sambaPoint.py:485 - Restarting Samba service
+2025-11-28 12:26:50,831 - INFO - sambaPoint.py:492 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:26:50,958 - INFO - sambaPoint.py:505 - < Samba service restarted successfully.
+2025-11-28 12:26:52,525 - INFO - sambaPoint.py:628 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 12:27:33,307 - INFO - sambaPoint.py:272 - Added CIFS mount line to /etc/fstab for share 'img' (user=someuser).
+2025-11-28 12:27:39,338 - INFO - sambaPoint.py:229 - Restarting systemd daemon.
+2025-11-28 12:27:39,688 - INFO - sambaPoint.py:237 - Systemd daemon restarted successfully.
+2025-11-28 12:27:53,988 - INFO - sambaPoint.py:636 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 12:28:11,511 - INFO - sambaPoint.py:644 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_root_img.
+2025-11-28 12:28:17,581 - ERROR - sambaPoint.py:653 - Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_root_img: Command '['mount', '//127.0.0.1/sftp_mount_root_img']' returned non-zero exit status 32.
+2025-11-28 12:28:17,963 - ERROR - sambaPoint.py:654 - Command '['mount', '//127.0.0.1/sftp_mount_root_img']' returned non-zero exit status 32.
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 647, in ensureMountpoint
+    subprocess.run([
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['mount', '//127.0.0.1/sftp_mount_root_img']' returned non-zero exit status 32.
+2025-11-28 12:31:03,844 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:31:03,848 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:31:03,849 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:31:03,849 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:31:03,910 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:31:03,911 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:31:03,911 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:31:03,911 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:31:03,912 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:31:03,913 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:31:03,913 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:31:03,913 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:31:03,914 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:31:03,914 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:31:03,914 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:31:03,915 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:31:03,915 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:31:03,915 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:31:03,916 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:31:03,916 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:31:03,916 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:31:03,918 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:31:03,918 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:31:03,918 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:31:03,919 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:31:03,919 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:31:03,919 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:31:03,919 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:31:03,919 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:31:03,920 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:31:03,920 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:31:03,921 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:31:03,922 - INFO - sambaPoint.py:597 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 12:31:03,922 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:31:03,923 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:31:03,957 - INFO - sambaPoint.py:620 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 12:31:03,957 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_img]:
+2025-11-28 12:31:03,958 - INFO - sambaPoint.py:193 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 12:31:03,958 - INFO - sambaPoint.py:194 -  - force user: root
+2025-11-28 12:31:03,958 - INFO - sambaPoint.py:195 -  - force group: vboxsf
+2025-11-28 12:31:03,959 - INFO - sambaPoint.py:485 - Restarting Samba service
+2025-11-28 12:31:03,982 - INFO - sambaPoint.py:492 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:31:04,106 - INFO - sambaPoint.py:505 - < Samba service restarted successfully.
+2025-11-28 12:31:04,107 - INFO - sambaPoint.py:628 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 12:31:04,107 - INFO - sambaPoint.py:310 - Removing CIFS fstab entry for img (someuser).
+2025-11-28 12:31:04,108 - INFO - sambaPoint.py:272 - Added CIFS mount line to /etc/fstab for share 'img' (user=someuser).
+2025-11-28 12:31:04,109 - INFO - sambaPoint.py:229 - Restarting systemd daemon.
+2025-11-28 12:31:04,305 - INFO - sambaPoint.py:237 - Systemd daemon restarted successfully.
+2025-11-28 12:31:04,305 - INFO - sambaPoint.py:636 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 12:31:11,216 - INFO - sambaPoint.py:644 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_img.
+2025-11-28 12:32:44,223 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:32:44,228 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:32:44,229 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:32:44,229 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:32:44,293 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:32:44,293 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:32:44,294 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:32:44,294 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:32:44,294 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:32:44,295 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:32:44,295 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:32:44,296 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:32:44,296 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:32:44,296 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:32:44,297 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:32:44,297 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:32:44,297 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:32:44,298 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:32:44,298 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:32:44,298 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:32:44,299 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:32:44,300 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:32:44,300 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:32:44,300 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:32:44,301 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:32:44,301 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:32:44,301 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:32:44,302 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:32:44,302 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:32:44,302 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:32:44,302 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:32:44,303 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:32:44,304 - INFO - sambaPoint.py:597 - Ensuring Samba SFTP mount point configuration for share img.
+2025-11-28 12:32:44,304 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:32:44,305 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:32:44,343 - INFO - sambaPoint.py:620 -  - Ensuring Samba SFTP mount point for share img at target /mnt/img/OrangePi/3b/rw.
+2025-11-28 12:32:44,344 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_img]:
+2025-11-28 12:32:44,344 - INFO - sambaPoint.py:193 -  - target: /mnt/img/OrangePi/3b/rw
+2025-11-28 12:32:44,344 - INFO - sambaPoint.py:194 -  - force user: root
+2025-11-28 12:32:44,344 - INFO - sambaPoint.py:195 -  - force group: vboxsf
+2025-11-28 12:32:44,345 - INFO - sambaPoint.py:485 - Restarting Samba service
+2025-11-28 12:32:44,373 - INFO - sambaPoint.py:492 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:32:44,489 - INFO - sambaPoint.py:505 - < Samba service restarted successfully.
+2025-11-28 12:32:44,490 - INFO - sambaPoint.py:628 -  - Ensuring fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 12:32:44,490 - INFO - sambaPoint.py:310 - Removing CIFS fstab entry for img (someuser).
+2025-11-28 12:32:44,491 - INFO - sambaPoint.py:272 - Added CIFS mount line to /etc/fstab for share 'img' (user=someuser).
+2025-11-28 12:32:44,491 - INFO - sambaPoint.py:229 - Restarting systemd daemon.
+2025-11-28 12:32:44,684 - INFO - sambaPoint.py:237 - Systemd daemon restarted successfully.
+2025-11-28 12:32:44,684 - INFO - sambaPoint.py:636 -  - Ensuring Samba SFTP mount point img is mounted.
+2025-11-28 12:33:05,664 - INFO - sambaPoint.py:644 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_img.
+2025-11-28 12:33:11,124 - INFO - sambaPoint.py:668 - < Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_img mounted successfully.
+2025-11-28 12:33:30,062 - INFO - parser.py:112 -    - Processing mountpoint 'opis': '/home/dvestezar/pro_opis'
+2025-11-28 12:33:31,830 - INFO - parser.py:123 -    - Ensuring mountpoint 'opis' for user someuser.
+2025-11-28 12:33:32,477 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:33:32,800 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:33:32,801 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:33:32,802 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:33:32,802 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:33:32,803 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:33:32,803 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:33:32,803 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:33:32,804 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:33:32,804 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:33:32,805 - INFO - sambaPoint.py:597 - Ensuring Samba SFTP mount point configuration for share opis.
+2025-11-28 12:33:32,806 - INFO - sambaPoint.py:620 -  - Ensuring Samba SFTP mount point for share opis at target /home/dvestezar/pro_opis.
+2025-11-28 12:33:32,806 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_opis]:
+2025-11-28 12:33:32,806 - INFO - sambaPoint.py:193 -  - target: /home/dvestezar/pro_opis
+2025-11-28 12:33:32,807 - INFO - sambaPoint.py:194 -  - force user: dvestezar
+2025-11-28 12:33:32,807 - INFO - sambaPoint.py:195 -  - force group: dvestezar
+2025-11-28 12:33:32,808 - INFO - sambaPoint.py:485 - Restarting Samba service
+2025-11-28 12:33:32,833 - INFO - sambaPoint.py:492 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:33:32,963 - INFO - sambaPoint.py:505 - < Samba service restarted successfully.
+2025-11-28 12:33:32,964 - INFO - sambaPoint.py:628 -  - Ensuring fstab CIFS config for Samba SFTP mount point opis.
+2025-11-28 12:33:32,965 - INFO - sambaPoint.py:272 - Added CIFS mount line to /etc/fstab for share 'opis' (user=someuser).
+2025-11-28 12:33:32,965 - INFO - sambaPoint.py:229 - Restarting systemd daemon.
+2025-11-28 12:35:03,131 - INFO - sambaPoint.py:237 - Systemd daemon restarted successfully.
+2025-11-28 12:35:03,131 - INFO - sambaPoint.py:636 -  - Ensuring Samba SFTP mount point opis is mounted.
+2025-11-28 12:35:33,883 - INFO - sambaPoint.py:644 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis.
+2025-11-28 12:36:53,138 - ERROR - sambaPoint.py:653 - Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:36:57,266 - ERROR - sambaPoint.py:654 - Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 647, in ensureMountpoint
+    subprocess.run([
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:36:59,637 - ERROR - sambaPoint.py:658 - Failed to ensure Samba SFTP mount point: Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:37:14,812 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 12:37:14,817 - INFO - sftpmng.py:31 - Installing SFTP users from file: /root/vyvoj/python/diskBackup/res/testuser.jsonc
+2025-11-28 12:37:14,818 - INFO - parser.py:54 - Loading SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:37:14,818 - INFO - parser.py:58 - Reading JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:37:14,883 - INFO - parser.py:67 - Parsing SFTP user data from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:37:14,883 - INFO - parser.py:71 -  - Found 'users' array in JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:37:14,884 - INFO - parser.py:78 - Creating 1 SFTP users from JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc.
+2025-11-28 12:37:14,884 - INFO - parser.py:81 - Processing user data: someuser
+2025-11-28 12:37:14,884 - INFO - parser.py:98 - User someuser already exists, skipping creation.
+2025-11-28 12:37:14,886 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:37:14,886 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:37:14,887 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:37:14,887 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:37:14,887 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:37:14,888 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:37:14,888 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:37:14,888 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:37:14,889 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:37:14,891 - INFO - parser.py:108 - Adding mountpoints for user someuser.
+2025-11-28 12:37:14,891 - INFO - parser.py:110 -  - Found 2 mountpoints to add for user someuser.
+2025-11-28 12:37:14,892 - INFO - parser.py:112 -    - Processing mountpoint 'img': '/mnt/img/OrangePi/3b/rw'
+2025-11-28 12:37:14,892 - INFO - parser.py:123 -    - Ensuring mountpoint 'img' for user someuser.
+2025-11-28 12:37:14,892 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:37:14,893 - INFO - parser.py:112 -    - Processing mountpoint 'opis': '/home/dvestezar/pro_opis'
+2025-11-28 12:37:14,893 - INFO - parser.py:123 -    - Ensuring mountpoint 'opis' for user someuser.
+2025-11-28 12:37:14,893 - INFO - parser.py:125 -      - Creating Samba mountpoint for user someuser.
+2025-11-28 12:37:14,893 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:37:14,894 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:37:14,894 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:37:14,894 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:37:14,895 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:37:14,895 - ERROR - ssh.py:37 -  < .ssh directory does not exist for user someuser and create is False.
+2025-11-28 12:37:14,895 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:37:14,895 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:37:14,895 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:37:14,896 - INFO - sambaPoint.py:597 - Ensuring Samba SFTP mount point configuration for share opis.
+2025-11-28 12:37:14,897 - INFO - sambaPoint.py:81 - Samba SFTP user sftp_samba_user already exists.
+2025-11-28 12:37:14,897 - INFO - sambaPoint.py:63 - Setting password for Samba SFTP user sftp_samba_user.
+2025-11-28 12:37:14,932 - INFO - sambaPoint.py:620 -  - Ensuring Samba SFTP mount point for share opis at target /home/dvestezar/pro_opis.
+2025-11-28 12:37:14,933 - INFO - sambaPoint.py:192 - Adding Samba mount point config to section [sftp_mount_someuser_opis]:
+2025-11-28 12:37:14,933 - INFO - sambaPoint.py:193 -  - target: /home/dvestezar/pro_opis
+2025-11-28 12:37:14,933 - INFO - sambaPoint.py:194 -  - force user: dvestezar
+2025-11-28 12:37:14,933 - INFO - sambaPoint.py:195 -  - force group: dvestezar
+2025-11-28 12:37:14,934 - INFO - sambaPoint.py:485 - Restarting Samba service
+2025-11-28 12:37:14,959 - INFO - sambaPoint.py:492 -  - Stopping Samba - smbd service before restart.
+2025-11-28 12:37:15,081 - INFO - sambaPoint.py:505 - < Samba service restarted successfully.
+2025-11-28 12:37:15,081 - INFO - sambaPoint.py:628 -  - Ensuring fstab CIFS config for Samba SFTP mount point opis.
+2025-11-28 12:37:15,082 - INFO - sambaPoint.py:310 - Removing CIFS fstab entry for opis (someuser).
+2025-11-28 12:37:15,083 - INFO - sambaPoint.py:272 - Added CIFS mount line to /etc/fstab for share 'opis' (user=someuser).
+2025-11-28 12:37:15,083 - INFO - sambaPoint.py:229 - Restarting systemd daemon.
+2025-11-28 12:38:45,255 - INFO - sambaPoint.py:237 - Systemd daemon restarted successfully.
+2025-11-28 12:38:45,255 - INFO - sambaPoint.py:636 -  - Ensuring Samba SFTP mount point opis is mounted.
+2025-11-28 12:38:45,256 - INFO - sambaPoint.py:644 -  - Mounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis.
+2025-11-28 12:38:45,378 - ERROR - sambaPoint.py:653 - Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:38:45,378 - ERROR - sambaPoint.py:654 - Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 647, in ensureMountpoint
+    import subprocess
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:38:45,381 - ERROR - sambaPoint.py:658 - Failed to ensure Samba SFTP mount point: Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:38:45,381 - ERROR - sambaPoint.py:659 - Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 647, in ensureMountpoint
+    import subprocess
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/vyvoj/python/diskBackup/libs/JBLibs/sftp/sambaPoint.py", line 655, in ensureMountpoint
+    log.exception(e)
+RuntimeError: Failed to mount Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis: Command '['mount', '//127.0.0.1/sftp_mount_someuser_opis']' returned non-zero exit status 32.
+2025-11-28 12:38:45,382 - INFO - sambaPoint.py:660 -  - Cleaning up Samba SFTP
+2025-11-28 12:38:45,382 - INFO - sambaPoint.py:662 - < Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis mounted successfully.
+2025-11-28 12:38:45,382 - INFO - parser.py:134 - Adding certificates for user someuser.
+2025-11-28 12:38:45,383 - INFO - parser.py:136 -  - Found 1 certificates to add for user someuser.
+2025-11-28 12:38:45,383 - INFO - parser.py:138 -    - Processing certificate for user someuser.
+2025-11-28 12:38:45,383 - INFO - parser.py:144 -    - Decoding base64 certificate for user someuser.
+2025-11-28 12:38:45,384 - INFO - parser.py:149 -    - Successfully decoded base64 certificate for user someuser.
+2025-11-28 12:38:45,384 - INFO - parser.py:154 -    - Ensuring SSH key for user someuser.
+2025-11-28 12:38:45,385 - INFO - parser.py:158 -    - Adding certificate for user someuser.
+2025-11-28 12:38:45,386 - INFO - ssh.py:180 - Ensuring SSH key for user someuser
+2025-11-28 12:38:45,386 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:38:45,386 - INFO - ssh.py:58 -  < Successfully ensured .ssh directory for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 12:38:45,387 - INFO - ssh.py:200 -  - No existing authorized_keys file for user someuser. It will be created.
+2025-11-28 12:38:45,387 - INFO - ssh.py:207 -  - Writing authorized_keys file for user someuser.
+2025-11-28 12:38:45,387 - INFO - ssh.py:212 -  - Setting ownership and permissions for authorized_keys file of user someuser.
+2025-11-28 12:38:45,388 - INFO - ssh.py:216 -  < Successfully wrote authorized_keys file for user someuser at /home_sftp_users/someuser/.ssh/authorized_keys.
+2025-11-28 12:38:45,388 - INFO - parser.py:164 -    - Ensuring SSH config for user {username}.
+2025-11-28 12:38:45,389 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 12:38:45,389 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 12:38:45,389 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 12:38:45,389 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 12:38:45,390 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 12:38:45,390 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 12:38:45,390 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 12:38:45,391 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 12:38:45,391 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 12:38:45,391 - INFO - parser.py:171 -    - Ensuring mountpoint user groups for user someuser.
+2025-11-28 12:38:45,471 - INFO - parser.py:180 -  <<< Successfully created/updated user someuser from JSON data.
+2025-11-28 12:38:45,472 - INFO - parser.py:186 - Finished processing JSON file /root/vyvoj/python/diskBackup/res/testuser.jsonc. Created/updated 1 users.
+2025-11-28 12:38:45,472 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 12:38:45,504 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 12:38:45,564 - INFO - sftpmng.py:75 - 
+******************** SFTP Jail Manager Finished ********************
+
+2025-11-28 14:27:19,080 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 14:27:19,085 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 14:27:19,086 - INFO - parser.py:299 - Uninstalling all SFTP users.
+2025-11-28 14:27:19,088 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:27:19,088 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:27:19,089 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:27:19,089 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:27:19,089 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:27:19,089 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:27:19,090 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:27:19,090 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:27:19,090 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:27:19,093 - INFO - parser.py:277 - Uninstalling SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x709e5ff98c50>.
+2025-11-28 14:27:19,093 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 14:27:26,051 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 14:27:31,877 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 14:28:08,078 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share img.
+2025-11-28 14:28:51,166 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 14:28:51,170 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 14:28:51,170 - INFO - parser.py:299 - Uninstalling all SFTP users.
+2025-11-28 14:28:51,180 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:28:51,181 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:28:51,181 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:28:51,181 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:28:51,182 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:28:51,182 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:28:51,182 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:28:51,183 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:28:51,183 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:28:51,185 - INFO - parser.py:277 - Uninstalling SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x7db7366aacc0>.
+2025-11-28 14:28:51,186 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 14:28:57,648 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 14:29:01,181 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 14:29:10,317 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share img.
+2025-11-28 14:29:32,178 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 14:29:32,183 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 14:29:32,183 - INFO - parser.py:299 - Uninstalling all SFTP users.
+2025-11-28 14:29:32,186 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:29:32,186 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:29:32,187 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:29:32,187 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:29:32,187 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:29:32,187 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:29:32,188 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:29:32,188 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:29:32,188 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:29:32,191 - INFO - parser.py:277 - Uninstalling SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x77839a692180>.
+2025-11-28 14:29:32,191 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 14:29:37,791 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 14:29:38,421 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 14:29:41,118 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share img.
+2025-11-28 14:31:03,064 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 14:31:03,069 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 14:31:03,069 - INFO - parser.py:299 - Uninstalling all SFTP users.
+2025-11-28 14:31:03,071 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:31:03,072 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:31:03,072 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:31:03,072 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:31:03,073 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:31:03,073 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:31:03,073 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:31:03,074 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:31:03,074 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:31:03,076 - INFO - parser.py:277 - Uninstalling SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x7e75d1c8eb10>.
+2025-11-28 14:31:03,076 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 14:31:05,132 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 14:31:05,731 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 14:31:05,733 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share img.
+2025-11-28 14:31:11,087 - INFO - sambaPoint.py:557 - Unmounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_img before removal.
+2025-11-28 14:31:25,372 - INFO - sambaPoint.py:571 -  - Removing fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 14:31:59,879 - INFO - sftpmng.py:11 - 
+******************** SFTP Jail Manager Started ********************
+2025-11-28 14:31:59,883 - INFO - sftpmng.py:40 - Uninstalling all SFTP users.
+2025-11-28 14:31:59,883 - INFO - parser.py:299 - Uninstalling all SFTP users.
+2025-11-28 14:31:59,885 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:31:59,886 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:31:59,887 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:31:59,887 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:31:59,888 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:31:59,889 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:31:59,889 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:31:59,892 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:31:59,893 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:31:59,895 - INFO - parser.py:277 - Uninstalling SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x71e429bee9f0>.
+2025-11-28 14:31:59,896 - INFO - user.py:229 - Killing all processes for user someuser before deletion.
+2025-11-28 14:32:01,957 - INFO - user.py:233 - Checking if mountpoints can be safely unmounted for user someuser.
+2025-11-28 14:32:02,248 - INFO - user.py:239 - Deleting all mountpoints for user someuser.
+2025-11-28 14:32:02,250 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share img.
+2025-11-28 14:32:32,790 - INFO - sambaPoint.py:571 -  - Removing fstab CIFS config for Samba SFTP mount point img.
+2025-11-28 14:33:14,165 - INFO - sambaPoint.py:321 - Removing CIFS fstab entry for img (someuser).
+2025-11-28 14:33:46,628 - INFO - sambaPoint.py:578 -  - Removing Samba SFTP mount point configuration for share img.
+2025-11-28 14:33:47,929 - INFO - sambaPoint.py:230 - Removing Samba mount point config for section [sftp_mount_someuser_img].
+2025-11-28 14:34:07,732 - INFO - sambaPoint.py:583 -  - Removing Samba SFTP mount point directory /home_sftp_users/someuser/__sftp__/img.
+2025-11-28 14:34:23,752 - INFO - sambaPoint.py:239 - Restarting systemd daemon.
+2025-11-28 14:34:23,960 - INFO - sambaPoint.py:247 - Systemd daemon restarted successfully.
+2025-11-28 14:34:27,442 - INFO - sambaPoint.py:593 - < Samba SFTP mount point for share img removed successfully.
+2025-11-28 14:34:34,306 - INFO - sambaPoint.py:553 - Removing Samba SFTP mount point for share opis.
+2025-11-28 14:34:34,307 - INFO - sambaPoint.py:557 - Unmounting Samba SFTP mount point //127.0.0.1/sftp_mount_someuser_opis before removal.
+2025-11-28 14:34:43,963 - INFO - sambaPoint.py:571 -  - Removing fstab CIFS config for Samba SFTP mount point opis.
+2025-11-28 14:34:44,756 - INFO - sambaPoint.py:321 - Removing CIFS fstab entry for opis (someuser).
+2025-11-28 14:34:55,793 - INFO - sambaPoint.py:578 -  - Removing Samba SFTP mount point configuration for share opis.
+2025-11-28 14:34:56,453 - INFO - sambaPoint.py:230 - Removing Samba mount point config for section [sftp_mount_someuser_opis].
+2025-11-28 14:35:21,433 - INFO - sambaPoint.py:583 -  - Removing Samba SFTP mount point directory /home_sftp_users/someuser/__sftp__/opis.
+2025-11-28 14:35:23,632 - INFO - sambaPoint.py:239 - Restarting systemd daemon.
+2025-11-28 14:35:23,830 - INFO - sambaPoint.py:247 - Systemd daemon restarted successfully.
+2025-11-28 14:35:25,001 - INFO - sambaPoint.py:593 - < Samba SFTP mount point for share opis removed successfully.
+2025-11-28 14:35:33,088 - INFO - ssh.py:233 - Ensuring jail directory for user someuser
+2025-11-28 14:35:33,089 - INFO - ssh.py:248 -  - Jail directory /home_sftp_users/someuser/__sftp__ already exists for user someuser.
+2025-11-28 14:35:33,089 - INFO - ssh.py:75 - Writing sshd config for user someuser with jail /home_sftp_users/someuser/__sftp__
+2025-11-28 14:35:33,090 - INFO - ssh.py:92 -  - SSHD config directory /etc/ssh/sshd_config.d already exists.
+2025-11-28 14:35:33,090 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:35:33,090 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:35:33,091 - INFO - ssh.py:98 -  - Writing sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf.
+2025-11-28 14:35:33,092 - INFO - ssh.py:101 -  < Successfully wrote sshd config for user someuser to /etc/ssh/sshd_config.d/sftp-someuser.conf
+2025-11-28 14:35:33,092 - INFO - ssh.py:272 -  < Successfully ensured jail directory for user someuser at /home_sftp_users/someuser/__sftp__.
+2025-11-28 14:35:33,771 - INFO - user.py:253 - Deleting all certificates for user someuser.
+2025-11-28 14:35:35,331 - INFO - ssh.py:140 - Deleting SSH key for user someuser
+2025-11-28 14:35:35,332 - INFO - ssh.py:29 - Ensuring .ssh directory exists for user someuser
+2025-11-28 14:35:35,333 - INFO - ssh.py:41 -  < .ssh directory already exists for user someuser at /home_sftp_users/someuser/.ssh.
+2025-11-28 14:35:35,334 - INFO - ssh.py:165 -  < Successfully removed SSH key for user someuser.
+2025-11-28 14:35:36,019 - INFO - user.py:260 - Removing sshd configuration for user someuser.
+2025-11-28 14:35:36,380 - INFO - ssh.py:116 - Removing sshd config for user someuser
+2025-11-28 14:35:36,381 - INFO - ssh.py:119 -  - Found sshd config for user someuser at /etc/ssh/sshd_config.d/sftp-someuser.conf. Deleting it.
+2025-11-28 14:35:36,382 - INFO - ssh.py:122 -  < Successfully removed sshd config for user someuser and restarted sshd.
+2025-11-28 14:35:37,641 - INFO - user.py:264 - Removing user someuser from all SFTP groups.
+2025-11-28 14:35:43,287 - INFO - user.py:268 - Deleting user someuser from system.
+2025-11-28 14:35:43,701 - INFO - user.py:271 - Setting ownership and permissions for home directory /home_sftp_users/someuser of user someuser before deletion.
+2025-11-28 14:36:05,298 - INFO - user.py:282 - Deleting user someuser and its home directory /home_sftp_users/someuser.
+2025-11-28 14:36:10,996 - INFO - user.py:293 - Ensuring home directory /home_sftp_users/someuser of user someuser is removed.
+2025-11-28 14:36:18,899 - INFO - parser.py:287 - Successfully uninstalled SFTP user <libs.JBLibs.sftp.user.sftpUserMng object at 0x71e429bee9f0>.
+2025-11-28 14:36:24,544 - INFO - ssh.py:280 - Restarting sshd service
+2025-11-28 14:36:24,574 - INFO - ssh.py:290 -  - Stopping sshd service before restart.
+2025-11-28 14:36:25,876 - INFO - sftpmng.py:62 - 
+******************** SFTP Jail Manager Finished ********************
+
