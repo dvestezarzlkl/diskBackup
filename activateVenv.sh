@@ -5,7 +5,7 @@ set -e
 if [ "$0" = "$BASH_SOURCE" ]; then
     echo "Tento skript musí být spuštěn takto:"
     echo "    source $0"
-    exit 1
+    return 1
 fi
 
 # Název "aktuálního" venvu (bude symlink na verzi)
@@ -13,10 +13,10 @@ CUR_VENV=".venv"
 
 print_usage() {
     cat <<EOF
-Použití:
-  $0               - aktivuje existující .venv (bez vytváření)
-  $0 3.10          - vytvoří/aktualizuje venv pro Python 3.10 (.venv310) a nastaví .venv
-  $0 3.12          - vytvoří/aktualizuje venv pro Python 3.12 (.venv312) a nastaví .venv
+Použití parametru:
+  bez           - aktivuje existující .venv (bez vytváření)
+  '3.10'          - vytvoří/aktualizuje venv pro Python 3.10 (.venv310) a nastaví .venv
+  '3.12'          - vytvoří/aktualizuje venv pro Python 3.12 (.venv312) a nastaví .venv
 
 Poznámka:
   - Pro tvorbu nového venv MUSÍŠ zadat verzi (např. 3.10).
@@ -37,7 +37,7 @@ if [ $# -eq 0 ]; then
     else
         echo "Chyba: .venv neexistuje a nebyla zadána verze."
         print_usage
-        exit 1
+        return 1
     fi
 fi
 
@@ -53,7 +53,7 @@ if ! command -v "$PY_CMD" >/dev/null 2>&1; then
     echo "Chyba: ${PY_CMD} nebyl nalezen v PATH."
     echo "Nainstaluj ho např.:"
     echo "  sudo apt install ${PY_CMD} ${PY_CMD}-venv"
-    exit 1
+    return 1
 fi
 
 # Suffix venv podle verze, např. .venv310
@@ -83,11 +83,11 @@ elif [ -d "$CUR_VENV" ]; then
     echo "Pokud ho chceš nahradit symlinkem, smaž ho ručně:"
     echo "  rm -rf $CUR_VENV"
     echo "a spusť skript znovu."
-    exit 1
+    return 1
 elif [ -e "$CUR_VENV" ]; then
     echo "Pozor: $CUR_VENV existuje a není ani adresář, ani symlink."
     echo "Odstraň ho ručně a spusť skript znovu."
-    exit 1
+    return 1
 fi
 
 ln -s "$VENV_DIR" "$CUR_VENV"
