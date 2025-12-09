@@ -555,30 +555,32 @@ def __showMenu() -> None:
     from libs.JBLibs.c_menu import c_menu_block_items,c_menu_title_label
     
     header=c_menu_block_items()
-    header.append("Disk Image Tool")
-    header.append("=== Hlavní menu ===")
+    header.append( ("Disk Backup Tool","c") )
+    header.append( "-")
     header.append( ("Verze", f"{glb.VERSION}"))
     header.append( ("Aktuální cesta", f"{os.getcwd()}"))
     
     sel_opts=[
         c_menu_title_label("Režimy práce s disky/obrazy:"),
         None,
-        
         select_item("Backup whole disk (raw dd) one img",   "bw",   "backup"),
         select_item("Restore whole disk (raw dd) one img",  "rw",   "restore"),
         None,
         select_item("Backup parts disk (raw dd) layout + one part one img", "bpd", "bkpart"),
         select_item("Restore parts disk (raw dd) layout + one part one img", "rpd", "rspart"),
+        None,
         select_item("Smart Backup (layout + partitions)", "sb", "smart-backup"),
         select_item("Smart Restore (layout + partitions)", "sr", "smart-restore"),
+        None,
         select_item("Extract .img.gz → .img", "e", "extract"),
         select_item("Compress .img → .img.gz", "c", "compress"),
         select_item("Decompress .img.gz → .img", "d", "decompress"),
         None,
-        select_item("Změna velikosti swap file", "w", "swap"),            
+        select_item("Změna velikosti swap file", "w", "swap"),
+        None,
         select_item("Disk tool", "t","t"),
     ]
-    x= select('Vyber režim práce s disky/obrazy:',sel_opts,80,header)
+    x= select(None,sel_opts,80,header)
     return x.item.data
     
 
