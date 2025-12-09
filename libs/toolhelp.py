@@ -6,6 +6,10 @@ import hashlib
 from pathlib import Path
 import libs.shring as shr
 import libs.toolhelp as th
+from .JBLibs.input import select_item, select
+from .JBLibs.input import anyKey,cls
+from .JBLibs.input import select_item, select
+from .JBLibs.c_menu import c_menu_block_items,c_menu_title_label
 
 class lsblkError(Exception):
     """Custom exception for lsblk errors."""
@@ -137,15 +141,7 @@ def run(cmd: str) -> str:
         print(f"Chyba při volání: {cmd}")
         print(e.output)
         return ""  
-
-def cls()-> None:
-    """Vyčistí obrazovku."""
-    os.system('cls' if os.name=='nt' else 'clear')
     
-def anyKey()-> None:
-    """Čeká na stisk libovolné klávesy."""
-    input("Stiskni Enter pro pokračování...")
-
 def __menuPrinList(options: List[Union[str,tuple[str,Any]]], maxOptLen:int=1,menuLen:int=60)-> None:
     """Pomocná funkce pro tisk menu z listu."""
     for i, opt in enumerate(options):
@@ -281,27 +277,38 @@ def scan_current_dir_for_imgs(endsWith:str='.img', fromDir:str=os.getcwd())-> st
         str: Cesta k vybranému IMG souboru.
         None: Pokud uživatel zruší výběr.
     """
+    from .JBLibs.input import select_item, select
+    from .JBLibs.c_menu import c_menu_block_items
     
     cur = os.path.abspath(fromDir)
     header=[]
-    header.append("Výběr IMG souboru z aktuálního adresáře\n0c")
+    header.append("Výběr IMG souboru z aktuálního adresáře")
     header.append(f"Aktuální adresář: {cur}")
     
-    imgs = [f for f in os.listdir(cur) if f.lower().endswith(endsWith.lower()) and os.path.isfile(os.path.join(cur, f))]
+    
+    
+    imgs = [select_item(f,data=f) for f in os.listdir(cur) if f.lower().endswith(endsWith.lower()) and os.path.isfile(os.path.join(cur, f))]
     if not imgs:
         raise FileNotFoundError(f"V aktuálním adresáři {cur} nejsou žádné IMG soubory.")
 
-    header.append(f"Nalezené IMG soubory, počet: {len(imgs)}\n0c")
+    x= select(
+        f"Nalezené IMG soubory, počet: {len(imgs)}",
+        imgs,
+        subTitle=c_menu_block_items(header)
+    )
     
-    imgs.append(["=\n0",None])
-    imgs.append(["Zrušit výběr","q"])
     
-    idx = menu(header, imgs, "Vyber IMG: ")
-    if idx == "q":
+    # itms=[]
+    # imgs.append(["=\n0",None])
+    # imgs.append(["Zrušit výběr","q"])
+    
+    # idx = menu(header, imgs, "Vyber IMG: ")
+    # if idx == "q":
+        # return None
+    if x.item is None:
         return None
         
-    selected_img = imgs[idx - 1]
-    return os.path.join(cur, selected_img)
+    return os.path.join(cur, x.item.data)
 
 
 def get_mounted_devices() -> List[str]:
@@ -490,7 +497,8 @@ def getDiskByPartition(partition:str) -> Optional[lsblkDiskInfo]:
 
 def choose_disk(forMount:bool=True) -> str|None:
     """Bezpečný interaktivní výběr disku — nezobrazí disky s root/boot."""
-    print("\n=== Detekce bezpečných disků ===")
+        
+    print("\n=== Detekce bezpečných disků ===")    
 
     # 1) zjisti disky, partition info nepotřebujeme
     lsblk_raw = subprocess.check_output(
@@ -541,16 +549,20 @@ def choose_disk(forMount:bool=True) -> str|None:
         headers.append("a nemají připojené partition")
     else:
         headers.append("a mají připojené partition")
-    items = [f"{n}  {s}" for (n, s) in safe_disks]
     
-    items.append(["=\n0",None])
-    items.append(["Zrušit výběr","q"])
-    
-    idx=menu(headers, items, prompt="Vyber disk: ")
-    disk = safe_disks[idx-1][0]
-    if disk == "q":
+    headers=c_menu_block_items(headers)    
+    items = [select_item(f"{n}  {s}","", n) for (n, s) in safe_disks]    
+    disk = select(
+        "Výběr disku",
+        items,
+        80,
+        headers
+    )
+    if disk.item is None:
         return None
-
+    
+    disk=disk.item.data
+    
     # normalizace
     disk=th.normalizeDiskPath(disk,True)
 
@@ -562,19 +574,21 @@ def choose_disk(forMount:bool=True) -> str|None:
 
     return disk
 
-def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True) -> str|None:
+def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True, filterDev:Optional[re.Pattern|str]=None) -> str|None:
     """Interaktivní výběr partition z daného disku.
     Args:
         disk (str|None): Disk (např. /dev/sda). Pokud None, budou k vybrání všechny partition z dostupných disků.
         forMount (bool): Pokud True, zobrazí jen nepřipojené partition, jinak jen připojené.
         fullPath (bool): Pokud True, vrátí plnou cestu (/dev/sda1), jinak jen název (sda1).
+        filterDev (Optional[re.Pattern|str]): If provided, only return 'devices' (no partitions filter) matching the regex.
+            - 'loop\d+' for loop devices
     Returns:
         str: Vybraná partition (např. /dev/sda1).
     """
     if not disk is None:
         disk=th.normalizeDiskPath(disk,True)
     
-    ls_parts=lsblk_list_disks(True,not forMount)
+    ls_parts=lsblk_list_disks(True,not forMount, filterDev)
     
     parts=[]
     for disk_v in ls_parts.values():
@@ -591,6 +605,7 @@ def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True) -> s
         else:        
             raise ValueError(f"Na disku {disk} nejsou žádné vhodné partition pro výběr.")
 
+    """
     headers = [
         f"Výběr partition z disku {disk}" if not disk is None else "Výběr partition ze všech dostupných disků",
         "Následující partition jsou k dispozici:"
@@ -609,8 +624,32 @@ def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True) -> s
     idx = menu(headers, items, prompt="Vyber partition: ")
     if idx == "q":
         return None
+    """
+    header=c_menu_block_items([
+        f"Výběr partition z disku {disk}" if not disk is None else "Výběr partition ze všech dostupných disků",
+        "Následující partition jsou k dispozici:"
+    ])
+    items = [
+        select_item(
+            f"{part.name}  {human_size(part.size)}  [{part.fstype}]" + (f"  [připojeno: {', '.join(part.mountpoints)}]"
+            if part.mountpoints
+            else "  [nepřipojeno]"),
+            "",
+            part.name
+        )
+        for part in parts
+    ]
+    x= select(
+        "Výběr partition",
+        items,
+        80,
+        header
+    )
+    if x.item is None:
+        return None
     
-    selected_part = parts[idx - 1].name
+    # selected_part = parts[idx - 1].name
+    selected_part = x.item.data
 
     selected_part = th.normalizeDiskPath(selected_part, not fullPath)
     return selected_part
@@ -672,12 +711,6 @@ def verify_sha256_sidecar(path: Path) -> bool:
     print(f"   expected: {expected}")
     print(f"   actual  : {actual}")
     return False
-
-
-def confirm(msg: str) -> bool:
-    """Vrátí True pokud uživatel odpověděl 'y' nebo 'Y'."""
-    return input(msg + " [y/N]: ").lower() == "y"
-
 
 def is_gzip(path: Path) -> bool:
     """Detekce gzip podle přípony."""
@@ -758,3 +791,92 @@ def list_loop_partitions(loop,mounted:bool=None)-> dict[str, lsblkDiskInfo]:
         dict[str, th.lsblkDiskInfo]: Seznam disků kde '.children' jsou partitions.
     """
     return lsblk_list_disks(None,mounted,filterDev="^"+str(loop)+"$")
+
+def cliSizeToInt(sizeStr:str)-> int:
+    """Převod velikosti z CLI formátu (např. '512M', '1G') na velikost v MiB.
+    Args:
+        sizeStr (str): Velikost jako string (např. '512M', '1G', atd.).
+    Returns:
+        int: Velikost v MiB.
+    Raises:
+        ValueError: Pokud je neplatný formát velikosti.
+    """    
+    sizeStr = sizeStr.strip().upper()
+    match = re.match(r"^(\d+)([MKGTP]?)$", sizeStr)
+    if not match:
+        raise ValueError("Neplatný formát velikosti. Použijte číslo následované volitelně jednotkou (M, G, K, T, P).")
+    sizeValue = int(match.group(1))
+    sizeUnit = match.group(2) or "M"
+    sizeInMiB = sizeValue
+    if sizeUnit == "K":
+        sizeInMiB = sizeValue // 1024
+    elif sizeUnit == "G":
+        sizeInMiB = sizeValue * 1024
+    elif sizeUnit == "T":
+        sizeInMiB = sizeValue * 1024 * 1024
+    elif sizeUnit == "P":
+        sizeInMiB = sizeValue * 1024 * 1024 * 1024
+    return sizeInMiB
+
+def cliSizeFromInt(sizeMiB:int)-> str:
+    """Převod velikosti z MiB na CLI formát (např. '512M', '1G').
+    Args:
+        sizeMiB (int): Velikost v MiB.
+    Returns:
+        str: Velikost jako string (např. '512M', '1G', atd.).
+    """    
+    if sizeMiB % (1024 * 1024) == 0:
+        return f"{sizeMiB // (1024 * 1024)}P"
+    elif sizeMiB % 1024 == 0:
+        return f"{sizeMiB // 1024}G"
+    else:
+        return f"{sizeMiB}M"
+
+def inputSize(prompt:str, minSize:int=1, maxSize:Optional[int]=None,clearScreen:bool=False)-> tuple[int,str]:
+    """Interaktivní zadání velikosti pro CLI příkazy tzn jako '512M', '1G', atd.
+    Args:
+        prompt (str): Výzva pro uživatele.
+        minSize (int): Minimální velikost v MiB.
+        maxSize (Optional[int]): Maximální velikost v MiB. Pokud None, není omezeno.
+    Returns:
+        tuple[int,str] : Velikost v MiB a string pro CLI příkaz (např. '512M', '1G').
+        None, None pokud uživatel zrušil zadání.
+    """
+    minSize = max(1, minSize)
+    maxSize = maxSize if isinstance(maxSize, int) and maxSize >= minSize else None
+    
+    while True:
+        if clearScreen:
+            cls()
+        print("=" * 40)
+        print("Zadej velikost (např. 512M, 1G, 2K, 1T, 1P):")
+        print(f"Minimální velikost: {cliSizeFromInt(minSize)}")
+        if maxSize is not None:
+            print(f"Maximální velikost: {cliSizeFromInt(maxSize)}")
+        print("Zadej 'q' pro zrušení.")
+        print("=" * 40)
+        try:
+            sizeStr = input(prompt)
+            if sizeStr.lower() == 'q':
+                return None, None
+            
+            sizeStr = sizeStr.strip().upper()
+            match = re.match(r"^(\d+)([MKGTP]?)$", sizeStr)
+            if not match:
+                print("CHYBA: Neplatný formát velikosti. Použijte číslo následované volitelně jednotkou (M, G, K, T, P).")
+                anyKey()
+                continue
+            sizeValue = cliSizeToInt(sizeStr)
+            if sizeValue < minSize:
+                print(f"CHYBA: Velikost musí být alespoň {cliSizeFromInt(minSize)}.")
+                anyKey()
+                continue
+            if maxSize is not None and sizeValue > maxSize:
+                print(f"CHYBA: Velikost nesmí být větší než {cliSizeFromInt(maxSize)}.")
+                anyKey()
+                continue
+            return sizeValue, sizeStr
+        except ValueError as ve:
+            print(f"CHYBA: {ve}")
+            anyKey()
+            

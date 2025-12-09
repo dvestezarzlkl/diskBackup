@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import os
-import subprocess
-import re
 import libs.toolhelp as th
 import libs.mounting as mt
 import libs.glb as glb
 import libs.shring as shr
+from typing import Union
+from libs.JBLibs.input import anyKey,cls
 
 """Nástroj pro připojení (mount) a odpojení (umount) IMG souborů jako loop zařízení.
 Umožňuje vybrat partition pro připojení a spravovat mountpointy.
@@ -18,6 +18,53 @@ Returns:
 Author: Jan Zednik
 Licence: MIT
 """
+
+
+def __showMenu() -> Union[str, None]:
+    """Zobrazí hlavní menu a umožní uživateli vybrat režim.
+    Returns:
+        Vybraný režim jako string, nebo None pokud uživatel zvolí ukončení.
+    """
+    from libs.JBLibs.input import select_item,select
+    from libs.JBLibs.c_menu import c_menu_block_items,c_menu_title_label
+    
+    header=c_menu_block_items()
+    header.append("*** Disk Mount Tool ***")
+    header.append("=== Hlavní menu ===")
+    header.append("")
+    header.append(f"Verze: {glb.VERSION}")
+    header.append("")
+
+    options=[
+        select_item("Mount mode (připojit .img soubor)","+"),
+        select_item("Umount mode (odpojit loop zařízení)","-"),
+        None,
+        select_item("Přehled partition a mountpointů","l"),
+        select_item("Zkontrolovat ext4 poit (jen nepřipojené!)","c"),
+        None,
+        select_item("Mount mode (připojit nepřipojený disk)","m"),
+        select_item("Umount mode (odpojit připojený disk)","u"),
+        None,
+        select_item("Minimalizovat disk","ds"),
+        select_item("Maximalizovat disk","de"),
+        None,
+        select_item("Image Tool",'t'),
+    ]
+    option:select_item=None
+    for option in options:
+        if option and  option.data is None:
+            option.data=option.choice
+            
+    choice=select(
+        "Diskové nástroje - vyberte režim",
+        options,
+        80,
+        header,
+    )
+    if choice.item is None:
+        return None
+    
+    return choice.item.data
 
 def main()-> None:
     """Hlavní funkce pro zpracování argumentů a spuštění režimů
@@ -39,38 +86,16 @@ def main()-> None:
         return
 
     while True:
-        volba=th.menu(
-            header=[
-                "*** Disk Mount Tool ***\n0c",
-                "=== Hlavní menu ===\n0c",
-                f"Verze: {glb.VERSION}\n0c",
-                "Current dir for imgs",
-                f"{args.dir}\n0c"
-            ],
-            options=[
-                ["Mount mode (připojit .img soubor)","+"],
-                ["Umount mode (odpojit loop zařízení)","-"],
-                ["-\n0",None],
-                ["Přehled partition a mountpointů","l"],
-                ["Zkontrolovat ext4 poit (jen nepřipojené!)","c"],
-                ["Mount mode (připojit nepřipojený disk)","m"],
-                ["Umount mode (odpojit připojený disk)","u"],
-                ["-\n0",None],
-                ["Minimalizovat disk","ds"],
-                ["Maximalizovat disk","de"],
-                ["=\n0",None],
-                ["Image Tool",'t'],
-                ["Konec","q"]
-            ],
-            prompt="Volba: "
-        )
+        volba=__showMenu()
+        if volba is None:
+            return
 
         if volba == "-":
             try:
                 mt.umount_mode()
             except Exception as e:
                 print(f"Chyba při umountování: {e}")
-                th.anyKey()
+                anyKey()
                 continue
 
         elif volba == "+":
@@ -78,18 +103,18 @@ def main()-> None:
                 img = th.scan_current_dir_for_imgs(fromDir=args.dir)
             except Exception as e:
                 print(f"Chyba při výběru IMG souboru: {e}")
-                th.anyKey()
+                anyKey()
                 continue
             if img:
                 try:
                     mt.mount_mode(img)
                 except Exception as e:
                     print(f"Chyba při mountování: {e}")
-                    th.anyKey()
+                    anyKey()
                     continue
             else:
                 print("Žádný IMG soubor nebyl vybrán.")
-                th.anyKey()
+                anyKey()
                 continue
             
         elif volba == "m":
@@ -105,17 +130,17 @@ def main()-> None:
                         img=part
                 except Exception as e:
                     print(f"Chyba při výběru partition: {e}")
-                    th.anyKey()
+                    anyKey()
                     continue
             except Exception as e:
                 print(f"Chyba při výběru disku: {e}")
-                th.anyKey()
+                anyKey()
                 continue
             if img:
                 mt.mount_dev(img)
-                th.cls()
+                cls()
                 print(f"Disk {img} byl připojen.")
-                th.anyKey()
+                anyKey()
         elif volba == "u":
             try:
                 mnt=th.choose_partition(None,False)
@@ -123,22 +148,22 @@ def main()-> None:
                     continue
                 if mnt:
                     mt.umount_dev(mnt)
-                    th.cls()
+                    cls()
                     print(f"Zařízení připojené na {mnt} bylo odpojeno.")
-                    th.anyKey()
+                    anyKey()
             except Exception as e:
                 print(f"Chyba při výběru mount pointu: {e}")
-                th.anyKey()
+                anyKey()
                 continue
         elif volba == "l":
-            th.cls()
+            cls()
             mt.print_partitions()
-            th.anyKey()
+            anyKey()
         elif volba == "q":
             return
         elif volba == "t":
             app="imgtool"
-            th.cls()
+            cls()
             myPath=os.path.abspath(__file__)
             if os.path.isfile(myPath):
                 myPath=os.path.dirname(myPath)            
@@ -154,15 +179,15 @@ def main()-> None:
                 mnt=th.choose_partition(None,True)
                 if mnt is None:
                     print("Žádný mount point nebyl vybrán.")
-                    th.anyKey()
+                    anyKey()
                     continue
                 
                 th.checkExt4(mnt)
                 print(f"Kontrola ext4 partition {mnt} byla dokončena.")
-                th.anyKey()
+                anyKey()
             except Exception as e:
                 print(f"Chyba při výběru mount pointu: {e}")
-                th.anyKey()
+                anyKey()
                 continue
                         
         elif volba == "ds":            
@@ -179,7 +204,7 @@ def main()-> None:
                 spaceSize=args.shrink_size,
                 spaceSizeQuestion=True
             )
-            th.anyKey()
+            anyKey()
             
             
         elif volba == "de":
@@ -192,11 +217,11 @@ def main()-> None:
                     
             print(f"Vybraný partition pro shrink: {partition}")
             shr.extend_disk_part_max(partition)
-            th.anyKey()
+            anyKey()
             
         else:
             print("Neplatná volba.")
-            th.anyKey()
+            anyKey()
 
 if __name__ == "__main__":
     main()

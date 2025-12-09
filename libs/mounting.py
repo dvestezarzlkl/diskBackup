@@ -2,6 +2,12 @@ import os
 import re
 import libs.toolhelp as th
 import libs.glb as glb
+import subprocess
+from pathlib import Path
+import json
+from .JBLibs.input import select_item, select,anyKey
+from .JBLibs.c_menu import c_menu_block_items,c_menu_title_label
+from typing import Union
 
 def is_mounted(device: str) -> bool:
     """Zkontroluje, zda je zařízení připojeno.
@@ -160,39 +166,16 @@ def mount_partition_mode(loop:str)-> None:
         None
     """
     loop = th.normalizeDiskPath(loop,True)
-    devs = th.list_loop_partitions(loop,False)
-    if not devs:
-        raise Exception("Nenalezeno zařízení loop")
-    
-    dev=devs[loop] or None
-    if not dev or not dev.children:
-        raise Exception("Zařízení neobsahuje žádné partition.")
-
-    parts= []
-    for disk in dev.children:
-            parts.append("/dev/" + disk.name + f"  [{disk.fstype}  {th.human_size(disk.size)}  {disk.label}]")
-
-    header = [
-        f"Loop zařízení: {loop}\n0c",
-        "Vyber partition pro připojení:\n0c"
-    ]
-    parts.append(["Zpět","r"])
-    
-    sel = th.menu(
-        header=header,
-        options=parts,
-        prompt="Volba: "
-    )
-    if sel == "r":
-        return
-
-    part=dev.children[int(sel)-1].name
+    part = th.choose_partition(loop,True)
+    if not part:
+        return        
     part=th.normalizeDiskPath(part,False)
     mount_point = select_mountpoint()
     
     th.run(f"sudo mount {part} {mount_point}")
     print(f"Připojeno na {mount_point}")
-    th.anyKey()
+    anyKey()
+
 
 
 def umount_mode()-> None:
@@ -204,91 +187,95 @@ def umount_mode()-> None:
     if not loops:
         raise Exception("Není nic připojeno.")
 
-    header = [
-        "Vyber loop zařízení pro odpojení:\n0c"
-    ]
+    msg="Vyber loop zařízení pro odpojení"
     loop_opts = []
     for loop, img in loops.items():
-        loop_opts.append(f"{loop} -> {img}")
-    loop_opts.append(["Zpět","r"])
-    
-    sel = th.menu(
-        header=header,
-        options=loop_opts,
-        prompt="Volba: "
+        # loop_opts.append(f"{loop} -> {img}")
+        loop_opts.append( select_item(
+            f"{loop} -> {img}",
+            "",
+            f"{loop}"
+        ))
+    sel=select(
+        msg,
+        loop_opts,
+        80
     )
-    if sel == "r":
+    if sel.item is None:
         return
+    loop=sel.item.data
+    loop=th.normalizeDiskPath(loop,True)    
     
-    loop = list(loops.keys())[(int(sel)-1)]
-    loop=th.normalizeDiskPath(loop,True)
-
-    while True: # operace na vybrané loop zařízení
-        
-        # najdeme mounty partitions
-        devs = th.list_loop_partitions(loop,True)
-        
-        dev=devs.get(loop,None)
-
-        header = [
-            f"Loop zařízení: {loop}\n0c",
-            "Vyber partition pro odpojení:\n0c"
-        ]
-        if not dev or not dev.children:
-            header.append("Nebyly nalezeny připojené partition.") 
-            mn_opts=[]
-        else:
-            header.append("Připojené partition:")
-            # mn_opts=[ parts[i].name for i in parts.keys()]        
-            mn_opts=[ p.name for p in dev.children]
-        
-        mn_opts.append([f"Odpojit celé loop zařízení","a"])
-        mn_opts.append(["=\n0",None])
-        mn_opts.append(["Mount partiion",'m'])
-        mn_opts.append(["Zpět","r"])
-
-        sel = th.menu(
-            header=header,
-            options=mn_opts,
-            prompt="Volba: "
-        )
-        if sel == "r":
-            return
-        
-        elif sel == "m":
-            mount_partition_mode(loop)
-            continue
-        
-        elif sel == "a":
-            # umount všech
-            if dev and dev.children:
-                for part in dev.children:
-                    mnt = th.normalizeDiskPath(part.name,False)
-                    try:
-                        print(f"umount {mnt}")
-                        th.run(f"sudo umount {mnt}")
-                    except Exception as e:
-                        print(f"Chyba při umountování {mnt}: {e}")
-                        th.anyKey()
-            try:
-                loop=th.normalizeDiskPath(loop,False)
-                print(f"Detach {loop}")
-                th.run(f"sudo losetup -d {loop}")
-            except Exception as e:
-                print(f"Chyba při odpojování {loop}: {e}")
-                th.anyKey()
-            return
-        
+    devs = th.list_loop_partitions(loop,True)
+    dev=devs.get(loop,None)
+    
+    header = c_menu_block_items()
+    header.append(f"*** Odpojení loop zařízení: {loop} ***")
+    header.append("Vyberte partition pro odpojení nebo odpojte celé loop zařízení.")
+    
+    opts=[]
+    if not dev or not dev.children:
+        header.append("Nebyly nalezeny připojené partition.") 
+    else:
+        header.append("Připojené partition:")
+        for part in dev.children:
+            opts.append( select_item(
+                f"{part.name}",
+                "",
+                f"{part.name}"
+            ))
+            
+    opts.append( select_item(
+        f"Odpojit celé loop zařízení",
+        "a",
+        "a"
+    ))
+    opts.append( None )
+    opts.append( select_item(
+        f"Mount partition",
+        "m",
+        "m"
+    ))
+    x=select(
+        "Volba:",
+        opts,
+        80,
+        header,
+    )
+    if x.item is None:
+        return
+    if x.item.data=="a":
+        # umount všech
+        if dev and dev.children:
+            for part in dev.children:
+                mnt = th.normalizeDiskPath(part.name,False)
+                try:
+                    print(f"umount {mnt}")
+                    th.run(f"sudo umount {mnt}")
+                except Exception as e:
+                    print(f"Chyba při umountování {mnt}: {e}")
+                    anyKey()
+        try:
+            loop=th.normalizeDiskPath(loop,False)
+            print(f"Detach {loop}")
+            th.run(f"sudo losetup -d {loop}")
+        except Exception as e:
+            print(f"Chyba při odpojování {loop}: {e}")
+            anyKey()
+        return
+    elif x.item.data=="m":
+        mount_partition_mode(loop)
+        return
+    else:
         # umount vybrané partition
-        part=th.normalizeDiskPath(mn_opts[int(sel)-1],False)
-        
+        part=th.normalizeDiskPath(x.item.data,False)
         try:
             th.run(f"sudo umount {part}")
             print(f"Odpojeno zařízení {part}")
         except Exception as e:
             print(f"Chyba při umountování {part}: {e}")
-            th.anyKey()
-            return
+            anyKey()
+        return
     
         
 def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
@@ -313,13 +300,15 @@ def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
             size = th.human_size(part.size)
             fstype = part.fstype or "-"
             mnts = ", ".join(part.mountpoints) if part.mountpoints else "nepřipojeno"
-            data_rows.append([dev, size, fstype, mnts])
+            label = part.label or "-"
+            puid = part.partuuid or "-"            
+            data_rows.append([dev, size, fstype, mnts, label, puid])
 
     if not data_rows:
         print("Žádné partition.")
         return
 
-    header = ["Zařízení", "Velikost", "Typ", "Mountpoint"]
+    header = ["Zařízení", "Velikost", "Typ", "Mountpoint", "Label", "PartUUID"]
     all_rows = [header] + data_rows
 
     col_widths = [
@@ -332,7 +321,9 @@ def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
             row[0].ljust(col_widths[0]) + "  " +
             row[1].rjust(col_widths[1]) + "  " +
             row[2].ljust(col_widths[2]) + "  " +
-            row[3].ljust(col_widths[3])
+            row[3].ljust(col_widths[3]) + "  " +
+            row[4].ljust(col_widths[4]) + "  " +
+            row[5].ljust(col_widths[5])
         )
 
     total_width = sum(col_widths) + 2 * (len(col_widths) - 1)
@@ -372,52 +363,48 @@ def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
         print(x)
     return x
         
-def select_mountpoint()-> str:
+def select_mountpoint()-> Union[str|None]:
     """Umožní uživateli vybrat mount point ze seznamu prázdných mountpointů nebo vytvořit nový.
     Returns:
         str: Cesta k vybranému nebo nově vytvořenému mount pointu.
     """
-    while True:
-        empty_dirs = list_empty_mountpoints()
-        header = "Prázdné mountpointy:"
-        opts= []
-        for i, d in enumerate(empty_dirs):
-            opts.append([ d, str(i+1)])
-        opts.append(["Vytvořit nový adresář", 'n'])
-        opts.append(["Zpět", 'r'])
-        opts.append(["Konec", 'q'])
-        volba = th.menu(
-            header=[header],
-            options=opts,
-            prompt="Volba: "
+    empty_dirs = list_empty_mountpoints()
+    
+    header = c_menu_block_items()
+    header.append("*** Výběr mountpointu ***")
+    header.append("")
+    
+    items = []
+    for d in empty_dirs:
+        items.append(select_item(d, "", d))
+    items.append(select_item("Vytvořit nový adresář", "n", "n"))
+
+    while True:    
+        x= select(
+            "Vyberte mountpoint:",
+            items,
+            80,
+            header,
         )
-        if volba == 'r':
+        if x.item is None:
             return None
-        elif volba == 'q':
-            exit(0)
-        elif volba == 'n':
+        elif x.item == "n":
             name = input("Zadej název subdir: ")
             mount_point = os.path.join(glb.MNT_DIR, name)
             if os.path.exists(mount_point):
                 print("Adresář už existuje, zvol jiný název.")
-                th.anyKey()
+                anyKey()
                 continue
             try:
                 os.makedirs(mount_point, exist_ok=True)
             except Exception as e:
                 print(f"Chyba při vytváření adresáře: {e}")
-                th.anyKey()
+                anyKey()
                 continue
-            return mount_point
+            return mount_point    
         else:
-            try:
-                idx = int(volba) - 1
-            except:
-                print("Neplatná volba.")
-                th.anyKey()
-                continue
-            mount_point = empty_dirs[idx]
-            return mount_point
+            return x.item.data
+    
         
 def mount_dev(device: str, mount_point:str|None=None) -> None:
     """Připojí zadané zařízení na zadaný mount point.
@@ -433,11 +420,11 @@ def mount_dev(device: str, mount_point:str|None=None) -> None:
         try:
             th.run(f"sudo mount {device} {mount_point}")
             print(f"Připojeno {device} na {mount_point}")
-            th.anyKey()
+            anyKey()
             return
         except Exception as e:
             print(f"Chyba při připojování: {e}")
-            th.anyKey()
+            anyKey()
     
 def umount_dev(mount_point: str) -> None:
     """Odpojí zařízení připojené na zadaný mount point.
@@ -448,3 +435,154 @@ def umount_dev(mount_point: str) -> None:
     """
     th.run(f"sudo umount {mount_point}")
     print(f"Odpojeno zařízení z {mount_point}")
+
+def mountImage(imgFile: str, mountBase: str = "/mnt/imgtool") -> dict:
+    """
+    Připojí IMG soubor – buď celý disk, nebo jen jednu partition.
+    Automaticky detekuje typ:
+
+      - Pokud IMG obsahuje GPT/MBR → připojí přes losetup --partscan
+        a jako root partition použije /dev/loopXp2 (pokud existuje).
+
+      - Pokud IMG je pouze jedna partition (ext4, vfat) → mount -o loop.
+
+    Vrací dict:
+    {
+        "mode": "disk" | "partition",
+        "loop": "/dev/loopX" | None,
+        "mount": "/mnt/imgtool/<name>",
+        "parts": [ "/dev/loopXp1", "/dev/loopXp2", ... ]
+    }
+
+    Vytvoří addressář mountpointu a uloží si stav do:
+        <mountBase>/<name>/.mountinfo.json
+    """
+    img = Path(imgFile).resolve()
+    if not img.exists():
+        raise RuntimeError(f"Soubor IMG neexistuje: {img}")
+
+    name = img.stem
+    base = Path(mountBase).resolve()
+    base.mkdir(parents=True, exist_ok=True)
+
+    mountpoint = base / name
+    mountpoint.mkdir(exist_ok=True)
+
+    print(f"[MOUNT] Připojuji {img} → {mountpoint}")
+
+    # Zkusit zjistit, zda IMG obsahuje GPT nebo MBR
+    out = subprocess.run(
+        ["file", "-b", str(img)],
+        capture_output=True,
+        text=True
+    ).stdout.lower()
+
+    is_disk = ("partition table" in out) or ("dos/mb" in out) or ("gpt" in out)
+
+    state = {
+        "mode": None,
+        "loop": None,
+        "mount": str(mountpoint),
+        "parts": []
+    }
+
+    if is_disk:
+        # ---------------------------------------------
+        #  DISK IMAGE – POUŽÍT losetup --partscan
+        # ---------------------------------------------
+        print("[INFO] Detekováno jako disk image (MBR/GPT)")
+
+        loop = th.runRet(["sudo", "losetup", "--find", "--show", "--partscan", str(img)]).strip()
+        state["loop"] = loop
+        state["mode"] = "disk"
+
+        # Najít partitiony /dev/loopXpX
+        lsblk_json = th.runRet(["lsblk", "-J", "-o", "NAME,PATH,TYPE", loop])
+        data = json.loads(lsblk_json)
+
+        parts = []
+        for node in data.get("blockdevices", []):
+            for ch in node.get("children", []):
+                if ch.get("type") == "part":
+                    parts.append(ch["path"])
+
+        state["parts"] = parts
+
+        if not parts:
+            raise RuntimeError("IMG je disk, ale neobsahuje žádné partition.")
+
+        # Mount první ext4 nebo vfat partition
+        rootPart = None
+        for p in parts:
+            fstype = th.runRet(["lsblk", "-no", "FSTYPE", p]).strip().lower()
+            if fstype in ("ext4", "vfat", "fat32", "xfs", "btrfs"):
+                rootPart = p
+                break
+
+        if not rootPart:
+            raise RuntimeError("Disk IMG obsahuje partition, ale žádná není mountovatelný FS.")
+
+        th.run(["sudo", "mount", rootPart, str(mountpoint)])
+        print(f"[OK] Disk IMG připojen na {mountpoint} (partition {rootPart})")
+
+    else:
+        # ---------------------------------------------
+        #  PARTITION IMAGE – MOUNT PŘÍMO -o loop
+        # ---------------------------------------------
+        print("[INFO] Detekováno jako partition image")
+
+        state["mode"] = "partition"
+        th.run(["sudo", "mount", "-o", "loop", str(img), str(mountpoint)])
+        print(f"[OK] Partition IMG připojen na {mountpoint}")
+
+    # uložit stav pro unmount
+    infofile = mountpoint / ".mountinfo.json"
+    infofile.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+    return state
+
+def unmountImage(path: str, mountBase: str = "/mnt/imgtool") -> None:
+    """
+    Odpojí předtím připojený IMG (přes mountImage).
+    Parametr může být:
+        - IMG soubor
+        - nebo mountpoint adresář
+
+    Najde .mountinfo.json a podle něj provede unmount + losetup -d.
+    """
+    p = Path(path).resolve()
+
+    # pokud je zadáno IMG, mountpoint se jmenuje /mnt/imgtool/<stem>
+    if p.is_file():
+        mountpoint = Path(mountBase) / p.stem
+    else:
+        mountpoint = p
+
+    infofile = mountpoint / ".mountinfo.json"
+    if not infofile.exists():
+        raise RuntimeError(f"{mountpoint} není imgtool mountpoint (chybí .mountinfo.json)")
+
+    state = json.loads(infofile.read_text(encoding="utf-8"))
+
+    print(f"[UMOUNT] Odpojuji {mountpoint}")
+
+    # unmount mountpoint
+    try:
+        th.run(["sudo", "umount", str(mountpoint)])
+    except Exception as e:
+        print("[WARN] Umount selhal:", e)
+
+    # detach loop
+    if state.get("loop"):
+        try:
+            th.run(["sudo", "losetup", "-d", state["loop"]])
+        except Exception as e:
+            print("[WARN] losetup -d selhal:", e)
+
+    # smazat stát
+    try:
+        infofile.unlink()
+    except:
+        pass
+
+    print("[DONE] IMG odpojen.")

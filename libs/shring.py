@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 import libs.toolhelp as th
 import libs.mounting as mt
+from .JBLibs.input import anyKey, get_input,select,select_item,confirm
 
 # očekávám, že máš modul th s:
 # th.run(cmd: str) -> None   (vyhodí exception při chybě)
@@ -171,9 +172,9 @@ def _shrink_partition_common(
         new_img_size_bytes = pokud loop → na kolik by se měl truncate IMG
                              pokud fyzický disk → None
     """
-    if th.confirm(
+    if not confirm(
         f"Opravdu chcete minimalizovat ext4 filesystem na disku {disk}, partition {part_index} ({partition})?"
-    ) is False:
+    ):
         print("[INFO] Operace zrušena uživatelem.")
         return None, None
     
@@ -299,22 +300,37 @@ def shrink_disk(
     
     # dotaz na velikost
     if spaceSizeQuestion and spaceSize is None:
-        while True:
-            ans = input("Zadejte cílovou velikost po shrinku (např. 2G, 500M) nebo 'a' pro automatickou volbu: ").strip().lower()
-            if ans == 'a':
-                spaceSize = None
-                break
-            m = re.match(r"^(\d+)([gGmM])$", ans)
-            if m:
-                size_val = int(m.group(1))
-                size_unit = m.group(2).upper()
-                if size_unit == 'G':
-                    spaceSize = size_val
-                elif size_unit == 'M':
-                    spaceSize = max(1, size_val // 1024)  # převod na GiB, min 1 GiB
-                break
-            else:
-                print("Neplatný formát. Zkuste to znovu.")
+        x=select(
+            "Cílová velikost swap souboru nebyla zadána.",
+            [
+                select_item("Zadat velikost ručně","m"),
+                select_item("Automatická volba","a"),
+            ],
+        )
+        if x.item is None:
+            print("Zrušeno uživatelem.")
+            return 0
+        ans= x.item.choice
+        if ans == 'a':
+            # automatická volba
+            spaceSize = None
+        else:
+            while True:
+                v = get_input(f"Zadej cílovou velikost v GiB (min 1 GiB): ")
+                if not v:
+                    print("Zrušeno uživatelem.")
+                    return 0
+                try:
+                    v= int(v)
+                except ValueError:
+                    print("Neplatná hodnota. Zkuste to znovu.")
+                    continue
+                if v < 1:
+                    print("Velikost musí být alespoň 1. Zkuste to znovu.")
+                    continue
+                else:                    
+                    spaceSize = v
+                    break            
     
     mp=[p for p in part_info.mountpoints if p]
     
@@ -329,9 +345,6 @@ def shrink_disk(
         partition=partition,
         part_index=part_index,
         target_gib=spaceSize,
-        is_loop_backed=False,
-        img_file=None,
-        tmp_mount=TMP_MOUNT,
     )
     if target_bytes is None:
         print("Operace shrink byla zrušena uživatelem.")
@@ -379,7 +392,7 @@ def extend_disk_part_max(
    
     print(f"[INFO] Extending partition {part_index} ({dev_partition}) on disk {disk} to size: maximum")
     
-    if th.confirm(
+    if confirm(
         f"Opravdu chcete rozšířit ext4 filesystem na disku {disk}, partition {part_index} ({dev_partition})?"
     ) is False:
         print("[INFO] Operace zrušena uživatelem.")
@@ -387,13 +400,61 @@ def extend_disk_part_max(
         
     dev_partition = th.normalizeDiskPath(dev_partition,False)
     # grow partition na maximum
-    th.run(f"sudo growpart {disk} {part_index}")
+    try:
+        th.runRet(f"sudo growpart {disk} {part_index}")
+    except Exception as e:
+        # 'Command failed: sudo growpart /dev/sdb 2\nNOCHANGE: partition 2 is size 1951366543. it cannot be grown\n'
+        x=str(e).strip().lower()
+        if "nochange" in x and "cannot be grown" in x:
+            print(f"[INFO] Partition {dev_partition} již zabírá maximum dostupného místa.")
+        else:
+            print(f"[ERROR] Chyba při rozšiřování partition pomocí growpart: {e}")
+            return None
+    
+    # --- SAFE CHECK FILESYSTEM ---
+    print(f"[FSCK] Kontrola ext4: {dev_partition}")
+
+    try:
+        scan = th.runRet(f"sudo e2fsck -fn {dev_partition}")
+    except Exception as e:
+        print(f"[ERROR] Chyba při čtení stavu ext4 pomocí e2fsck -fn: {e}")
+        return None
+
+    # Je clean?
+    if "clean" in scan.lower():
+        print("[INFO] Filesystem je čistý, pokračuji na resize2fs.")
+    else:
+        print("[WARN] Filesystem není čistý, resize2fs odmítne pracovat.")
+        print("e2fsck -fn výstup:")
+        print("----------------------")
+        print(scan)
+        print("----------------------")
+
+        if not confirm("Provést automatickou opravu (e2fsck -fy)?"):
+            print("Zrušeno uživatelem.")
+            return None
+
+        # --- REAL FIX ---
+        try:
+            th.run(f"sudo e2fsck -fy {dev_partition}")
+        except Exception as e:
+            print(f"[ERROR] Chyba při opravě ext4 pomocí e2fsck -fy: {e}")
+            return None
+    
     # maximize filesystem
-    th.run(f"sudo resize2fs {dev_partition}")
+    try:
+        th.run(f"sudo resize2fs {dev_partition}")
+    except Exception as e:
+        print(f"[ERROR] Chyba při rozšiřování ext4 filesystemu pomocí resize2fs: {e}")
+        return None
     
     
     # zjistit novou velikost
-    tune = th.runRet(f"tune2fs -l {dev_partition}")
+    try:
+        tune = th.runRet(f"tune2fs -l {dev_partition}")
+    except Exception as e:
+        print(f"[ERROR] Chyba při čtení velikosti ext4 pomocí tune2fs: {e}")
+        return None
     block_count = None
     block_size = None
 
@@ -407,5 +468,4 @@ def extend_disk_part_max(
         print("[ERROR] Nepodařilo se přečíst velikost EXT4 z tune2fs.")
         return None
     
-    mt.print_partitions(filter=dev_partition)
     return block_count * block_size

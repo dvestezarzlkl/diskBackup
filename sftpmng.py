@@ -26,7 +26,9 @@ def main():
 
     args = ap.parse_args()
 
-    rst=False
+    rst=False    
+    ssh.restart_sshd()
+    
     if args.cmd == "install":
         log.info(f"Installing SFTP users from file: {args.file}")
         parser.createUserFromJson(args.file)
