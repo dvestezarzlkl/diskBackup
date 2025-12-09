@@ -555,7 +555,7 @@ def __showMenu() -> None:
     from libs.JBLibs.c_menu import c_menu_block_items,c_menu_title_label
     
     header=c_menu_block_items()
-    header.append( ("Disk Backup Tool","c") )
+    header.append( ("Disk Image Backup Tool","c") )
     header.append( "-")
     header.append( ("Verze", f"{glb.VERSION}"))
     header.append( ("Aktuální cesta", f"{os.getcwd()}"))

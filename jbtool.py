@@ -29,13 +29,13 @@ def __showMenu() -> Union[str, None]:
     from libs.JBLibs.c_menu import c_menu_block_items,c_menu_title_label
     
     header=c_menu_block_items()
-    header.append("*** Disk Mount Tool ***")
-    header.append("=== Hlavní menu ===")
-    header.append("")
+    header.append( ("Disk Tool",'c') )
+    header.append("-")
     header.append(f"Verze: {glb.VERSION}")
-    header.append("")
+    header.append( ("Aktuální cesta", f"{os.getcwd()}"))
 
     options=[
+        c_menu_title_label("Hlavní menu"),
         select_item("Mount mode (připojit .img soubor)","+"),
         select_item("Umount mode (odpojit loop zařízení)","-"),
         None,
@@ -56,7 +56,7 @@ def __showMenu() -> Union[str, None]:
             option.data=option.choice
             
     choice=select(
-        "Diskové nástroje - vyberte režim",
+        None,
         options,
         80,
         header,
