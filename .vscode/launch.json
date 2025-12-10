@@ -22,9 +22,10 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/jbtool.py",
+            "cwd": "/var/images/sun",
             "args": [
                 "--dir",
-                "/var/images/tvinfo"
+                "/var/images/sun"
             ],
             "console": "integratedTerminal"
         },

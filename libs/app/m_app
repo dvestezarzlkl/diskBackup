@@ -1,0 +1,27 @@
+from libs.JBLibs.c_menu import c_menu,c_menu_block_items
+from libs import glb
+import os
+
+class disk_tool_base_menu(c_menu):
+    # overide default values
+    minMenuWidth:int = glb.MIN_WIDTH
+    
+    # own properties - pro přepis v child
+    appTitle:str = "Disk Tool"
+    appVersion:str = glb.VERSION
+    
+    diskHeader:c_menu_block_items = c_menu_block_items()
+    
+    def __init__(self) -> None:
+        super().__init__()
+        # přepis init hodnot
+        self.afterTitle=self.appTitle
+        self.appVersion=self.appVersion
+        self.diskHeader=self.diskHeader
+        
+        self.diskHeader.append( (self.appTitle,'c') )
+        self.diskHeader.append("-")
+        self.diskHeader.append( (f"Verze", f"{self.appVersion}"))
+        self.diskHeader.append( (f"Aktuální cesta", f"{os.getcwd()}"))
+        
+        
