@@ -35,7 +35,7 @@ import os
 import libs.toolhelp as th
 from libs.JBLibs.input import anyKey,cls,confirm
 from libs.JBLibs.term import reset
-
+from libs.JBLibs.format import bytesTx
 
 # ============================================================
 # Simple backup / restore / extract (dd)
@@ -203,34 +203,7 @@ def detect_fs(devPath: str) -> str | None:
         return None
 
 
-def partclone_program_for_fs(fs: str) -> str | None:
-    """Vrátí vhodný partclone.* binárku pro daný FS, nebo None."""
-    fs = fs.lower()
-    if fs in ("ext2", "ext3", "ext4"):
-        return "partclone.extfs"
-    if fs in ("vfat", "fat", "fat32"):
-        return "partclone.vfat"
-    if fs == "ntfs":
-        return "partclone.ntfs"
-    # další FS lze doplnit podle potřeby
-    return None
 
-
-def backup_layout(disk: str, folder: Path) -> Path:
-    """
-    Záloha GPT nebo MBR layoutu do souboru.
-    Upřednostňuje GPT (sgdisk), jinak sfdisk.
-    """
-    dev = f"/dev/{disk}"
-    gpt_file = folder / "layout.gpt"
-    try:
-        th.run(["sgdisk", f"--backup={gpt_file}", dev])
-        return gpt_file
-    except subprocess.CalledProcessError:
-        sfd_file = folder / "layout.sfdisk"
-        data = th.check_output(["sfdisk", "-d", dev])
-        sfd_file.write_bytes(data)
-        return sfd_file
 
 
 def restore_layout(disk: str, folder: Path, layout_name: str) -> None:
@@ -254,111 +227,9 @@ def restore_layout(disk: str, folder: Path, layout_name: str) -> None:
     th.run(["partprobe", dev])
 
 
-def backup_partition_image(
-    devName: str,
-    folder: Path,
-    prefix: str | None,
-    fast: bool,
-    maxC: bool
-) -> Dict[str, Any]:
-    """
-    Záloha jedné partition pomocí partclone.* (pokud je podporovaný FS) nebo dd fallback.
-    Vrací meta informace pro manifest.
-    """
-    devPath = f"/dev/{devName}"
-    fs = detect_fs(devPath)
-    size_bytes = int(th.check_output(["blockdev", "--getsize64", devPath]).decode().strip())
-    human = th.human_size(size_bytes)
-
-    base = f"{devName}.img"
-    if prefix:
-        base = f"{prefix}_{base}"
-    out = folder / base
-
-    print(f"\n[SMART] Backup partition {devPath} ({fs}, {human})")
-
-    pc_prog = partclone_program_for_fs(fs) if fs else None
-
-    # Rozhodnutí – partclone nebo dd
-    if pc_prog:
-        print(f"Používám {pc_prog} (partclone).")
-        th.run([pc_prog, "-c", "-s", devPath, "-o", str(out)])
-    else:
-        print("FS není podporován partclone – používám dd fallback.")
-        th.run(["dd", f"if={devPath}", f"of={str(out)}", "bs=4M", "status=progress"])
-
-    # Komprese (jen pokud fast/max)
-    if fast or maxC:
-        level = "-1" if fast else "-9"
-        gz = Path(str(out) + ".gz")
-        print(f"Komprese {out} → {gz} (gzip {level})")
-        dd = ["dd", f"if={str(out)}", "bs=4M"]
-        gz_cmd = ["gzip", level]
-        with gz.open("wb") as f:
-            p1 = subprocess.Popen(dd, stdout=subprocess.PIPE)
-            p2 = subprocess.Popen(gz_cmd, stdin=p1.stdout, stdout=f)
-            p1.stdout.close()
-            p2.communicate()
-        out.unlink()  # původní .img smažeme, zůstane .img.gz
-        out = gz
-
-    th.write_sha256_sidecar(out)
-
-    return {
-        "name": devName,
-        "devpath": devPath,
-        "fstype": fs,
-        "size_bytes": size_bytes,
-        "size_human": human,
-        "image": out.name,
-        "sha256_file": out.name + ".sha256",
-    }
 
 
-def smart_backup(
-    disk: str,
-    outdir: Path,
-    fast: bool,
-    maxC: bool,
-    autoprefix: bool
-) -> None:
-    """
-    SMART BACKUP:
-      - uloží diskový layout
-      - zálohuje každou partition do zvláštního image
-      - vytvoří manifest.json
-    """
-    outdir.mkdir(parents=True, exist_ok=True)
-    ts = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
-    prefix = f"{ts}_{disk}" if autoprefix else None
 
-    print(f"=== SMART BACKUP /dev/{disk} → {outdir} ===")
-
-    layout_path = backup_layout(disk, outdir)
-
-    # lsblk JSON s velikostmi
-    info = json.loads(th.check_output(["lsblk", "-b", "-J", f"/dev/{disk}"]))
-    devInfo = info["blockdevices"][0]
-    parts = devInfo.get("children", [])
-
-    manifest: Dict[str, Any] = {
-        "disk": disk,
-        "created": ts,
-        "size_bytes": int(devInfo.get("size", 0)),
-        "size_human": th.human_size(int(devInfo.get("size", 0))),
-        "layout_file": layout_path.name,
-        "partitions": [],
-    }
-
-    for p in parts:
-        if p.get("type") != "part":
-            continue
-        devName = p["name"]
-        entry = backup_partition_image(devName, outdir, prefix, fast, maxC)
-        manifest["partitions"].append(entry)
-
-    (outdir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(f"\nSMART BACKUP dokončen. Manifest: {outdir / 'manifest.json'}")
 
 
 def restore_partition_image(

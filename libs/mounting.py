@@ -8,6 +8,7 @@ import json
 from .JBLibs.input import select_item, select,anyKey
 from .JBLibs.c_menu import c_menu_block_items,c_menu_title_label
 from typing import Union
+from libs.JBLibs.format import bytesTx
 
 def is_mounted(device: str) -> bool:
     """Zkontroluje, zda je zařízení připojeno.
@@ -297,7 +298,7 @@ def print_partitions(filter:str=None, retStrOnly:bool=False) -> str:
                 if not (filter in disk.name or filter in part.name):
                     continue
             dev = f"/dev/{part.name}"
-            size = th.human_size(part.size)
+            size = bytesTx(part.size)
             fstype = part.fstype or "-"
             mnts = ", ".join(part.mountpoints) if part.mountpoints else "nepřipojeno"
             label = part.label or "-"

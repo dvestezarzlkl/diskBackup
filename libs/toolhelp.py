@@ -4,144 +4,16 @@ import json,re
 from typing import List,Optional,Union,Any
 import hashlib
 from pathlib import Path
-import libs.shring as shr
 import libs.toolhelp as th
-from .JBLibs.input import select_item, select
-from .JBLibs.input import anyKey,cls
-from .JBLibs.input import select_item, select
-from .JBLibs.c_menu import c_menu_block_items,c_menu_title_label
+from .JBLibs.input import select_item, select, anyKey,cls
+from .JBLibs.helper import run
+from .JBLibs.c_menu import c_menu_block_items
+from libs.JBLibs.format import bytesTx
+from libs.JBLibs.fs_utils import lsblkDiskInfo,lsblk_list_disks,partitionInfo
 
-class lsblkError(Exception):
-    """Custom exception for lsblk errors."""
-    pass
 
-class lsblkDiskInfo:
-    """popis disku z lsblk"""
-    def __init__(
-        self,
-        name:str,
-        label:str,
-        size:int,
-        fstype:str,
-        type:str,
-        uuid:str,
-        partuuid:str,        
-        mountpoints:Union[List[str],str],
-        parent:Optional[str]=None,
-        children:Optional[List['lsblkDiskInfo']]=None
-    ):
-        self.name = name
-        self.label = label
-        self.size = size
-        self.fstype = fstype
-        self.uuid = uuid
-        self.partuuid = partuuid
-        self.mountpoints = mountpoints
-        self.parent = parent
-        self.type = type
-        
-        mp = mountpoints or []
-        if isinstance(mp, str):
-            mp = [mp]
-        self.mountpoints = mp        
-                    
-        self.children = children if children is not None else []
-        
-    def __repr__(self):
-        sz=human_size(self.size)
-        mountPoints=len(self.mountpoints)
-        childs=len(self.children)
-        childsLst=[child.name for child in self.children]
-        return f"lsblkDiskInfo(tp:{self.type}, nm={self.name}, sz={sz}, fstp={self.fstype}, uuid={self.uuid}, partuuid={self.partuuid}, mountpoints={mountPoints}, children={childs} {childsLst})"
 
-class partitionInfo():
-    """Popis partition."""
-    def __init__(
-        self,
-        partition:str,
-    ):
-        if not isinstance(partition, str):
-            raise ValueError("partition musí být string")
-        partition=partition.strip()
-        if not partition or len(partition)<2:
-            raise ValueError("partition nesmí být prázdný string a musí mít alespoň 2 znaky")
-        
-        self.partitionName:str = normalizeDiskPath(partition, True)
-        """Název partition neobsahuje prefix /dev/"""
-        
-        self.partitionPath:str = normalizeDiskPath(partition)
-        """Plná cesta k partition (např. /dev/sda1)"""
-        
-        self.diskInfo:lsblkDiskInfo|None = getDiskByPartition(self.partitionPath)
-        """Info o disku, na kterém je partition."""
-        
-        self.diskName:str|None = normalizeDiskPath(self.diskInfo.name,True)
-        """Název disku (např. sda)"""
-        
-        self.diskPath:str|None = normalizeDiskPath(self.diskInfo.name)
-        """Plná cesta k disku (např. /dev/sda)"""
-        
-        self.partitionInfo:lsblkDiskInfo|None = None
-        """Info o partition."""
-        
-        self.partitionIndex:int|None = None
-        """Index partition na disku (1,2,3...)"""
-        
-        self.isLastPartition:bool = False
-        """Je to poslední partition na disku?"""
-        
-        self.isPartitionExt4:bool = False
-        """Je to ext4 partition?"""
-        
-        if self.diskInfo and self.diskInfo.children:
-            for idx, part in enumerate(self.diskInfo.children):
-                if part.name == self.partitionName or th.normalizeDiskPath(part.name, False) == self.partitionName:
-                    self.partitionInfo = part
-                    self.partitionIndex = idx + 1
-                    self.isLastPartition = (idx == len(self.diskInfo.children) - 1)
-                    self.isPartitionExt4 = (part.fstype == 'ext4')
-                    break
-
-def human_size(num_bytes: int) -> str:
-    """Převod velikosti v bajtech na čitelný string (MiB/GiB).
-    Args:
-        num_bytes (int): Velikost v bajtech.
-    Returns:
-        str: Čitelný formát velikosti.
-    """
-    step = 1024.0
-    units = ["B", "KiB", "MiB", "GiB", "TiB"]
-    size = float(num_bytes)
-    idx = 0
-    while size >= step and idx < len(units) - 1:
-        size /= step
-        idx += 1
-    return f"{size:.1f} {units[idx]}"
-
-def sha256_file(path: Path) -> str:
-    """Vypočítá SHA256 pro daný soubor."""
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for block in iter(lambda: f.read(1024 * 1024), b""):
-            if not block:
-                break
-            h.update(block)
-    return h.hexdigest()
-
-def run(cmd: str) -> str:
-    """Spustí příkaz a vrátí jeho výstup jako string.
-    Args:
-        cmd (str): Příkaz k vykonání.
-    Returns:
-        str: Výstup příkazu.
-    """
-    try:
-        return subprocess.check_output(cmd, shell=True, text=True).strip()
-    except subprocess.CalledProcessError as e:
-        print(f"Chyba při volání: {cmd}")
-        print(e.output)
-        return ""  
-    
+   
 def __menuPrinList(options: List[Union[str,tuple[str,Any]]], maxOptLen:int=1,menuLen:int=60)-> None:
     """Pomocná funkce pro tisk menu z listu."""
     for i, opt in enumerate(options):
@@ -331,169 +203,6 @@ def get_mounted_devices() -> List[str]:
             cleaned.add(base)
     return list(cleaned)
 
-def __lsblk_process_node(
-    node:dict,
-    parent:Optional[lsblkDiskInfo]=None,
-    ignoreSysDisks:bool=True,
-    mounted:Optional[bool]=None,
-    filterDev:Optional[re.Pattern]=None
-) -> Optional[lsblkDiskInfo]:
-    """Process a single lsblk node and return lsblkDiskInfo or None.
-    Args:
-        node (dict): LSBLK node dictionary.
-        parent (Optional[lsblkDiskInfo]): Parent disk info.
-        ignoreSysDisks (bool): If True, ignore system disks used for / and /boot.        
-        mounted (Optional[bool]): If  
-            True: only return if mounted
-            False: only return if not mounted
-            None: return regardless of mount status
-        filterDev (Optional[re.Pattern]): If provided, only return 'devices' (no partitions filter) matching the regex.
-            - 'loop\d+' for loop devices
-            - 'sd[a-z]+' for standard disks
-            - 'loop0' for specific device
-    Returns:
-        Optional[lsblkDiskInfo]: Processed lsblkDiskInfo object or None.
-        
-    """
-    
-    if node['type'] in ['disk','part','loop']:
-        nfo = lsblkDiskInfo(
-            type=node.get('type',''),
-            name=node.get('name', ''),
-            label=node.get('label', ''),
-            size=int(node.get('size', 0)),
-            fstype=node.get('fstype', ''),
-            uuid=node.get('uuid', ''),
-            partuuid=node.get('partuuid', ''),
-            mountpoints=node.get('mountpoints', []),
-            parent=parent.name if parent else None,
-            children=[]
-        )
-        if ignoreSysDisks and ('/' in nfo.mountpoints or '/boot' in nfo.mountpoints):
-            return None
-        
-        nfo.mountpoints = [mp for mp in nfo.mountpoints if mp]  # remove empty mountpoints
-            
-        is_mounted = len(nfo.mountpoints) > 0
-        # pokud je to distk tak vracíme vždy, mounted je jen pro partition
-        # if node['type'] != 'disk':
-        if not node['type'] in ['disk','loop']:
-            if mounted is True and not is_mounted:
-                return None
-            if mounted is False and is_mounted:
-                return None
-        else:
-            # pokud je to disk a je nastaven filterDev tak aplikujeme filtr
-            if isinstance(filterDev, re.Pattern):
-                nm=normalizeDiskPath(nfo.name,True)
-                if not filterDev.fullmatch(nm):
-                    return None
-        return nfo
-    return None
-        
-
-def __lsblk_recursive(
-    nodes:List[dict],
-    parent:Optional[lsblkDiskInfo]=None,
-    ignoreSysDisks:bool=True,
-    mounted:Optional[bool]=None,
-    filterDev:Optional[re.Pattern]=None
-) -> List[lsblkDiskInfo]:
-    """Recursively process lsblk nodes and return list of lsblkDiskInfo.
-    Args:
-        nodes (List[dict]): List of LSBLK node dictionaries.
-        parent (Optional[lsblkDiskInfo]): Parent disk info.
-        ignoreSysDisks (bool): If True, ignore system disks used for / and /boot.        
-        mounted (Optional[bool]): If  
-            True: only return if mounted
-            False: only return if not mounted
-            None: return regardless of mount status
-        filterDev (Optional[re.Pattern]): If provided, only return 'devices' (no partitions filter) matching the regex.
-            - 'loop\d+' for loop devices
-            - 'sd[a-z]+' for standard disks
-            - 'loop0' for specific device
-    Returns:
-        List[lsblkDiskInfo]: List of processed lsblkDiskInfo objects.
-    """
-    result = []
-    for node in nodes:
-        info = __lsblk_process_node(node, parent, ignoreSysDisks, mounted, filterDev)
-        if info:
-            children = node.get('children', [])
-            info.children = __lsblk_recursive(children, info, ignoreSysDisks, mounted, filterDev)
-            
-            # check mount status
-            is_mounted = len(info.mountpoints) > 0
-            for x in info.children:
-                if len(x.mountpoints) > 0:
-                    is_mounted = True
-                    break
-            
-            if not mounted is None:
-                if mounted is True and not is_mounted:
-                    continue
-                if mounted is False and is_mounted:
-                    continue
-                
-            # ignore system disks if needed
-            is_sys='/' in info.mountpoints or '/boot' in info.mountpoints
-            for x in info.children:
-                if '/' in x.mountpoints or '/boot' in x.mountpoints:
-                    is_sys = True
-                    break
-            if ignoreSysDisks and is_sys:
-                continue
-
-            # process children
-            result.append(info)
-    return result
-
-def lsblk_list_disks(
-        ignoreSysDisks:bool=True,
-        mounted:Optional[bool]=None,
-        filterDev:Optional[re.Pattern|str]=None
-    ) -> dict[str,lsblkDiskInfo]:
-    """Return list of disks with basic info using lsblk. Returns dir of lsblkDiskInfo, key is disk name.
-    Args:
-        ignoreSysDisks (bool): If True, ignore disks used for / and /boot.
-        mounted (Optional[bool]): If  
-            True: only return mounted disks
-            False: only return unmounted disks
-            None: return all disks
-        filterDev (Optional[re.Pattern|str]): If provided, only return 'devices' (no partitions filter) matching the regex.
-            - 'loop\d+' for loop devices
-            - 'sd[a-z]+' for standard disks
-            - 'loop0' for specific device
-    Returns:
-        dict[str,lsblkDiskInfo]: Dictionary of lsblkDiskInfo objects, key is disk name.
-    """
-    # lsblk -no NAME,LABEL,SIZE,FSTYPE,UUID,PARTUUID,MOUNTPOINTS --json
-    out = subprocess.run(
-        ["lsblk", "-J","-b", "-o", "NAME,LABEL,SIZE,TYPE,FSTYPE,UUID,PARTUUID,MOUNTPOINTS"],
-        capture_output=True, text=True
-    )
-    data = json.loads(out.stdout)
-    if filterDev and isinstance(filterDev, str):
-        filterDev = re.compile(filterDev)
-    disks = __lsblk_recursive(data.get('blockdevices', []), None, ignoreSysDisks, mounted, filterDev)
-    disk_dict = {disk.name: disk for disk in disks if disk.fstype != 'swap'}
-    return disk_dict
-
-def getDiskByPartition(partition:str) -> Optional[lsblkDiskInfo]:
-    """Vrátí disk, na kterém se nachází daná partition.
-    Args:
-        partition (str): Partition (např. /dev/sda1) nebo název (sda1).
-    Returns:
-        Optional[lsblkDiskInfo]: Disk info nebo None pokud nenalezen.
-    """
-    partition = th.normalizeDiskPath(partition, False)
-    ls_parts = lsblk_list_disks(ignoreSysDisks=False)
-    for disk in ls_parts.values():
-        if disk.children:
-            for child in disk.children:
-                if child.name == partition or th.normalizeDiskPath(child.name, False) == partition:
-                    return disk
-    return None
 
 def choose_disk(forMount:bool=True) -> str|None:
     """Bezpečný interaktivní výběr disku — nezobrazí disky s root/boot."""
@@ -605,33 +314,13 @@ def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True, filt
         else:        
             raise ValueError(f"Na disku {disk} nejsou žádné vhodné partition pro výběr.")
 
-    """
-    headers = [
-        f"Výběr partition z disku {disk}" if not disk is None else "Výběr partition ze všech dostupných disků",
-        "Následující partition jsou k dispozici:"
-    ]
-    
-    items = [
-        f"{part.name}  {human_size(part.size)}  [{part.fstype}]" + (f"  [připojeno: {', '.join(part.mountpoints)}]"
-        if part.mountpoints
-        else "  [nepřipojeno]")
-        for part in parts
-    ]
-
-    items.append(["=\n0",None])
-    items.append(["Zrušit výběr","q"])
-
-    idx = menu(headers, items, prompt="Vyber partition: ")
-    if idx == "q":
-        return None
-    """
     header=c_menu_block_items([
         f"Výběr partition z disku {disk}" if not disk is None else "Výběr partition ze všech dostupných disků",
         "Následující partition jsou k dispozici:"
     ])
     items = [
         select_item(
-            f"{part.name}  {human_size(part.size)}  [{part.fstype}]" + (f"  [připojeno: {', '.join(part.mountpoints)}]"
+            f"{part.name}  {bytesTx(part.size)}  [{part.fstype}]" + (f"  [připojeno: {', '.join(part.mountpoints)}]"
             if part.mountpoints
             else "  [nepřipojeno]"),
             "",
@@ -653,38 +342,11 @@ def choose_partition(disk:str|None, forMount:bool=True, fullPath:bool=True, filt
 
     selected_part = th.normalizeDiskPath(selected_part, not fullPath)
     return selected_part
-    
-
-def run(cmd: List[str]|str, *, input_bytes: bytes | None = None) -> None:
-    """Spustí příkaz, logne ho a při chybě vyhodí výjimku."""
-    if isinstance(cmd, str):
-        cmd = cmd.split()
-    print(f"[RUN] {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, input=input_bytes)
-
-
-def runRet(cmd: str) -> str:
-    """Run shell command and return output, raise on error."""
-    proc = subprocess.run(
-        cmd, shell=True, text=True,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    if proc.returncode != 0:
-        raise shr.ShrinkError(f"Command failed: {cmd}\n{proc.stdout}")
-    return proc.stdout
 
 def check_output(cmd: List[str]) -> bytes:
     """Vrátí stdout daného příkazu (bytes) nebo vyhodí výjimku."""
     print(f"[CMD] {' '.join(cmd)}")
     return subprocess.check_output(cmd)
-
-def write_sha256_sidecar(path: Path) -> None:
-    """Vytvoří <soubor>.sha256 s hash + názvem souboru."""
-    digest = sha256_file(path)
-    sidecar = path.with_suffix(path.suffix + ".sha256")
-    sidecar.write_text(f"{digest}  {path.name}\n", encoding="utf-8")
-    print(f"[SHA256] {sidecar} ({digest})")
-
 
 def verify_sha256_sidecar(path: Path) -> bool:
     """
@@ -716,24 +378,6 @@ def is_gzip(path: Path) -> bool:
     """Detekce gzip podle přípony."""
     return path.suffix == ".gz" or path.name.endswith(".img.gz")
 
-def normalizeDiskPath(disk: str, noDevPath:bool=False) -> str:
-    """Normalizuje diskovou cestu na /dev/sdX formát.
-    Args:
-        disk (str): Cesta k disku (např. sda, /dev/sda).
-        noDevPath (bool): Pokud:
-            - True, vrátí cestu 'sda' bez /dev/ prefixu.
-            - False, vrátí cestu '/dev/sda' s /dev/ prefixem.
-    Returns:
-        str: Normalizovaná cesta k disku.        
-    """
-    if not disk.startswith("/dev/"):
-        disk = "/dev/" + disk
-        
-    if noDevPath:
-        disk = disk.replace("/dev/","")
-        
-    return disk    
-
 def getNewDir(baseDir:str, prefix:str)-> str:
     """Vytvoří nový adresář s inkrementálním číslem v zadaném baseDir s daným prefixem.
     Např. prefix="smart-backup" → smart-backup-001, smart-backup-002, ...
@@ -757,28 +401,7 @@ def getNewDir(baseDir:str, prefix:str)-> str:
                 raise OSError(f"Nelze vytvořit adresář {fullPath}: {e}")
             return fullPath
         idx += 1
-        
-def checkExt4(partition:str) -> None:
-    """Zkontroluje ext4 partition.
-    Akceptuje název partition bez /dev/ (sdb2, mmcblk0p1, atd.).
-    Args:
-        partition (str): název partition s nebo bez /dev/
-    Raises:
-        ValueError: pokud partition neexistuje nebo není ext4 nebo dojde k chybě při kontrole.
-    """
-    
-    part = partitionInfo(partition)
-    if part is None or part.partitionInfo is None:
-        raise ValueError(f"Nepodařilo se zjistit informace o partition: {partition}")
-    
-    if not part.isPartitionExt4:
-        raise ValueError(f"Partition {partition} není ext4.")
-    
-    try:
-        run(["sudo", "e2fsck", "-f", part.partitionPath])
-    except Exception as e:
-        raise ValueError(f"Chyba při kontrole ext4 partition {partition}: {e}")
-    
+          
 def list_loop_partitions(loop,mounted:bool=None)-> dict[str, lsblkDiskInfo]:
     """Vrátí seznam partitions pro dané loop zařízení.
     Args:
@@ -792,91 +415,3 @@ def list_loop_partitions(loop,mounted:bool=None)-> dict[str, lsblkDiskInfo]:
     """
     return lsblk_list_disks(None,mounted,filterDev="^"+str(loop)+"$")
 
-def cliSizeToInt(sizeStr:str)-> int:
-    """Převod velikosti z CLI formátu (např. '512M', '1G') na velikost v MiB.
-    Args:
-        sizeStr (str): Velikost jako string (např. '512M', '1G', atd.).
-    Returns:
-        int: Velikost v MiB.
-    Raises:
-        ValueError: Pokud je neplatný formát velikosti.
-    """    
-    sizeStr = sizeStr.strip().upper()
-    match = re.match(r"^(\d+)([MKGTP]?)$", sizeStr)
-    if not match:
-        raise ValueError("Neplatný formát velikosti. Použijte číslo následované volitelně jednotkou (M, G, K, T, P).")
-    sizeValue = int(match.group(1))
-    sizeUnit = match.group(2) or "M"
-    sizeInMiB = sizeValue
-    if sizeUnit == "K":
-        sizeInMiB = sizeValue // 1024
-    elif sizeUnit == "G":
-        sizeInMiB = sizeValue * 1024
-    elif sizeUnit == "T":
-        sizeInMiB = sizeValue * 1024 * 1024
-    elif sizeUnit == "P":
-        sizeInMiB = sizeValue * 1024 * 1024 * 1024
-    return sizeInMiB
-
-def cliSizeFromInt(sizeMiB:int)-> str:
-    """Převod velikosti z MiB na CLI formát (např. '512M', '1G').
-    Args:
-        sizeMiB (int): Velikost v MiB.
-    Returns:
-        str: Velikost jako string (např. '512M', '1G', atd.).
-    """    
-    if sizeMiB % (1024 * 1024) == 0:
-        return f"{sizeMiB // (1024 * 1024)}P"
-    elif sizeMiB % 1024 == 0:
-        return f"{sizeMiB // 1024}G"
-    else:
-        return f"{sizeMiB}M"
-
-def inputSize(prompt:str, minSize:int=1, maxSize:Optional[int]=None,clearScreen:bool=False)-> tuple[int,str]:
-    """Interaktivní zadání velikosti pro CLI příkazy tzn jako '512M', '1G', atd.
-    Args:
-        prompt (str): Výzva pro uživatele.
-        minSize (int): Minimální velikost v MiB.
-        maxSize (Optional[int]): Maximální velikost v MiB. Pokud None, není omezeno.
-    Returns:
-        tuple[int,str] : Velikost v MiB a string pro CLI příkaz (např. '512M', '1G').
-        None, None pokud uživatel zrušil zadání.
-    """
-    minSize = max(1, minSize)
-    maxSize = maxSize if isinstance(maxSize, int) and maxSize >= minSize else None
-    
-    while True:
-        if clearScreen:
-            cls()
-        print("=" * 40)
-        print("Zadej velikost (např. 512M, 1G, 2K, 1T, 1P):")
-        print(f"Minimální velikost: {cliSizeFromInt(minSize)}")
-        if maxSize is not None:
-            print(f"Maximální velikost: {cliSizeFromInt(maxSize)}")
-        print("Zadej 'q' pro zrušení.")
-        print("=" * 40)
-        try:
-            sizeStr = input(prompt)
-            if sizeStr.lower() == 'q':
-                return None, None
-            
-            sizeStr = sizeStr.strip().upper()
-            match = re.match(r"^(\d+)([MKGTP]?)$", sizeStr)
-            if not match:
-                print("CHYBA: Neplatný formát velikosti. Použijte číslo následované volitelně jednotkou (M, G, K, T, P).")
-                anyKey()
-                continue
-            sizeValue = cliSizeToInt(sizeStr)
-            if sizeValue < minSize:
-                print(f"CHYBA: Velikost musí být alespoň {cliSizeFromInt(minSize)}.")
-                anyKey()
-                continue
-            if maxSize is not None and sizeValue > maxSize:
-                print(f"CHYBA: Velikost nesmí být větší než {cliSizeFromInt(maxSize)}.")
-                anyKey()
-                continue
-            return sizeValue, sizeStr
-        except ValueError as ve:
-            print(f"CHYBA: {ve}")
-            anyKey()
-            

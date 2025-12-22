@@ -1,5 +1,9 @@
 # JB disk tool
 
+!!! DEPRECATED !!!
+
+Přesunuto do [Terminal Manager](https://github.com/dvestezarzlkl/Dvestezar-Terminal-Manager-Debian-Based)
+
 ## imgtool – nástroj pro zálohy a obnovu disků
 
 ### urychlení spuštění

@@ -57,7 +57,8 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/test.py",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "cwd": "/var/images/sun"
         }
     ]
 }

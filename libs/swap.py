@@ -1,6 +1,6 @@
 import libs.toolhelp as th
 from pathlib import Path
-from .JBLibs.input import anyKey, get_input,select,select_item,confirm
+from .JBLibs.input import anyKey, get_input,select,select_item,confirm,inputCliSize
 import re
 
 def swapIsActive(filename: str) -> bool:
@@ -176,7 +176,7 @@ def resizeSwap(filename: str|None, targetSize: str) -> None:
             print("Zrušeno uživatelem.")
             return
         if x.item.choice=="s":
-            mb, targetSize = th.inputSize("Cílová velikost swap (např. 1G, 512M): ")
+            mb, targetSize = inputCliSize("Cílová velikost swap (např. 1G, 512M): ")
             if targetSize is None:
                 print("[ERROR] Nezadána cílová velikost swap souboru.")
                 return
